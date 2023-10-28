@@ -58,6 +58,16 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version> <!-- Aktualisieren Sie die Version ggf. -->
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version> <!-- Aktualisieren Sie die Version ggf. -->
+		</dependency>
 	</dependencies>
 
 	<build>
