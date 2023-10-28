@@ -1,21 +1,17 @@
-package com.travelbuddy.demo.Secruity.ShitIdkWohindamit;
+package com.travelbuddy.demo.Secruity.SecPorts;
 
-import com.travelbuddy.demo.Entities.UserSecruity;
+import com.travelbuddy.demo.Entities.UserSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @AllArgsConstructor
 public class SecurityUserDetails implements UserDetails {
 
-    private UserSecruity userSecruity;
+    private UserSecurity userSecurity;
 
    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -32,12 +28,12 @@ public class SecurityUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return userSecruity.getPassword();
+        return userSecurity.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return userSecruity.getUsername();
+        return userSecurity.getUsername();
     }
 
     @Override
@@ -47,7 +43,7 @@ public class SecurityUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return userSecruity.isNotLocked();
+        return userSecurity.isNotLocked();
     }
 
     @Override

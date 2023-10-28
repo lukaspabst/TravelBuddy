@@ -1,4 +1,4 @@
-package com.travelbuddy.demo.Secruity.ShitIdkWohindamit;
+package com.travelbuddy.demo.Secruity.ServiceSec;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package com.travelbuddy.demo.Services;
 
 
-import com.travelbuddy.demo.Entities.UserSecruity;
+import com.travelbuddy.demo.Entities.UserSecurity;
 import com.travelbuddy.demo.Repository.UserSecRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,12 @@ public class UserSecService{
     @Autowired
     private UserSecRepo userSecRepo;
 
-    public Optional<UserSecruity> findByUsername(String username) {
+
+    public Optional<UserSecurity> findByUsername(String username) {
         return userSecRepo.findByUsername(username);
     }
 
-    public UserSecruity saveUser(UserSecruity userSec) {
+    public UserSecurity saveUser(UserSecurity userSec) {
         return userSecRepo.save(userSec);
     }
 

@@ -1,4 +1,4 @@
-package com.travelbuddy.demo.Secruity.ShitIdkWohindamit;
+package com.travelbuddy.demo.Secruity.Infrastructure;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

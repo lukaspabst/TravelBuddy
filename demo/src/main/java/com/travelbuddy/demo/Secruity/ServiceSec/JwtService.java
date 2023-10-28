@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 @Component
@@ -30,25 +28,17 @@ public class JwtService implements JwtServicePort {
         return claimResolver.apply(claims);
     }
 
-    public String generateToken(String username){
-        return generateToken(new HashMap<>(), username);
-    }
 
-
-    //TODO don't get it
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            String username
-    ){
+    public String generateToken(String username) {
         return Jwts
                 .builder()
-                .setClaims(extraClaims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
     public boolean isTokenValid(String jwtToken, String pUsername){
         final String username = extractUsername(jwtToken);

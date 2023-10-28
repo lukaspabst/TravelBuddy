@@ -1,6 +1,6 @@
-package com.travelbuddy.demo.Secruity.ShitIdkWohindamit;
+package com.travelbuddy.demo.Secruity.Infrastructure;
 
-import com.travelbuddy.demo.Secruity.SecurityUserDetailsService;
+import com.travelbuddy.demo.Secruity.ServiceSec.SecurityUserDetailsService;
 import com.travelbuddy.demo.Secruity.ServiceSec.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public abstract class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final SecurityUserDetailsService securityUserDetailsService;

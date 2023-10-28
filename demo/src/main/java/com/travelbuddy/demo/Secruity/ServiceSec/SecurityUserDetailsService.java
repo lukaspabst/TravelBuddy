@@ -1,7 +1,7 @@
-package com.travelbuddy.demo.Secruity;
+package com.travelbuddy.demo.Secruity.ServiceSec;
 
 import com.travelbuddy.demo.Repository.UserSecRepo;
-import com.travelbuddy.demo.Secruity.ShitIdkWohindamit.SecurityUserDetails;
+import com.travelbuddy.demo.Secruity.SecPorts.SecurityUserDetails;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
