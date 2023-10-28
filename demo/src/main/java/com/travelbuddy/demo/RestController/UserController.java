@@ -3,7 +3,6 @@ package com.travelbuddy.demo.RestController;
 import com.travelbuddy.demo.Entities.User;
 import com.travelbuddy.demo.Services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
