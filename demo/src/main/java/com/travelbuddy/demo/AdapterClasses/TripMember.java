@@ -1,4 +1,4 @@
-package com.travelbuddy.demo.Entities;
+package com.travelbuddy.demo.AdapterClasses;
 
 import lombok.Getter;
 import lombok.Setter;

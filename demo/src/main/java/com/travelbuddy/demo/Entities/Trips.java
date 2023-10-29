@@ -1,5 +1,6 @@
 package com.travelbuddy.demo.Entities;
 
+import com.travelbuddy.demo.AdapterClasses.TripMember;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

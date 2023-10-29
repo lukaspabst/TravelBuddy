@@ -1,6 +1,6 @@
 package com.travelbuddy.demo.Services;
 
-import com.travelbuddy.demo.Entities.TripMember;
+import com.travelbuddy.demo.AdapterClasses.TripMember;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Repository.TripsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +100,42 @@ public class TripsService {
         } catch (Exception e) {
             log.error("Error deleting trip: {}", e.getMessage(), e);
             return false;
+        }
+    }
+    public Trips changeUserRole(String tripId, String adminUsername, String targetUsername, String newRole) {
+        try {
+            Optional<Trips> tripOptional = tripsRepo.findById(tripId);
+
+            if (tripOptional.isPresent()) {
+                Trips trip = tripOptional.get();
+
+                TripMember adminMember = trip.getMembers().stream()
+                        .filter(member -> member.getUsername().equals(adminUsername))
+                        .findFirst()
+                        .orElse(null);
+
+                if (adminMember != null && "Admin".equalsIgnoreCase(adminMember.getRole())) {
+
+                    Optional<TripMember> targetMemberOptional = trip.getMembers().stream()
+                            .filter(member -> member.getUsername().equals(targetUsername))
+                            .findFirst();
+
+                    if (targetMemberOptional.isPresent()) {
+                        TripMember targetMember = targetMemberOptional.get();
+                        targetMember.setRole(newRole);
+
+                        if ("Admin".equalsIgnoreCase(newRole) && !adminUsername.equals(targetUsername)) {
+                            adminMember.setRole("Member");
+                        }
+
+                        return tripsRepo.save(trip);
+                    }
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            log.error("Error changing user role in trip: {}", e.getMessage(), e);
+            return null;
         }
     }
 }
