@@ -1,5 +1,6 @@
-package com.travelbuddy.demo.Secruity.Infrastructure;
+package com.travelbuddy.demo.Config;
 
+import com.travelbuddy.demo.Secruity.Infrastructure.JwtAuthenticationFilter;
 import com.travelbuddy.demo.Secruity.ServiceSec.SecurityUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,16 @@ public class SecurityConfig {
                     try {
                         headers.frameOptions((frameOptions)->frameOptions.disable())
                         .and().authorizeHttpRequests()
-                                .requestMatchers("/register","/login").permitAll()
+                                .requestMatchers(
+                                        "/register",
+                                        "/login",
+                                        "/v3/api-docs",
+                                        "/v3/api-docs.yaml",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html"
+                                )
+                                .permitAll()
                                 .anyRequest().authenticated().and();
                     } catch (Exception e) {
                         throw new RuntimeException(e);

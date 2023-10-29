@@ -5,6 +5,10 @@ import com.travelbuddy.demo.AdapterClasses.TripMember;
 import com.travelbuddy.demo.AdapterClasses.TripRole;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Services.TripsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +27,14 @@ import java.util.Optional;
 public class TripsController {
     @Autowired
     private TripsService tripsService;
-
+    @Operation(summary = "Create a trip")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Trip created successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @PostMapping
-    public ResponseEntity<Trips> createTrip(@RequestBody Trips trip) {
+    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true)@RequestBody Trips trip) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
@@ -41,9 +50,14 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Operation(summary = "Get a trip by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trip retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Trip not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @GetMapping("/{tripId}")
-    public ResponseEntity<Optional<Trips>> getTrip(@PathVariable String tripId) {
+    public ResponseEntity<Optional<Trips>> getTrip(@Parameter(description = "Trip ID", required = true)@PathVariable String tripId) {
         try {
             Optional<Trips> trip = tripsService.getTripById(tripId);
             if (!trip.isPresent()) {
@@ -56,9 +70,14 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Operation(summary = "Update a trip by ID and Trips")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trip updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @PutMapping("/{tripId}")
-    public ResponseEntity<Trips> updateTrip(@PathVariable String tripId, @RequestBody Trips updatedTrip) {
+    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true)@PathVariable String tripId, @RequestBody Trips updatedTrip) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -85,9 +104,14 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Operation(summary = "Add a Member by trip ID and newMember")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Member added to trip successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @PatchMapping("/{tripId}/addMember")
-    public ResponseEntity<Trips> addMemberToTrip(@PathVariable String tripId, @RequestBody TripMember newMember) {
+    public ResponseEntity<Trips> addMemberToTrip(@Parameter(description = "Trip ID and New Member", required = true)@PathVariable String tripId, @RequestBody TripMember newMember) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -114,9 +138,14 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Operation(summary = "Remove a Member by trip ID and username")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Member removed from trip successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @PatchMapping("/{tripId}/removeMember/{username}")
-    public ResponseEntity<Trips> removeMemberFromTrip(@PathVariable String tripId, @PathVariable String username) {
+    public ResponseEntity<Trips> removeMemberFromTrip(@Parameter(description = "Trip ID and username", required = true)@PathVariable String tripId, @PathVariable String username) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -144,9 +173,15 @@ public class TripsController {
         }
     }
 
-
+    @Operation(summary = "Delete by trip ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Trip deleted successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Trip not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @DeleteMapping("/{tripId}")
-    public ResponseEntity<Void> deleteTrip(@PathVariable String tripId) {
+    public ResponseEntity<Void> deleteTrip(@Parameter(description = "Trip ID", required = true)@PathVariable String tripId) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -177,8 +212,15 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Operation(summary = "Change Role by trip ID and RoleChangeRequest")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User role changed successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Trip not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @PatchMapping("/{tripId}/changeUserRole")
-    public ResponseEntity<Trips> changeUserRole(
+    public ResponseEntity<Trips> changeUserRole(@Parameter(description = "Trip ID and RoleChangeRequest", required = true)
             @PathVariable String tripId,
             @RequestBody RoleChangeRequest roleChangeRequest) {
         try {
