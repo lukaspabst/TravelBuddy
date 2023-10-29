@@ -1,6 +1,7 @@
 package com.travelbuddy.demo.Services;
 
 import com.travelbuddy.demo.AdapterClasses.TripMember;
+import com.travelbuddy.demo.AdapterClasses.TripRole;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Repository.TripsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class TripsService {
         }
     }
 
-    public Trips addMemberToTrip(String tripId, String username, String role, String status) {
+    public Trips addMemberToTrip(String tripId, String username, TripRole role, String status) {
         try {
             Optional<Trips> tripOptional = tripsRepo.findById(tripId);
 

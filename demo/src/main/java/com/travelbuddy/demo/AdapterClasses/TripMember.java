@@ -10,9 +10,9 @@ public class TripMember {
     private String role;
     private String status;
 
-    public TripMember(String username, String role, String status) {
+    public TripMember(String username, TripRole role, String status) {
         this.username = username;
-        this.role = role;
+        this.role = role.getDescription();
         this.status = status;
     }
 }

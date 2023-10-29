@@ -2,6 +2,7 @@ package com.travelbuddy.demo.RestController;
 
 import com.travelbuddy.demo.AdapterClasses.RoleChangeRequest;
 import com.travelbuddy.demo.AdapterClasses.TripMember;
+import com.travelbuddy.demo.AdapterClasses.TripRole;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Services.TripsService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class TripsController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
 
-            TripMember adminMember = new TripMember(username, "Admin", "Active");
+            TripMember adminMember = new TripMember(username, TripRole.Organizer, "Active");
             trip.addMember(adminMember);
 
             Trips createdTrip = tripsService.saveTrip(trip);
@@ -66,7 +67,7 @@ public class TripsController {
                 Trips trip = tripOptional.get();
                 boolean isAdminOrCoAdmin = trip.getMembers().stream().anyMatch(member ->
                         member.getUsername().equals(loggedInUser) &&
-                                ("Admin".equalsIgnoreCase(member.getRole()) || "Co-Admin".equalsIgnoreCase(member.getRole())));
+                                (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
                     Trips updated = tripsService.updateTrip(tripId, updatedTrip);
@@ -95,10 +96,10 @@ public class TripsController {
                 Trips trip = tripOptional.get();
                 boolean isAdminOrCoAdmin = trip.getMembers().stream().anyMatch(member ->
                         member.getUsername().equals(loggedInUser) &&
-                                ("Admin".equalsIgnoreCase(member.getRole()) || "Co-Admin".equalsIgnoreCase(member.getRole())));
+                                (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
-                    Trips updatedTrip = tripsService.addMemberToTrip(tripId, newMember.getUsername(), newMember.getRole(), newMember.getStatus());
+                    Trips updatedTrip = tripsService.addMemberToTrip(tripId, newMember.getUsername(),TripRole.Traveler, newMember.getStatus());
                     if (updatedTrip != null) {
                         log.info("Added member to trip with ID: {} by user: {}", tripId, loggedInUser);
                         return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
@@ -114,7 +115,6 @@ public class TripsController {
         }
     }
 
-
     @PatchMapping("/{tripId}/removeMember/{username}")
     public ResponseEntity<Trips> removeMemberFromTrip(@PathVariable String tripId, @PathVariable String username) {
         try {
@@ -125,7 +125,7 @@ public class TripsController {
                 Trips trip = tripOptional.get();
                 boolean isAdminOrCoAdmin = trip.getMembers().stream().anyMatch(member ->
                         member.getUsername().equals(loggedInUser) &&
-                                ("Admin".equalsIgnoreCase(member.getRole()) || "Co-Admin".equalsIgnoreCase(member.getRole())));
+                                (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
                     Trips updatedTrip = tripsService.removeMemberFromTrip(tripId, username);
@@ -155,7 +155,7 @@ public class TripsController {
                 Trips trip = tripOptional.get();
 
                 if (trip.getMembers().stream().anyMatch(member ->
-                        member.getUsername().equals(loggedInUser) && "Admin".equalsIgnoreCase(member.getRole()))) {
+                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()))){
                     boolean deleted = tripsService.deleteTrip(tripId);
                     if (deleted) {
                         log.info("Deleted trip with ID: {}", tripId);
@@ -188,7 +188,7 @@ public class TripsController {
             if (tripOptional.isPresent()) {
                 Trips trip = tripOptional.get();
                 boolean isAdmin = trip.getMembers().stream().anyMatch(member ->
-                        member.getUsername().equals(loggedInUser) && "Admin".equalsIgnoreCase(member.getRole()));
+                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()));
 
                 if (isAdmin) {
                     Trips updatedTrip = tripsService.changeUserRole(
