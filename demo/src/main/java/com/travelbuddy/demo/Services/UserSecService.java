@@ -13,6 +13,10 @@ public class UserSecService{
     @Autowired
     private UserSecRepo userSecRepo;
 
+    public UserSecService(UserSecRepo userSecRepo) {
+        this.userSecRepo = userSecRepo;
+    }
+
 
     public Optional<UserSecurity> findByUsername(String username) {
         return userSecRepo.findByUsername(username);
