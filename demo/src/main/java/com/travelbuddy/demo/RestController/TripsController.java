@@ -95,6 +95,9 @@ public class TripsController {
                         return new ResponseEntity<>(updated, HttpStatus.OK);
                     }
                 }
+            } else{
+                log.warn("No trip found with ID: {} by user: {}", tripId, loggedInUser);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
             log.warn("Unauthorized attempt to update trip with ID: {} by user: {}", tripId, loggedInUser);
@@ -181,7 +184,7 @@ public class TripsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @DeleteMapping("/{tripId}")
-    public ResponseEntity<Void> deleteTrip(@Parameter(description = "Trip ID", required = true)@PathVariable String tripId) {
+    public ResponseEntity<Void> deleteTrip(@Parameter(description = "Trip ID", required = true) @PathVariable String tripId) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -190,28 +193,29 @@ public class TripsController {
                 Trips trip = tripOptional.get();
 
                 if (trip.getMembers().stream().anyMatch(member ->
-                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()))){
+                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()))) {
                     boolean deleted = tripsService.deleteTrip(tripId);
                     if (deleted) {
                         log.info("Deleted trip with ID: {}", tripId);
                         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                     } else {
-                        log.warn("Trip with ID {} not found.", tripId);
-                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                        log.warn("Error deleting trip with ID: {}", tripId);
+                        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                     }
-                }else {
+                } else {
                     log.warn("Unauthorized attempt to delete trip with ID: {} by user: {}", tripId, loggedInUser);
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
+            } else {
+                log.warn("Trip with ID {} not found.", tripId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-
-            log.warn("Unauthorized attempt to delete trip with ID: {}", tripId);
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             log.error("Error deleting trip: {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @Operation(summary = "Change Role by trip ID and RoleChangeRequest")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User role changed successfully"),

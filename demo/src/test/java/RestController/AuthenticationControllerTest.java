@@ -1,28 +1,27 @@
-package com.travelbuddy.demo.RestController;
+package RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.travelbuddy.demo.Entities.UserSecurity;
+import com.travelbuddy.demo.RestController.AuthenticationController;
 import com.travelbuddy.demo.Secruity.Infrastructure.AuthenticationResponse;
 import com.travelbuddy.demo.Secruity.Infrastructure.LoginRequest;
 import com.travelbuddy.demo.Secruity.ServiceSec.AuthenticationService;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AuthenticationControllerTest {
 
@@ -69,10 +68,9 @@ class AuthenticationControllerTest {
 
 
         mockMvc.perform(post("/register")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(asJsonString(userSecurity)))
-                    .andExpect(status().isOk());
-
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(userSecurity)))
+                .andExpect(status().isOk());
 
         verify(authenticationService, times(1)).register(userSecurity);
     }
