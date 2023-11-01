@@ -27,7 +27,7 @@ function Navbar() {
             <nav className='navbar'>
                 <div className='navbar-container'>
                     <Link to='/' className='navbar-logo'>
-                        TravelBuddy <FontAwesomeIcon icon={faHouse}/>
+                        <FontAwesomeIcon icon={faHouse} TravelBuddy/>
                     </Link>
                     <div className='menu-icon' onClick={handleClick}>
                         <FontAwesomeIcon icon={faBars}/>
@@ -44,7 +44,7 @@ function Navbar() {
                             </Link>
                         </li>
                         <li className='nav-item'>
-                            <Link to='/' className='nav-links-mobile' onClick={closeMobileMenu}>
+                            <Link to='/register' className='nav-links-mobile' onClick={closeMobileMenu}>
                                 Sign up
                             </Link>
                         </li>
