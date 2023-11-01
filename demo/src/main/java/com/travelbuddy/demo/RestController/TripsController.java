@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -34,7 +39,9 @@ public class TripsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PostMapping
-    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true)@RequestBody Trips trip) {
+
+    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true)@Valid @RequestBody Trips trip) {
+
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
@@ -77,7 +84,8 @@ public class TripsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PutMapping("/{tripId}")
-    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true)@PathVariable String tripId, @RequestBody Trips updatedTrip) {
+
+    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true)@PathVariable String tripId, @Valid @RequestBody Trips updatedTrip) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -89,12 +97,20 @@ public class TripsController {
                                 (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
+
+                    updatedTrip.setMembers(trip.getMembers());
                     Trips updated = tripsService.updateTrip(tripId, updatedTrip);
+
+
                     if (updated != null) {
                         log.info("Updated trip with ID: {} by user: {}", tripId, loggedInUser);
                         return new ResponseEntity<>(updated, HttpStatus.OK);
                     }
                 }
+            } else{
+                log.warn("No trip found with ID: {} by user: {}", tripId, loggedInUser);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
             }
 
             log.warn("Unauthorized attempt to update trip with ID: {} by user: {}", tripId, loggedInUser);
@@ -181,7 +197,9 @@ public class TripsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @DeleteMapping("/{tripId}")
-    public ResponseEntity<Void> deleteTrip(@Parameter(description = "Trip ID", required = true)@PathVariable String tripId) {
+
+    public ResponseEntity<Void> deleteTrip(@Parameter(description = "Trip ID", required = true) @PathVariable String tripId) {
+
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -190,28 +208,32 @@ public class TripsController {
                 Trips trip = tripOptional.get();
 
                 if (trip.getMembers().stream().anyMatch(member ->
-                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()))){
+
+                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()))) {
+
                     boolean deleted = tripsService.deleteTrip(tripId);
                     if (deleted) {
                         log.info("Deleted trip with ID: {}", tripId);
                         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                     } else {
-                        log.warn("Trip with ID {} not found.", tripId);
-                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+                        log.warn("Error deleting trip with ID: {}", tripId);
+                        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                     }
-                }else {
+                } else {
                     log.warn("Unauthorized attempt to delete trip with ID: {} by user: {}", tripId, loggedInUser);
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
+            } else {
+                log.warn("Trip with ID {} not found.", tripId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-
-            log.warn("Unauthorized attempt to delete trip with ID: {}", tripId);
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             log.error("Error deleting trip: {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @Operation(summary = "Change Role by trip ID and RoleChangeRequest")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User role changed successfully"),

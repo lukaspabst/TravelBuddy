@@ -2,10 +2,12 @@ package com.travelbuddy.demo.AdapterClasses;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class TripMember {
     @Schema(description = "Benutzername", example = "john_doe", required = true)
     private String username;

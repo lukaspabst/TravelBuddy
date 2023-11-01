@@ -12,8 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class TripsService {
+
     @Autowired
     private TripsRepo tripsRepo;
+    public TripsService(TripsRepo tripsRepo) {
+        this.tripsRepo = tripsRepo;
+    }
+
 
     public Trips saveTrip(Trips trip) {
         try {
@@ -41,7 +46,8 @@ public class TripsService {
                 Trips existingTrip = existingTripOptional.get();
                 updatedTrip.setId(existingTrip.getId());
 
-                return tripsRepo.save(updatedTrip);
+                return saveTrip(updatedTrip);
+
             } else {
                 return null;
             }
@@ -115,7 +121,9 @@ public class TripsService {
                         .findFirst()
                         .orElse(null);
 
-                if (adminMember != null && "Admin".equalsIgnoreCase(adminMember.getRole())) {
+
+                if (adminMember != null && TripRole.Organizer.getDescription().equalsIgnoreCase(adminMember.getRole())) {
+
 
                     Optional<TripMember> targetMemberOptional = trip.getMembers().stream()
                             .filter(member -> member.getUsername().equals(targetUsername))
@@ -125,8 +133,9 @@ public class TripsService {
                         TripMember targetMember = targetMemberOptional.get();
                         targetMember.setRole(newRole);
 
-                        if ("Admin".equalsIgnoreCase(newRole) && !adminUsername.equals(targetUsername)) {
-                            adminMember.setRole("Member");
+
+                        if (TripRole.Organizer.getDescription().equalsIgnoreCase(newRole) && !adminUsername.equals(targetUsername)) {
+                            adminMember.setRole(TripRole.Traveler.getDescription());
                         }
 
                         return tripsRepo.save(trip);

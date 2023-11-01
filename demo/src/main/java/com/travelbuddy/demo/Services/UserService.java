@@ -10,6 +10,10 @@ public class UserService{
     @Autowired
     private UserRepo userRepo;
 
+    public UserService(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
+
     public User findByUsername(String username) {
         return userRepo.findByUsername(username);
     }
