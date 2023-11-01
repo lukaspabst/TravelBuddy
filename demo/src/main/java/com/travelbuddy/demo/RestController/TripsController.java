@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -34,7 +36,7 @@ public class TripsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PostMapping
-    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true)@RequestBody Trips trip) {
+    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true)@Valid @RequestBody Trips trip) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
@@ -77,7 +79,7 @@ public class TripsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PutMapping("/{tripId}")
-    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true)@PathVariable String tripId, @RequestBody Trips updatedTrip) {
+    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true)@PathVariable String tripId, @Valid @RequestBody Trips updatedTrip) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -89,7 +91,9 @@ public class TripsController {
                                 (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
+                    updatedTrip.setMembers(trip.getMembers());
                     Trips updated = tripsService.updateTrip(tripId, updatedTrip);
+
                     if (updated != null) {
                         log.info("Updated trip with ID: {} by user: {}", tripId, loggedInUser);
                         return new ResponseEntity<>(updated, HttpStatus.OK);

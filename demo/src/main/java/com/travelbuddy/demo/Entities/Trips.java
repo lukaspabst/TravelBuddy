@@ -2,6 +2,7 @@ package com.travelbuddy.demo.Entities;
 
 import com.travelbuddy.demo.AdapterClasses.TripMember;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,20 +22,28 @@ public class Trips {
     @Id
     @Schema(description = "Eindeutige ID des Trips", example = "12345", required = true)
     private String id;
+    @NotNull
     @Schema(description = "Starttag des Trips", example = "01.01.2024", required = true)
     private String Startdate;
+    @NotNull
     @Schema(description = "Enddatum des Trips", example = "10.01.2024", required = true)
     private String enddate;
+    @NotNull
     @Schema(description = "Zielort des Trips", example = "Davids Oarschloch", required = true)
     private String destination;
+    @NotNull
     @Schema(description = "Beschreibung des Trips", example = "Hier könnte ihre Werbung stehen", required = true)
     private String description;
+    @NotNull
     @Schema(description = "Kosten des Trips", example = "200000", required = true)
     private Integer costs;
+    @NotNull
     @Schema(description = "Teilnehmer des Trips", example = "Max Mustermann, Traveler, Active", required = true)
     private List<TripMember> members = new ArrayList<>();
+    @NotNull
     @Schema(description = "max. Personen des Trips", example = "12", required = true)
     private Integer maxPersons;
+    @NotNull
     @Schema(description = "Fortbewegungsmittel des Trips", example = "Auto", required = true)
     private String travelVehicle;
 
@@ -42,7 +51,13 @@ public class Trips {
         this.members = members;
     }
 
-    public Trips(String id, String startdate, String enddate, String destination, String description, Integer costs, Integer maxPersons, TravelVehicle travelVehicle, String type,List<TripMember> members) {
+    public Trips(String id, String startdate, String enddate, String destination, String description, Integer costs, Integer maxPersons, TravelVehicle travelVehicle, String type, List<TripMember> members) {
+        if (id == null || startdate == null || enddate == null || destination == null
+                || description == null || costs == null || maxPersons == null || travelVehicle == null
+                || type == null || members == null) {
+            throw new IllegalArgumentException("All fields must be provided.");
+        }
+
         this.id = id;
         Startdate = startdate;
         this.enddate = enddate;
@@ -54,6 +69,7 @@ public class Trips {
         this.type = type;
         this.members = members;
     }
+
 
     private String type;
 

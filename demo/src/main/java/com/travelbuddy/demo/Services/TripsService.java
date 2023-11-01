@@ -45,7 +45,7 @@ public class TripsService {
                 Trips existingTrip = existingTripOptional.get();
                 updatedTrip.setId(existingTrip.getId());
 
-                return tripsRepo.save(updatedTrip);
+                return saveTrip(updatedTrip);
             } else {
                 return null;
             }

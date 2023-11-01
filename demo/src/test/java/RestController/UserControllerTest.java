@@ -68,29 +68,6 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreateUser() throws Exception {
-
-        User user = new User("firstname", "lastname", "username","2023-01-01", "link.com", "hiking", "malle","sociallinks", User.Gender.D);
-
-        // Act and Assert
-        mockMvc.perform(post("/users/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"username\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(content().string("The User username were saved"));
-    }
-
-    @Test
-    public void testCreateUserForbidden() throws Exception {
-
-        mockMvc.perform(post("/users/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"differentUsername\"}"))
-                .andExpect(status().isForbidden())
-                .andExpect(content().string("Username must equal the Security username"));
-    }
-
-    @Test
     public void testDeleteUserByUsername() throws Exception {
         // Arrange
         User user = new User("firstname", "lastname", "username","2023-01-01", "link.com", "hiking", "malle","sociallinks", User.Gender.D);

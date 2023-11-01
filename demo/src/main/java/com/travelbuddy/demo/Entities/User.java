@@ -3,6 +3,7 @@ package com.travelbuddy.demo.Entities;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -21,24 +22,29 @@ public class User {
     @Id
     @Schema(description = "Eindeutige ID des Benutzers", example = "12345", required = true)
     private String id;
+    @NotNull
     @Schema(description = "Vorname des Benutzers", example = "Max", required = true)
     private String firstName;
+    @NotNull
     @Schema(description = "Nachname des Benutzers", example = "Musterman", required = true)
     private String lastName;
+    @NotNull
     @Schema(description = "Unique Username des Benutzers", example = "maxmusterman", required = true)
     @Indexed(unique = true)
     private String username;
+    @NotNull
     @Schema(description = "Geburtstag des Benutzers", example = "01.01.2000", required = true)
-
     private String birthday;
     @Schema(description = "Link zum ProfilBild des Benutzers", example = "xxx.com", required = true)
     private String picture;
+    @NotNull
     @Schema(description = "Bevorzugte Interessen des Benutzers", example = "Wandern", required = true)
     private String preferences;
     @Schema(description = "Reiseziele des Benutzers", example = "Madrid", required = true)
     private String travelDestination;
     @Schema(description = "Social Media Links des Benutzers", example = "insta.com/hsohn", required = true)
     private String socialMediaLinks;
+    @NotNull
     @Schema(description = "Geschlecht des Benutzers", example = "IdentifiziertSichAlsTisch", required = true)
     private String gender;
 

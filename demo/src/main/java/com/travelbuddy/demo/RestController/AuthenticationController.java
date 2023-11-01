@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public class AuthenticationController {
     @ApiResponse(responseCode = "400", description = "Bad Request")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @PostMapping("/register")
-    public ResponseEntity<String> createUser(@Parameter(description ="User security information", required = true)@RequestBody UserSecurity userSec) {
+    public ResponseEntity<String> createUser(@Parameter(description ="User security information", required = true)@Valid @RequestBody UserSecurity userSec) {
         service.register(userSec);
         return ResponseEntity.ok(userSec.getUsername());
     }

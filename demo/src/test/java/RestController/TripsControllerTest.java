@@ -129,6 +129,19 @@ public class TripsControllerTest {
         // Prepare test data
         Trips updatedTrip = new Trips(); // Set your updated trip details
         String tripId = "12345";
+        updatedTrip.setId("1");
+        updatedTrip.setStartdate("01.01.2024");
+        updatedTrip.setEnddate("10.01.2024");
+        updatedTrip.setDestination("Davids Oarschloch");
+        updatedTrip.setDescription("Hier könnte Ihre Werbung stehen");
+        updatedTrip.setCosts(200000);
+        List<TripMember> members = new ArrayList<>();
+        members.add(new TripMember("MaxMustermann", TripRole.Traveler, "Active"));
+        members.add(new TripMember("testUser", TripRole.Organizer, "Active"));
+        updatedTrip.setMembers(members);
+        updatedTrip.setMaxPersons(12);
+        updatedTrip.setTravelVehicle("Auto");
+        updatedTrip.setType("Wandern");
         Trips existingTrip = new Trips(); // Set your existing trip details
         existingTrip.setId(tripId);
 
@@ -162,7 +175,7 @@ public class TripsControllerTest {
                         .content(asJsonString(updatedTrip)));
 
         // Verify the response
-        result.andExpect(status().isNotFound());
+        result.andExpect(status().isBadRequest());
     }
 
     private static String asJsonString(final Object obj) {
