@@ -3,7 +3,9 @@ package com.travelbuddy.demo.Entities;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -22,6 +24,7 @@ public class User {
     @Id
     @Schema(description = "Eindeutige ID des Benutzers", example = "12345", required = true)
     private String id;
+
     @NotNull
     @Schema(description = "Vorname des Benutzers", example = "Max", required = true)
     private String firstName;

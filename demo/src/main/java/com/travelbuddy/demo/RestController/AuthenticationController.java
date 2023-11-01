@@ -34,6 +34,7 @@ public class AuthenticationController {
     @ApiResponse(responseCode = "400", description = "Bad Request")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @PostMapping("/register")
+
     public ResponseEntity<String> createUser(@Parameter(description ="User security information", required = true)@Valid @RequestBody UserSecurity userSec) {
         service.register(userSec);
         return ResponseEntity.ok(userSec.getUsername());

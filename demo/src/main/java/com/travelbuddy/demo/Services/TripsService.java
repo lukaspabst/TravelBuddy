@@ -19,6 +19,7 @@ public class TripsService {
         this.tripsRepo = tripsRepo;
     }
 
+
     public Trips saveTrip(Trips trip) {
         try {
             return tripsRepo.save(trip);
@@ -46,6 +47,7 @@ public class TripsService {
                 updatedTrip.setId(existingTrip.getId());
 
                 return saveTrip(updatedTrip);
+
             } else {
                 return null;
             }
@@ -119,7 +121,9 @@ public class TripsService {
                         .findFirst()
                         .orElse(null);
 
+
                 if (adminMember != null && TripRole.Organizer.getDescription().equalsIgnoreCase(adminMember.getRole())) {
+
 
                     Optional<TripMember> targetMemberOptional = trip.getMembers().stream()
                             .filter(member -> member.getUsername().equals(targetUsername))
@@ -129,9 +133,11 @@ public class TripsService {
                         TripMember targetMember = targetMemberOptional.get();
                         targetMember.setRole(newRole);
 
+
                         if (TripRole.Organizer.getDescription().equalsIgnoreCase(newRole) && !adminUsername.equals(targetUsername)) {
                             adminMember.setRole(TripRole.Traveler.getDescription());
                         }
+
                         return tripsRepo.save(trip);
                     }
                 }

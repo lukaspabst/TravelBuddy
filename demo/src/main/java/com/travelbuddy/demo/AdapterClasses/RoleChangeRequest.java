@@ -14,6 +14,7 @@ public class RoleChangeRequest {
     @Schema(description = "neue Role", example = "Traveler", required = true)
     private String newRole;
 
+
     public RoleChangeRequest(String adminUsername, String targetUsername, TripRole newRole) {
         this.adminUsername = adminUsername;
         this.targetUsername = targetUsername;

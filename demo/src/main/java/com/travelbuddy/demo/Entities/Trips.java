@@ -2,7 +2,9 @@ package com.travelbuddy.demo.Entities;
 
 import com.travelbuddy.demo.AdapterClasses.TripMember;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,7 @@ public class Trips {
     @Id
     @Schema(description = "Eindeutige ID des Trips", example = "12345", required = true)
     private String id;
+
     @NotNull
     @Schema(description = "Starttag des Trips", example = "01.01.2024", required = true)
     private String Startdate;
@@ -69,7 +72,6 @@ public class Trips {
         this.type = type;
         this.members = members;
     }
-
 
     private String type;
 
