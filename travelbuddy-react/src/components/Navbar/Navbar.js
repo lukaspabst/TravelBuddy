@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
-import { Button } from '../Button'
+import { Button } from '../Button/Button'
 import { useTranslation } from 'react-i18next';
+import {useAuth} from "../../Containers/Authentication/AuthProvider";
 
 
 
@@ -14,11 +15,15 @@ function Navbar() {
     const [button, setButton] = useState(true);
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
+    const { isLoggedIn, logout } = useAuth();
 
     const {t, i18n} = useTranslation();
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
+    };
+    const handleLogout = () => {
+        logout();
     };
     const showButton = () => {
         if (window.innerWidth <= 960) {
@@ -61,7 +66,13 @@ function Navbar() {
                             </Link>
                         </li>
                     </ul>
-                    {button && <Button buttonStyle='btn--outline'>{t('navbar.signUp')}</Button>}
+                    {isLoggedIn ?
+                        (button && <Button onClick={handleLogout} buttonStyle='btn--outline'>{t('navbar.logout')}</Button>)
+                        : (
+                        <Link to="/login">
+                            {(button && <Button buttonStyle="btn--outline">{t('navbar.login')}</Button>)}
+                        </Link>
+                    )}
                 </div>
             </nav>
         </>

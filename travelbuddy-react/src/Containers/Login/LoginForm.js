@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import './LoginForm.scss';
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import {useAuth} from "../Authentication/AuthProvider";
+import {Button} from "../../Components/Button/Button";
 
 function LoginForm() {
     const [state, setState] = useState({
@@ -13,7 +15,7 @@ function LoginForm() {
 
     const navigate = useNavigate();
     const { t } = useTranslation();
-
+    const { login } = useAuth()
     const handleChange = (e) => {
         setState({ ...state, [e.target.name]: e.target.value });
     }
@@ -25,14 +27,17 @@ function LoginForm() {
         try {
             const request = await axios.post('http://localhost:8080/login', { username, password }, { withCredentials: true });
             if (request.status === 200) {
+                login();
                 navigate('/');
-            } else if (request.status === 401 || request.status === 403) {
-                setState({ ...state, message: 'Username oder Password falsch.' });
+            } else if (request.status === 401) {
+                setState({ ...state, message: t('errorMessages.wrongCredentials') });
+            }else if (request.status === 403) {
+                setState({ ...state, message: t('errorMessages.wrongCredentials') });
             } else if (request.status === 500) {
-                setState({ ...state, message: 'Fehler: Interner Serverfehler.' });
+                setState({ ...state, message: t('errorMessages.internalServerError') });
             }
         } catch (error) {
-            setState({ ...state, message: 'Fehler: Interner Serverfehler.' });
+            setState({ ...state, message: t('errorMessages.internalServerError') });
         }
     }
 
@@ -65,7 +70,7 @@ function LoginFormContent({ handleSubmit, handleChange, state, t, navigate }) {
                         value={state.password}
                         onChange={handleChange}
                     />
-                    <button type="submit">{t('login.loginButton')}</button>
+                    <Button buttonStyle="btn--outline" type="submit">{t('login.loginButton')}</Button>
                 </form>
                 <p>
                     {t('login.signupMessage')}{' '}
@@ -73,7 +78,7 @@ function LoginFormContent({ handleSubmit, handleChange, state, t, navigate }) {
                         {t('login.signupLink')}
                     </Link>
                 </p>
-                <p>{state.message}</p>
+                <p className="errorMessages">{state.message}</p>
             </div>
         </div>
     );

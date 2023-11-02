@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './RegisterForm.scss';
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../Containers/Authentication/AuthProvider";
+
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -37,7 +39,7 @@ class RegisterForm extends Component {
 
 function RegisterFormContent({ handleSubmit, handleChange, state }) {
     const { t } = useTranslation();
-
+    const { login } = useAuth();
     return (
         <div className="container">
             <div className="register-form-container">

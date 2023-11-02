@@ -20,6 +20,11 @@
   "navbar": {
     "home": "Home",
     "aboutUs": "About us",
-    "signUp": "Signup"
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "errorMessages": {
+    "wrongCredentials": "Username or password is incorrect.",
+    "internalServerError": "Error: Internal server error."
   }
 }

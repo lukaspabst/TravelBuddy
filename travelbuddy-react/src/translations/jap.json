@@ -20,6 +20,11 @@
   "navbar": {
     "home": "ホーム",
     "aboutUs": "会社情報",
-    "signUp": "登録"
+    "login": "ログイン",
+    "logout": "ログアウト"
+  },
+  "errorMessages": {
+    "wrongCredentials": "ユーザー名またはパスワードが正しくありません。",
+    "internalServerError": "エラー：内部サーバーエラー。"
   }
 }

@@ -63,21 +63,6 @@ input {
   background-color: #555;
 }
 
-button {
-  padding: 10px;
-  background-color: #0f71a9;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 18px;
-  transition: background-color 0.2s ease-in-out;
-}
-
-button:hover {
-  background-color: #125f8d;
-}
-
 a {
   text-decoration: none;
   color: #0f71a9;
@@ -91,4 +76,8 @@ a:hover {
 p {
   text-align: center;
   margin: 8px;
+}
+.errorMessages{
+  color: red;
+  font-size: 1.2rem;
 }
