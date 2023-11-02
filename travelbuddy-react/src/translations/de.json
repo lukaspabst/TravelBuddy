@@ -1,0 +1,25 @@
+{
+  "login": {
+    "title": "Anmelden",
+    "usernameLabel": "Benutzername",
+    "passwordLabel": "Passwort",
+    "loginButton": "Anmelden",
+    "signupMessage": "Sie haben noch kein Konto?",
+    "signupLink": "Hier registrieren"
+  },
+  "register": {
+    "title": "Registrieren",
+    "usernameLabel": "Benutzername",
+    "emailLabel": "E-Mail",
+    "passwordLabel": "Passwort",
+    "handyLabel": "Handy",
+    "registerButton": "Registrieren",
+    "loginMessage": "Haben Sie bereits ein Konto?",
+    "loginLink": "Hier einloggen"
+  },
+  "navbar": {
+    "home": "Startseite",
+    "aboutUs": "Über uns",
+    "signUp": "Registrieren"
+  }
+}

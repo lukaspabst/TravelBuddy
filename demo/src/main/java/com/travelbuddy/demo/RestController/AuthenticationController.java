@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +28,14 @@ public class AuthenticationController {
     @ApiResponse(responseCode = "401", description = "Unauthorized")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@Parameter(description = "Login request", required = true)@RequestBody LoginRequest request) throws LoginFailedException {
-        return ResponseEntity.ok(service.login(request));
+    public ResponseEntity<Void> login(@Parameter(description = "Login request", required = true)@RequestBody LoginRequest request, HttpServletResponse response) throws LoginFailedException {
+        String jwtToken = service.login(request).getJwtToken();
+
+        Cookie cookie = new Cookie("jwtToken", jwtToken);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok().build();
     }
     @Operation(summary = "Register a new user")
     @ApiResponse(responseCode = "201", description = "User registered successfully")

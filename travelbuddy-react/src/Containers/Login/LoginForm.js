@@ -1,49 +1,82 @@
-import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './LoginForm.scss';
+import { useTranslation } from "react-i18next";
+import axios from "axios";
 
-class LoginForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            password: '',
-        };
+function LoginForm() {
+    const [state, setState] = useState({
+        username: '',
+        password: '',
+        message: '',
+    });
+
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+
+    const handleChange = (e) => {
+        setState({ ...state, [e.target.name]: e.target.value });
     }
 
-    handleChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-    }
-
-    handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const { username, password } = state;
 
+        try {
+            const request = await axios.post('http://localhost:8080/login', { username, password }, { withCredentials: true });
+            if (request.status === 200) {
+                navigate('/');
+            } else if (request.status === 401 || request.status === 403) {
+                setState({ ...state, message: 'Username oder Password falsch.' });
+            } else if (request.status === 500) {
+                setState({ ...state, message: 'Fehler: Interner Serverfehler.' });
+            }
+        } catch (error) {
+            setState({ ...state, message: 'Fehler: Interner Serverfehler.' });
+        }
     }
 
-    render() {
-        return (
-            <div className="container">
+    return (
+        <LoginFormContent handleSubmit={handleSubmit} handleChange={handleChange} state={state} t={t} navigate={navigate} />
+    );
+}
+
+function LoginFormContent({ handleSubmit, handleChange, state, t, navigate }) {
+    return (
+        <div className="container">
             <div className="login-form-container">
-                <h1>Login</h1>
-                <form onSubmit={this.handleSubmit}>
-                        <label htmlFor="username">Username</label>
-                        <input type="username" id="username" name="username"
-                               required
-                               value={this.state.username}
-                               onChange={this.handleChange}
-                        />
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" name="password" required
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                        />
-                    <button type="submit">Login</button>
+                <h1>{t('login.title')}</h1>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="username">{t('login.usernameLabel')}</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        required
+                        value={state.username}
+                        onChange={handleChange}
+                    />
+                    <label htmlFor="password">{t('login.passwordLabel')}</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        value={state.password}
+                        onChange={handleChange}
+                    />
+                    <button type="submit">{t('login.loginButton')}</button>
                 </form>
-                <p>Don't have an account? <Link to="/register" id="signup-link">Sign up</Link></p>
+                <p>
+                    {t('login.signupMessage')}{' '}
+                    <Link to="/register" id="signup-link">
+                        {t('login.signupLink')}
+                    </Link>
+                </p>
+                <p>{state.message}</p>
             </div>
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default LoginForm;

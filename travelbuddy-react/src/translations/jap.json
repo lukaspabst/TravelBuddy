@@ -1,0 +1,25 @@
+{
+  "login": {
+    "title": "ログイン",
+    "usernameLabel": "ユーザー名",
+    "passwordLabel": "パスワード",
+    "loginButton": "ログイン",
+    "signupMessage": "アカウントをお持ちでないですか？",
+    "signupLink": "サインアップ"
+  },
+  "register": {
+    "title": "登録",
+    "usernameLabel": "ユーザー名",
+    "emailLabel": "メールアドレス",
+    "passwordLabel": "パスワード",
+    "handyLabel": "携帯電話",
+    "registerButton": "登録",
+    "loginMessage": "すでにアカウントをお持ちですか？",
+    "loginLink": "こちらからログイン"
+  },
+  "navbar": {
+    "home": "ホーム",
+    "aboutUs": "会社情報",
+    "signUp": "登録"
+  }
+}

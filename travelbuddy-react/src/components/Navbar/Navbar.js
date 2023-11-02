@@ -4,21 +4,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
-import { Button } from './Button'
+import { Button } from '../Button'
+import { useTranslation } from 'react-i18next';
+
+
 
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
-
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
 
+    const {t, i18n} = useTranslation();
+
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng);
+    };
     const showButton = () => {
-        if(window.innerWidth <= 960) {
+        if (window.innerWidth <= 960) {
             setButton(false);
         } else {
             setButton(true);
-        }};
+        }
+    };
 
     window.addEventListener('resize', showButton);
 
@@ -27,29 +35,33 @@ function Navbar() {
             <nav className='navbar'>
                 <div className='navbar-container'>
                     <Link to='/' className='navbar-logo'>
-                        <FontAwesomeIcon icon={faHouse} TravelBuddy/>
+                        <img src="/favicon.png" className="logo-image" />
+                        TravelBuddy
                     </Link>
                     <div className='menu-icon' onClick={handleClick}>
-                        <FontAwesomeIcon icon={faBars}/>
+                        <FontAwesomeIcon icon={faBars} />
                     </div>
                     <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+                            <div className="language-selector">
+                                <select className="language-select" onChange={(e) => changeLanguage(e.target.value)}
+                                        value={i18n.language}>
+                                    <option value="en" className="language-option">English</option>
+                                    <option value="de" className="language-option">Deutsch</option>
+                                    <option value="jap" className="language-option">Japanese</option>
+                                </select>
+                            </div>
                         <li className='nav-item'>
                             <Link to='/' className='nav-links' onClick={closeMobileMenu}>
-                                Home
+                                {t('navbar.home')}
                             </Link>
                         </li>
                         <li className='nav-item'>
                             <Link to='/' className='nav-links' onClick={closeMobileMenu}>
-                                About us
-                            </Link>
-                        </li>
-                        <li className='nav-item'>
-                            <Link to='/register' className='nav-links-mobile' onClick={closeMobileMenu}>
-                                Sign up
+                                {t('navbar.aboutUs')}
                             </Link>
                         </li>
                     </ul>
-                    {button && <Button buttonStyle='btn--outline' >SIGN UP</Button>}
+                    {button && <Button buttonStyle='btn--outline'>{t('navbar.signUp')}</Button>}
                 </div>
             </nav>
         </>

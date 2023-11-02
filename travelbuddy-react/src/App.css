@@ -38,7 +38,7 @@
 }
 body {
   font-family: 'Open Sans', sans-serif;
-  background-color: #222;
+  background-color: #fff;
 }
 
 h1 {
@@ -51,11 +51,6 @@ h1 {
 form {
   display: flex;
   flex-direction: column;
-}
-
-label {
-  margin-bottom: 10px;
-  font-size: 18px;
 }
 
 input {
@@ -86,7 +81,6 @@ button:hover {
 a {
   text-decoration: none;
   color: #0f71a9;
-  font-size: 18px;
   transition: color 0.2s ease-in-out;
 }
 

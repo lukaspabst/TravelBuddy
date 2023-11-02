@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './RegisterForm.scss';
-import {Link} from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -19,43 +20,75 @@ class RegisterForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        const { username, email, password, handy } = this.state;
 
     }
 
     render() {
         return (
-            <div className="container">
-                <div className="register-form-container">
-                    <h1>Login</h1>
-                    <form onSubmit={this.handleSubmit}>
-                        <label htmlFor="username">Username</label>
-                        <input type="username" id="username" name="username"
-                               required
-                               value={this.state.username}
-                               onChange={this.handleChange}
-                        />
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" name="email" required
-                               value={this.state.email}
-                               onChange={this.handleChange}
-                        />
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" name="password" required
-                               value={this.state.password}
-                               onChange={this.handleChange}
-                        />
-                        <label htmlFor="handy">Handy</label>
-                        <input type="handy" id="handy" name="handy"
-                               value={this.state.handy}
-                               onChange={this.handleChange}
-                        />
-                        <button type="submit">Login</button>
-                    </form>
-                    <p>Already have an account? <Link to="/login" id="register">Login</Link></p>
-                </div>
-            </div>
+            <RegisterFormContent
+                handleSubmit={this.handleSubmit}
+                handleChange={this.handleChange}
+                state={this.state}
+            />
         );
     }
+}
+
+function RegisterFormContent({ handleSubmit, handleChange, state }) {
+    const { t } = useTranslation();
+
+    return (
+        <div className="container">
+            <div className="register-form-container">
+                <h1>{t('register.title')}</h1>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="username">{t('register.usernameLabel')}</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        required
+                        value={state.username}
+                        onChange={handleChange}
+                    />
+                    <label htmlFor="email">{t('register.emailLabel')}</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={state.email}
+                        onChange={handleChange}
+                    />
+                    <label htmlFor="password">{t('register.passwordLabel')}</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        value={state.password}
+                        onChange={handleChange}
+                    />
+                    <label htmlFor="handy">{t('register.handyLabel')}</label>
+                    <input
+                        type="text"
+                        id="handy"
+                        name="handy"
+                        value={state.handy}
+                        onChange={handleChange}
+                    />
+                    <button type="submit">{t('register.registerButton')}</button>
+                </form>
+                <p>
+                    {t('register.loginMessage')}{' '}
+                    <Link to="/login" id="register">
+                        {t('register.loginLink')}
+                    </Link>
+                </p>
+            </div>
+        </div>
+    );
 }
 
 export default RegisterForm;
