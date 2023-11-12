@@ -1,5 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import Cookies from 'js-cookie';
+import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 const AuthContext = createContext();
 
@@ -11,20 +13,21 @@ export function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const jwtToken = Cookies.get('jwtToken');
-        console.log("Funktion wird ausgeführt"+jwtToken);
-        if (jwtToken) {
+        const checkToken = async () => {
             try {
-                const decodedToken = jwtToken.split('.')[1];
-                const decodedPayload = JSON.parse(atob(decodedToken));
-                if (decodedPayload.exp * 1000 > Date.now()) {
+                const response = await axios.post(`${API_BASE_URL}/api/authenticate`, {}, { withCredentials: true });
+
+                if (response.status === 200) {
                     setIsLoggedIn(true);
                 } else {
                     setIsLoggedIn(false);
                 }
             } catch (error) {
+                setIsLoggedIn(false);
             }
-        }
+        };
+
+        checkToken();
     }, []);
 
     const login = () => {

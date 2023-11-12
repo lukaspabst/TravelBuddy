@@ -25,6 +25,11 @@
   },
   "errorMessages": {
     "wrongCredentials": "Benutzername oder Passwort ist falsch.",
-    "internalServerError": "Fehler: Interner Serverfehler."
-  }
+    "internalServerError": "Fehler: Interner Serverfehler.",
+    "registerError": "Bei der Registrierung ist ein Fehler aufgetreten.",
+    "badRequest": "Schlechte Anfrage: Ungültige Eingabedaten."
+  },
+    "home": {
+        "startingButton":"Plane jetzt deine Reise"
+    }
 }

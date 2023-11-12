@@ -42,3 +42,26 @@
     color: #242424;
     transition: all 0.3s ease-out;
 }
+
+.btn--large-image {
+    padding: 16px 32px;
+    font-size: 3vw;
+    width: 40vw;
+    height: 10vw;
+    border-radius: 2vw;
+    border: 0.3vw solid #0f71a9;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 2vw 2vw 4vw rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.btn--large-image:hover {
+    background-color: #125f8d;
+    color: #fff;
+    transition: all 0.5s ease-out;
+    transform: scale(1.01);
+}

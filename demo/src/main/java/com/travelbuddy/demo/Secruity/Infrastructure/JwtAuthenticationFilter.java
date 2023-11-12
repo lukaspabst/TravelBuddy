@@ -4,6 +4,7 @@ import com.travelbuddy.demo.Secruity.ServiceSec.SecurityUserDetailsService;
 import com.travelbuddy.demo.Secruity.ServiceSec.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,23 +31,37 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String username;
+        String requestURI = request.getRequestURI();
 
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+        if (isEndpointForLoginLogoutOrRegister(requestURI)) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
+
+        final Cookie[] cookies = request.getCookies();
+        String jwt = null;
+        String username = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("jwtToken".equals(cookie.getName())) {
+                    jwt = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (jwt == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         username = jwtService.extractUsername(jwt);
-        //if the user is not authenticated yet
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.securityUserDetailsService.loadUserByUsername(username);
-            if (jwtService.isTokenValid(jwt, userDetails.getUsername())){
+            if (jwtService.isTokenValid(jwt, userDetails.getUsername())) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
-                        //TODO are credentials null?
                         null,
                         userDetails.getAuthorities()
                 );
@@ -58,4 +73,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
+    private boolean isEndpointForLoginLogoutOrRegister(String requestURI) {
+        return requestURI.contains("/api/login") || requestURI.contains("/api/logout") || requestURI.contains("/api/register");
+    }
 }
+
+

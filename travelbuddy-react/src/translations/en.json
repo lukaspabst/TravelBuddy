@@ -25,6 +25,11 @@
   },
   "errorMessages": {
     "wrongCredentials": "Username or password is incorrect.",
-    "internalServerError": "Error: Internal server error."
+    "internalServerError": "Error: Internal server error.",
+    "registerError": "An error occurred during registration.",
+    "badRequest": "Bad Request: Invalid input data."
+  },
+  "home": {
+    "startingButton": "Plan Your Trip Now"
   }
 }

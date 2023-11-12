@@ -17,8 +17,8 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/login")
-                        .allowedOrigins("allowedOrigins")
-                        .allowedMethods("GET", "POST")
+                        .allowedOrigins(allowedOrigins)
+                        .allowedMethods("POST")
                         .allowedHeaders("Authorization", "Content-Type")
                         .allowCredentials(true);
             }

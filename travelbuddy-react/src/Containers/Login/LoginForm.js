@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 import {useAuth} from "../Authentication/AuthProvider";
 import {Button} from "../../Components/Button/Button";
+import { API_BASE_URL } from "../../config";
+import BackgroundImage from "../../Components/Background/StartingBackground";
 
 function LoginForm() {
     const [state, setState] = useState({
@@ -25,7 +27,7 @@ function LoginForm() {
         const { username, password } = state;
 
         try {
-            const request = await axios.post('http://localhost:8080/login', { username, password }, { withCredentials: true });
+            const request = await axios.post(`${API_BASE_URL}/api/login`, { username, password }, { withCredentials: true });
             if (request.status === 200) {
                 login();
                 navigate('/');
@@ -48,8 +50,10 @@ function LoginForm() {
 
 function LoginFormContent({ handleSubmit, handleChange, state, t, navigate }) {
     return (
-        <div className="container">
-            <div className="login-form-container">
+        <div className="StartPage-content">
+            <BackgroundImage />
+            <div className="container">
+                <div className="login-form-container">
                 <h1>{t('login.title')}</h1>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="username">{t('login.usernameLabel')}</label>
@@ -79,6 +83,7 @@ function LoginFormContent({ handleSubmit, handleChange, state, t, navigate }) {
                     </Link>
                 </p>
                 <p className="errorMessages">{state.message}</p>
+            </div>
             </div>
         </div>
     );

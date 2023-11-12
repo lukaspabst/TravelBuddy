@@ -28,7 +28,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/trips")
+@RequestMapping("/api/trips")
 public class TripsController {
     @Autowired
     private TripsService tripsService;

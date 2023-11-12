@@ -1,0 +1,15 @@
+.centered-image {
+  position: relative;
+  width: 100vw;
+  height: auto;
+  top: -80px;
+  left: 0;
+  border-bottom-left-radius: 1vw;
+  border-bottom-right-radius: 1vw;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.2);
+  z-index: -1;
+}
+.Image-Scaler{
+  z-index: -1;
+  position: relative;
+}

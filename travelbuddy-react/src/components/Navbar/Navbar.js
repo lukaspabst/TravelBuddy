@@ -1,4 +1,3 @@
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, {useState} from 'react';
@@ -7,7 +6,8 @@ import './Navbar.css'
 import { Button } from '../Button/Button'
 import { useTranslation } from 'react-i18next';
 import {useAuth} from "../../Containers/Authentication/AuthProvider";
-
+import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 
 function Navbar() {
@@ -23,7 +23,17 @@ function Navbar() {
         i18n.changeLanguage(lng);
     };
     const handleLogout = () => {
-        logout();
+            const checkToken = async () => {
+                try {
+                    const response = await axios.post(`${API_BASE_URL}/api/logout`, {}, { withCredentials: true });
+
+                    if (response.status === 200) {
+                        logout();
+                    }
+                } catch (error) {;
+                }
+            };
+            checkToken();
     };
     const showButton = () => {
         if (window.innerWidth <= 960) {
@@ -67,7 +77,7 @@ function Navbar() {
                         </li>
                     </ul>
                     {isLoggedIn ?
-                        (button && <Button onClick={handleLogout} buttonStyle='btn--outline'>{t('navbar.logout')}</Button>)
+                        <Button onClick={handleLogout} buttonStyle='btn--outline'>{t('navbar.logout')}</Button>
                         : (
                         <Link to="/login">
                             {(button && <Button buttonStyle="btn--outline">{t('navbar.login')}</Button>)}

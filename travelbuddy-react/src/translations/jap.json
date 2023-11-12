@@ -25,6 +25,11 @@
   },
   "errorMessages": {
     "wrongCredentials": "ユーザー名またはパスワードが正しくありません。",
-    "internalServerError": "エラー：内部サーバーエラー。"
+    "internalServerError": "エラー：内部サーバーエラー。",
+    "registerError": "登録中にエラーが発生しました。",
+    "badRequest": "不正なリクエスト：無効な入力データ。"
+  },
+  "home": {
+    "startingButton": "今すぐ旅行を計画する"
   }
 }

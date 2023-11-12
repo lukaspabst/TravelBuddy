@@ -3,7 +3,6 @@ package com.travelbuddy.demo.Config;
 import com.travelbuddy.demo.Secruity.Infrastructure.JwtAuthenticationFilter;
 import com.travelbuddy.demo.Secruity.ServiceSec.SecurityUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +13,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -48,8 +45,10 @@ public class SecurityConfig {
                         headers.frameOptions((frameOptions)->frameOptions.disable())
                         .and().authorizeHttpRequests()
                                 .requestMatchers(
-                                        "/register",
-                                        "/login",
+                                        "/api/register",
+                                        "/api/authenticate",
+                                        "/api/login",
+                                        "/api/logout",
                                         "/v3/api-docs",
                                         "/v3/api-docs.yaml",
                                         "/v3/api-docs/**",
@@ -57,7 +56,7 @@ public class SecurityConfig {
                                         "/swagger-ui.html"
                                 )
                                 .permitAll()
-                                .anyRequest().authenticated().and();
+                                        .requestMatchers("/api/**").authenticated();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

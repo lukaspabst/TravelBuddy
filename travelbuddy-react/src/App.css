@@ -81,3 +81,8 @@ p {
   color: red;
   font-size: 1.2rem;
 }
+
+.StartPage-content {
+  position: relative;
+  text-align: center;
+}
