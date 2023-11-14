@@ -23,6 +23,14 @@
     "login": "ログイン",
     "logout": "ログアウト"
   },
+  "footer": {
+    "home": "ホーム",
+    "ourServices": "私たちのサービス",
+    "paymentOptions": "支払いオプション",
+    "aboutUs": "私たちについて",
+    "contact": "お問い合わせ",
+    "rightsReserved": "全著作権所有"
+  },
   "errorMessages": {
     "wrongCredentials": "ユーザー名またはパスワードが正しくありません。",
     "internalServerError": "エラー：内部サーバーエラー。",

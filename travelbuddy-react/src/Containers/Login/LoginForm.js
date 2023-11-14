@@ -52,7 +52,6 @@ function LoginFormContent({ handleSubmit, handleChange, state, t, navigate }) {
     return (
         <div className="StartPage-content">
             <BackgroundImage />
-            <div className="container">
                 <div className="login-form-container">
                 <h1>{t('login.title')}</h1>
                 <form onSubmit={handleSubmit}>
@@ -83,7 +82,6 @@ function LoginFormContent({ handleSubmit, handleChange, state, t, navigate }) {
                     </Link>
                 </p>
                 <p className="errorMessages">{state.message}</p>
-            </div>
             </div>
         </div>
     );

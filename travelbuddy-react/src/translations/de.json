@@ -23,6 +23,14 @@
     "login": "Anmelden",
     "logout": "Abmelden"
   },
+  "footer": {
+    "home": "Startseite",
+    "ourServices": "Unsere Dienstleistungen",
+    "paymentOptions": "Zahlungsoptionen",
+    "aboutUs": "Über uns",
+    "contact": "Kontakt",
+    "rightsReserved": "Alle Rechte vorbehalten"
+  },
   "errorMessages": {
     "wrongCredentials": "Benutzername oder Passwort ist falsch.",
     "internalServerError": "Fehler: Interner Serverfehler.",

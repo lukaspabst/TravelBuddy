@@ -23,6 +23,14 @@
     "login": "Login",
     "logout": "Logout"
   },
+  "footer": {
+    "home": "Home",
+    "ourServices": "Our Services",
+    "paymentOptions": "Payment Options",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "rightsReserved": "All rights reserved"
+  },
   "errorMessages": {
     "wrongCredentials": "Username or password is incorrect.",
     "internalServerError": "Error: Internal server error.",

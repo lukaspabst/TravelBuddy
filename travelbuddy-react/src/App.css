@@ -1,7 +1,13 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: 'OleoScript-Regular';
+  src: url('../public/fonts/Oleo_Script/OleoScript-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
+* {
+  font-family: 'OleoScript-Regular', sans-serif;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,10 +41,6 @@
   to {
     transform: rotate(360deg);
   }
-}
-body {
-  font-family: 'Open Sans', sans-serif;
-  background-color: #fff;
 }
 
 h1 {
@@ -84,5 +86,9 @@ p {
 
 .StartPage-content {
   position: relative;
-  text-align: center;
+  display: flex;
+  justify-items: center;
+  top: -80px;
+  overflow-x: hidden;
+  flex-direction: column;
 }

@@ -66,7 +66,6 @@ function RegisterFormContent({ handleSubmit, handleChange, state, t }) {
     return (
         <div className="StartPage-content">
         <BackgroundImage />
-        <div className="container">
             <div className="register-form-container">
                 <h1>{t('register.title')}</h1>
                 <form onSubmit={handleSubmit}>
@@ -114,7 +113,6 @@ function RegisterFormContent({ handleSubmit, handleChange, state, t }) {
                     </Link>
                 </p>
             </div>
-        </div>
         </div>
     );
 }

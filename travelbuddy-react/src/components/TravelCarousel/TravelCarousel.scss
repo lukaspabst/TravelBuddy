@@ -1,0 +1,81 @@
+.travel-carousel {
+  top: 99vh;
+  width: 100%;
+  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+}
+
+.carousel-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 25px;
+}
+
+.travel-card {
+  flex: 0 0 calc(30% - 20px);
+  max-width: calc(30% - 20px);
+  padding: 10px;
+  text-align: center;
+  height: 450px;
+  border-radius: 3vw;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity 0.3s;
+}
+
+.travel-card.fade-out {
+  opacity: 0;
+}
+
+.travel-card.fade-in {
+  opacity: 1;
+}
+.card-content {
+  position: relative;
+  text-align: center;
+  max-width: 100%;
+  height: 450px;
+}
+
+.travel-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 4rem;
+  border-radius: 3vw;
+}
+
+.travel-card img {
+  max-width: 100%;
+}
+
+.carousel-button {
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.prev-button {
+  transform: scaleX(-1);
+  margin-right: 20px;
+}
+
+.travel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3vw;
+}

@@ -6,17 +6,19 @@ import './App.css';
 import RegisterForm from "./Containers/Register/RegisterForm";
 import {AuthProvider} from "./Containers/Authentication/AuthProvider";
 import StartPage from "./Components/StartPage/StartPage";
+import Footer from "./Components/Footer/Footer";
 
 function App() {
     return (
             <Router>
                 <AuthProvider>
-                <Navbar />
-                    <Routes>
-                        <Route path="/" element={<StartPage />} />
-                        <Route path="/login" element={<LoginForm />} />
-                        <Route path="/register" element={<RegisterForm />} />
-                    </Routes>
+                    <Navbar />
+                        <Routes>
+                            <Route path="/" element={<StartPage />} />
+                            <Route path="/login" element={<LoginForm />} />
+                            <Route path="/register" element={<RegisterForm />} />
+                        </Routes>
+                    <Footer />
                 </AuthProvider>
             </Router>
     );
