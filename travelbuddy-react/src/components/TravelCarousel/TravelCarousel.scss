@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 25px;
+  padding: 25px 25px 45px;
 }
 
 .carousel-container {
@@ -21,27 +21,28 @@
   max-width: calc(30% - 20px);
   padding: 10px;
   text-align: center;
-  height: 450px;
   border-radius: 3vw;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: opacity 0.3s;
 }
 
-.travel-card.fade-out {
-  opacity: 0;
-}
-
-.travel-card.fade-in {
-  opacity: 1;
-}
 .card-content {
   position: relative;
   text-align: center;
-  max-width: 100%;
   height: 450px;
+  border-radius: 3vw;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+.card-content:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+  transition: transform 0.35s ease-in-out, box-shadow 0.35s ease-in-out;
+
+  p {
+    color: #125f8d;
+    transition: color 0.35s ease-in-out;
+  }
 }
 
 .travel-title {
@@ -74,7 +75,7 @@
 }
 
 .travel-image {
-  width: 100%;
+  width: 10000px; //sketchy shit!! But well... it works...
   height: 100%;
   object-fit: cover;
   border-radius: 3vw;

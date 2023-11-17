@@ -5,10 +5,10 @@ import {faFacebook, faInstagram, faLinkedin, faWhatsapp} from "@fortawesome/free
 import {useTranslation} from "react-i18next";
 
 
-function Footer() {
+function Footer({ containerHeight }) {
     const {t, i18n} = useTranslation();
     return (
-        <footer className="footer">
+        <footer style={{ top: `calc(${containerHeight}px - 100px)` }} className="footer">
             <div className="footer-content">
                 <div className="footer-links">
                        <a href="/">{t('footer.home')}</a>
