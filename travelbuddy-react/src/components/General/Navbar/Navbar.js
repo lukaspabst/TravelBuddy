@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
-import { Button } from '../Button/Button'
+import { Button } from '../../../Containers/Button/Button'
 import { useTranslation } from 'react-i18next';
-import {useAuth} from "../../Containers/Authentication/AuthProvider";
+import {useAuth} from "../../../Containers/Authentication/AuthProvider";
 import axios from "axios";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from "../../../config";
 
 
 function Navbar() {
@@ -50,7 +50,7 @@ function Navbar() {
             <header>
             <nav className='navbar'>
                 <div className='navbar-container'>
-                    <Link to='/' className='navbar-logo'>
+                    <Link reloadDocument  to='/' className='navbar-logo'>
                         <img src="/favicon.png" className="logo-image" />
                         TravelBuddy
                     </Link>
@@ -67,20 +67,25 @@ function Navbar() {
                                 </select>
                             </div>
                         <li className='nav-item'>
-                            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                            <Link reloadDocument  to='/' className='nav-links' onClick={closeMobileMenu}>
                                 {t('navbar.home')}
                             </Link>
                         </li>
                         <li className='nav-item'>
-                            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                            <Link reloadDocument  to='/' className='nav-links' onClick={closeMobileMenu}>
                                 {t('navbar.aboutUs')}
+                            </Link>
+                        </li>
+                        <li className='nav-item'>
+                            <Link reloadDocument  to='/MyTrips' className='nav-links' onClick={closeMobileMenu}>
+                                {t('navbar.MyTrips')}
                             </Link>
                         </li>
                     </ul>
                     {isLoggedIn ?
-                        <Button onClick={handleLogout} buttonStyle='btn--outline'>{t('navbar.logout')}</Button>
+                        <Button reloadDocument onClick={handleLogout} buttonStyle='btn--outline'>{t('navbar.logout')}</Button>
                         : (
-                        <Link to="/login">
+                        <Link reloadDocument to="/login">
                             {(button && <Button buttonStyle="btn--outline">{t('navbar.login')}</Button>)}
                         </Link>
                     )}

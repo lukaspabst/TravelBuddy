@@ -1,11 +1,11 @@
 import React from 'react';
-import './StartingBackground.scss';
+import './Background.scss';
 
 function BackgroundImage() {
     return (
         <header className="background-header">
         <div className="Image-Scaler">
-            <img src="/assets/Placeholder.png" alt="Bild" className="centered-image" />
+            <img src="/assets/BackgroundImages/Placeholder.png" alt="Bild" className="centered-image" />
         </div>
         </header>
     );

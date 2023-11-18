@@ -21,7 +21,8 @@
     "home": "Startseite",
     "aboutUs": "Über uns",
     "login": "Anmelden",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "MyTrips": "Meine Reisen"
   },
   "footer": {
     "home": "Startseite",
@@ -39,5 +40,22 @@
   },
     "home": {
         "startingButton":"Plane jetzt deine Reise"
+    },
+    "myTravels": {
+    "openTravels": "Offene Reisen",
+    "createTrip": "Reise erstellen",
+    "closedTravels": "Abgeschlossene Reisen"
+    },
+    "createTrip": {
+      "title": "Reise erstellen",
+      "tripNameLabel": "Reisename",
+      "startDateLabel": "Startdatum",
+      "endDateLabel": "Enddatum",
+      "destinationLabel": "Ziel",
+      "maxPersonsLabel": "Maximale Personen",
+      "maxPriceLabel": "Maximaler Preis",
+      "createTripButton": "Reise erstellen",
+      "goBackMessage": "Zurück zu",
+      "goBackLink": "Meine Reisen"
     }
 }

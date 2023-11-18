@@ -51,7 +51,7 @@ const TravelCarousel = () => {
                 <button onClick={handlePrev} className="carousel-button"><FontAwesomeIcon icon={faChevronLeft} /></button>
                 {travelData.slice(currentIndex, currentIndex + itemsToShow).map((travel, index) => (
                     <div className="travel-card" key={index}>
-                        <Link to={`/travel/${travel.travelId}`} className="travel-card-link">
+                        <Link reloadDocument to={`/travel/${travel.travelId}`} className="travel-card-link">
                             <div className="card-content">
                                 <img src={travel.image} alt={travel.title} className="travel-image" />
                                 <p className="travel-title">{travel.title}</p>

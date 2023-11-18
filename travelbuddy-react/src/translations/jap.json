@@ -21,7 +21,8 @@
     "home": "ホーム",
     "aboutUs": "会社情報",
     "login": "ログイン",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "MyTrips": "私の旅行"
   },
   "footer": {
     "home": "ホーム",
@@ -39,5 +40,22 @@
   },
   "home": {
     "startingButton": "今すぐ旅行を計画する"
+  },
+  "myTravels": {
+    "openTravels":  "開いた旅行",
+    "createTrip": "旅行を作成する",
+    "closedTravels": "閉じた旅行"
+  },
+  "createTrip": {
+    "title": "旅行を作成する",
+    "tripNameLabel": "旅行名",
+    "startDateLabel": "開始日",
+    "endDateLabel": "終了日",
+    "destinationLabel": "目的地",
+    "maxPersonsLabel": "最大人数",
+    "maxPriceLabel": "最大価格",
+    "createTripButton": "旅行を作成する",
+    "goBackMessage": "戻る",
+    "goBackLink": "私の旅行"
   }
 }

@@ -4,9 +4,9 @@ import './LoginForm.scss';
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import {useAuth} from "../Authentication/AuthProvider";
-import {Button} from "../../Components/Button/Button";
+import {Button} from "../Button/Button";
 import { API_BASE_URL } from "../../config";
-import BackgroundImage from "../../Components/Background/StartingBackground";
+import BackgroundImage from "../../Components/General/Background/StartingBackground";
 
 function LoginForm() {
     const [state, setState] = useState({

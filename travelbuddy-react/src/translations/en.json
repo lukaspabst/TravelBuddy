@@ -21,7 +21,8 @@
     "home": "Home",
     "aboutUs": "About us",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "MyTrips": "My Trips"
   },
   "footer": {
     "home": "Home",
@@ -39,5 +40,22 @@
   },
   "home": {
     "startingButton": "Plan Your Trip Now"
+  },
+  "myTravels": {
+    "openTravels": "Open Travels",
+    "createTrip":"Create Trip",
+    "closedTravels": "Closed Travels"
+  },
+  "createTrip": {
+    "title": "Create Trip",
+    "tripNameLabel": "Trip Name",
+    "startDateLabel": "Start Date",
+    "endDateLabel": "End Date",
+    "destinationLabel": "Destination",
+    "maxPersonsLabel": "Max Persons",
+    "maxPriceLabel": "Max Price",
+    "createTripButton": "Create Trip",
+    "goBackMessage": "Go back to",
+    "goBackLink": "My Trips"
   }
 }

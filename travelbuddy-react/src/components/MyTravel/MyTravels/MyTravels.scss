@@ -1,0 +1,14 @@
+.button-container {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.button-container Button {
+  margin-top: 15%;
+}

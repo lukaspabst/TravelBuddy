@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../../Containers/Authentication/AuthProvider";
 import axios from "axios";
 import { API_BASE_URL } from "../../config";
-import {Button} from "../../Components/Button/Button";
-import BackgroundImage from "../../Components/Background/StartingBackground";
+import {Button} from "../Button/Button";
+import BackgroundImage from "../../Components/General/Background/StartingBackground";
 
 function RegisterForm() {
     const { t } = useTranslation();

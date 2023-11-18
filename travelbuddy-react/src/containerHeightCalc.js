@@ -1,27 +1,36 @@
+// useContainerHeight.js
 import { useEffect, useState } from 'react';
 
 function useContainerHeight(ref) {
     const [containerHeight, setContainerHeight] = useState(0);
 
-    useEffect(() => {
-        const updateContainerHeight = () => {
-            if (ref.current) {
-                setContainerHeight(ref.current.clientHeight);
-            }
-        };
+    const updateContainerHeight = () => {
+        if (ref.current) {
+            setContainerHeight(ref.current.clientHeight);
+        }
+    };
 
+    useEffect(() => {
         updateContainerHeight(); // Initialisiere die Höhe
 
-        window.addEventListener('resize', updateContainerHeight);
+        const handleResize = () => {
+            updateContainerHeight();
+        };
+
+        window.addEventListener('resize', handleResize);
         window.addEventListener('popstate', updateContainerHeight);
 
         return () => {
-            window.removeEventListener('resize', updateContainerHeight);
+            window.removeEventListener('resize', handleResize);
             window.removeEventListener('popstate', updateContainerHeight);
         };
     }, [ref.current]);
 
-    return containerHeight;
+    const updateHeight = () => {
+        updateContainerHeight();
+    };
+
+    return { containerHeight, updateHeight };
 }
 
 export default useContainerHeight;
