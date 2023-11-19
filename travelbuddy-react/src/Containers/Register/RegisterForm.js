@@ -38,17 +38,13 @@ function RegisterForm() {
                 login();
                 navigate('/');
             } else if (response.status === 400) {
-                // Handle Bad Request (status 400) - Display an error message to the user
                 setState({ ...state, message: t('errorMessages.badRequest') });
             } else if (response.status === 500) {
-                // Handle Internal Server Error (status 500) - Display an error message to the user
                 setState({ ...state, message: t('errorMessages.internalServerError') });
             } else {
-                // Handle other cases if needed
                 setState({ ...state, message: t('errorMessages.registerError') });
             }
         } catch (error) {
-            // Handle network or other errors
             setState({ ...state, message: t('errorMessages.registerError') });
         }
     }
