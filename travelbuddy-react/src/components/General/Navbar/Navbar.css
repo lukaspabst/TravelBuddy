@@ -54,11 +54,23 @@
   
   .nav-item {
     height: 80px;
+    position: relative;
   }
-  .nav-item:hover {
-    border-bottom: 4px solid #fff;
-    transition: all 0.2s ease-out;
-  }
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  left:0;
+  height: 4px;
+  background-color: #125f8d;
+  transition: width 0.5s ease-out;
+}
+
+.nav-item:hover::before {
+  width: 100%;
+}
   
   .nav-links {
     color: #fff;

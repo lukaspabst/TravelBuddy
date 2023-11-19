@@ -8,7 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faImage, faPerson, faUser} from "@fortawesome/free-solid-svg-icons";
 import {useTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
-
+import { motion } from 'framer-motion';
 function OpenTrips() {
     const [userTrips, setUserTrips] = useState([]);
     const {t, i18n} = useTranslation();
@@ -39,13 +39,14 @@ function OpenTrips() {
     }, []);
 
     return (
+        <motion.div key="uniqueKey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <div className="StartPage-container">
             <TravelBackground />
             <div className="trips-container">
                 <h2> {t('myTravels.yourTrips')}</h2>
                 <br/>
                 {userTrips.map((trip) => (
-                    <Link reloadDocument to={`/trip/${trip.id}`}>
+                    <Link to={`/trip/${trip.id}`}>
                     <div key={trip.id} className="trip-card">
                         <div className="trip-info">
                             <div className="placeholder">
@@ -66,6 +67,7 @@ function OpenTrips() {
                 ))}
             </div>
         </div>
+        </motion.div>
     );
 }
 export default OpenTrips;

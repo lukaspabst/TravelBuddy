@@ -1,8 +1,8 @@
 .footer{
   width: 100%;
-  box-shadow: 0 0.5vw 1vw rgba(0.5, 0, 0, 0);
   z-index: 1;
-  position: absolute;
+  position: relative;
+  margin-top: -100px;
   left: 0;
   background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
   color: #fff;
@@ -10,7 +10,6 @@
   text-align: center;
   border-top: 3px solid rgba(15, 113, 169, 0.1);
   box-shadow: #242424 0px -1px 4px 0px;
-
 }
 
 .footer-content {

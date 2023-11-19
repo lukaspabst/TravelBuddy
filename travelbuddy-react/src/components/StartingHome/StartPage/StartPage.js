@@ -6,6 +6,7 @@ import {useAuth} from "../../../Containers/Authentication/AuthProvider";
 import {Button} from "../../../Containers/Button/Button";
 import BackgroundImage from "../../General/Background/StartingBackground";
 import TravelCarousel from "../TravelCarousel/TravelCarousel";
+import { motion } from 'framer-motion';
 
 function StartPage() {
     const { t } = useTranslation();
@@ -26,6 +27,7 @@ function StartPage() {
 
 
     return (
+        <motion.div key="uniqueKey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <div className="StartPage-content">
             <BackgroundImage />
             <div className="button-container-Start">
@@ -35,6 +37,7 @@ function StartPage() {
                 <TravelCarousel />
             </div>
         </div>
+        </motion.div>
     );
 }
 

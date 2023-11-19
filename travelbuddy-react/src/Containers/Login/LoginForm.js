@@ -7,7 +7,7 @@ import {useAuth} from "../Authentication/AuthProvider";
 import {Button} from "../Button/Button";
 import { API_BASE_URL } from "../../config";
 import BackgroundImage from "../../Components/General/Background/StartingBackground";
-
+import { motion } from 'framer-motion';
 function LoginForm() {
     const [state, setState] = useState({
         username: '',
@@ -50,6 +50,7 @@ function LoginForm() {
 
 function LoginFormContent({ handleSubmit, handleChange, state, t, navigate }) {
     return (
+        <motion.div key="uniqueKey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <div className="StartPage-content">
             <BackgroundImage />
                 <div className="login-form-container">
@@ -84,6 +85,7 @@ function LoginFormContent({ handleSubmit, handleChange, state, t, navigate }) {
                 <p className="errorMessages">{state.message}</p>
             </div>
         </div>
+        </motion.div>
     );
 }
 

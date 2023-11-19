@@ -54,7 +54,7 @@ function Navbar() {
             <header>
             <nav className='navbar'>
                 <div className='navbar-container'>
-                    <Link reloadDocument  to='/' className='navbar-logo'>
+                    <Link to='/' className='navbar-logo'>
                         <img src="/favicon.png" className="logo-image" />
                         TravelBuddy
                     </Link>
@@ -87,25 +87,25 @@ function Navbar() {
                             </div>
                         </li>
                         <li className='nav-item'>
-                            <Link reloadDocument  to='/' className='nav-links' onClick={closeMobileMenu}>
+                            <Link  to='/' className='nav-links' onClick={closeMobileMenu}>
                                 {t('navbar.home')}
                             </Link>
                         </li>
                         <li className='nav-item'>
-                            <Link reloadDocument  to='/' className='nav-links' onClick={closeMobileMenu}>
+                            <Link  to='/' className='nav-links' onClick={closeMobileMenu}>
                                 {t('navbar.aboutUs')}
                             </Link>
                         </li>
                         <li className='nav-item'>
-                            <Link reloadDocument  to='/MyTrips' className='nav-links' onClick={closeMobileMenu}>
+                            <Link  to='/MyTrips' className='nav-links' onClick={closeMobileMenu}>
                                 {t('navbar.MyTrips')}
                             </Link>
                         </li>
                     </ul>
                     {isLoggedIn ?
-                        <Button reloadDocument onClick={handleLogout} buttonStyle='btn--outline'>{t('navbar.logout')}</Button>
+                        <Button onClick={handleLogout} buttonStyle='btn--outline'>{t('navbar.logout')}</Button>
                         : (
-                        <Link reloadDocument to="/login">
+                        <Link to="/login">
                             {(button && <Button buttonStyle="btn--outline">{t('navbar.login')}</Button>)}
                         </Link>
                     )}

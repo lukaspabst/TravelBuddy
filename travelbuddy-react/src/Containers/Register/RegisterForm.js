@@ -7,7 +7,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../../config";
 import {Button} from "../Button/Button";
 import BackgroundImage from "../../Components/General/Background/StartingBackground";
-
+import { motion } from 'framer-motion';
 function RegisterForm() {
     const { t } = useTranslation();
     const { login } = useAuth();
@@ -60,6 +60,7 @@ function RegisterForm() {
 }
 function RegisterFormContent({ handleSubmit, handleChange, state, t }) {
     return (
+        <motion.div key="uniqueKey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <div className="StartPage-content">
         <BackgroundImage />
             <div className="register-form-container">
@@ -110,6 +111,7 @@ function RegisterFormContent({ handleSubmit, handleChange, state, t }) {
                 </p>
             </div>
         </div>
+        </motion.div>
     );
 }
 

@@ -1,7 +1,7 @@
-import React from 'react';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
-import './PageTransition.css';
 
+import React from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './PageTransition.css';
 
 const PageTransition = ({ children }) => {
     return (
@@ -16,4 +16,5 @@ const PageTransition = ({ children }) => {
         </TransitionGroup>
     );
 };
+
 export default PageTransition;

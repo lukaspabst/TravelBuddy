@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AuthProvider } from './Containers/Authentication/AuthProvider'; // Import AuthProvider
-import i18n from "./i18nConfig";
+import { AuthProvider } from './Containers/Authentication/AuthProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
