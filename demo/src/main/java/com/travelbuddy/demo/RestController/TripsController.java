@@ -1,8 +1,6 @@
 package com.travelbuddy.demo.RestController;
 
-import com.travelbuddy.demo.AdapterClasses.RoleChangeRequest;
-import com.travelbuddy.demo.AdapterClasses.TripMember;
-import com.travelbuddy.demo.AdapterClasses.TripRole;
+import com.travelbuddy.demo.AdapterClasses.*;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Services.TripsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,7 +21,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.travelbuddy.demo.Entities.Trips.mapFromTripsMainContent;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,15 +44,14 @@ public class TripsController {
     })
     @PostMapping
 
-    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true)@Valid @RequestBody Trips trip) {
+    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true)@Valid @RequestBody TripsMainContent tripsMainContent) {
 
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
-
+            Trips trip = mapFromTripsMainContent(tripsMainContent);
             TripMember adminMember = new TripMember(username, TripRole.Organizer, "Active");
             trip.addMember(adminMember);
-
             Trips createdTrip = tripsService.saveTrip(trip);
             log.info("Created a new trip with ID: {} for user: {}", createdTrip.getId(), username);
             return new ResponseEntity<>(createdTrip, HttpStatus.CREATED);
@@ -275,5 +278,67 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Operation(summary = "Get all trips for the current user that are open")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trips retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @GetMapping("/userTrips/open")
+    public ResponseEntity<List<UserTripsDto>> getUserTripsOpen() {
+        try {
+            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
+            List<UserTripsDto> userTripsDtoList = userTrips.stream()
+                    .filter(trip -> {
+                        LocalDate endDate = LocalDate.parse(trip.getEnddate());
+                        return endDate != null && endDate.isAfter(LocalDate.now());
+                    })
+                    .sorted(Comparator.comparing(trip -> LocalDate.parse(trip.getEnddate())))
+                    .map(trip -> new UserTripsDto(
+                            trip.getId(),
+                            trip.getNameTrip(),
+                            trip.getMaxPersons(),
+                            trip.getStartdate(),
+                            trip.getEnddate()
+                    ))
+                    .collect(Collectors.toList());
 
+            return new ResponseEntity<>(userTripsDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error getting user trips: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "Get all trips for the current user that are closed")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trips retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @GetMapping("/userTrips/closed")
+    public ResponseEntity<List<UserTripsDto>> getUserTripsClosed() {
+        try {
+            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
+            List<UserTripsDto> userTripsDtoList = userTrips.stream()
+                    .filter(trip -> {
+                        LocalDate endDate = LocalDate.parse(trip.getEnddate());
+                        return endDate != null && endDate.isBefore(LocalDate.now());
+                    })
+                    .map(trip -> new UserTripsDto(
+                            trip.getId(),
+                            trip.getNameTrip(),
+                            trip.getMaxPersons(),
+                            trip.getStartdate(),
+                            trip.getEnddate()
+                    ))
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(userTripsDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error getting user trips: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

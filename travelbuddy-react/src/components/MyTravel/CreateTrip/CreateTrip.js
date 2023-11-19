@@ -23,14 +23,24 @@ function CreateTrip() {
     const handleChange = (e) => {
         setState({ ...state, [e.target.name]: e.target.value });
     }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { tripName, startDate, endDate, destination, maxPersons, maxPrice } = state;
 
+
+
         try {
             const response = await axios.post(
                 `${API_BASE_URL}/api/trips`,
-                { tripName, startDate, endDate, destination, maxPersons, maxPrice },
+                {
+                    tripName,
+                    startDate,
+                    endDate,
+                    destination,
+                    maxPersons,
+                    maxPrice
+                },
                 { withCredentials: true }
             );
 

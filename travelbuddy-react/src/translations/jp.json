@@ -44,7 +44,8 @@
   "myTravels": {
     "openTravels":  "開いた旅行",
     "createTrip": "旅行を作成する",
-    "closedTravels": "閉じた旅行"
+    "closedTravels": "閉じた旅行",
+    "yourTrips": "あなたの旅行"
   },
   "createTrip": {
     "title": "旅行を作成する",

@@ -44,7 +44,8 @@
   "myTravels": {
     "openTravels": "Open Travels",
     "createTrip":"Create Trip",
-    "closedTravels": "Closed Travels"
+    "closedTravels": "Closed Travels",
+    "yourTrips": "Your Trips"
   },
   "createTrip": {
     "title": "Create Trip",

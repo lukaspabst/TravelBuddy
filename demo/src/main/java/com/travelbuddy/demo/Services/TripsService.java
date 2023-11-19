@@ -6,6 +6,8 @@ import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Repository.TripsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -146,6 +148,14 @@ public class TripsService {
         } catch (Exception e) {
             log.error("Error changing user role in trip: {}", e.getMessage(), e);
             return null;
+        }
+    }
+    public List<Trips> getUserTrips(String username) {
+        try {
+            return tripsRepo.findByMembersUsername(username);
+        } catch (Exception e) {
+            log.error("Error getting user trips: {}", e.getMessage(), e);
+            throw e;
         }
     }
 }

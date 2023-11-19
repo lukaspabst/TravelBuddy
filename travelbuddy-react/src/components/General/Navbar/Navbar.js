@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import {useAuth} from "../../../Containers/Authentication/AuthProvider";
 import axios from "axios";
 import { API_BASE_URL } from "../../../config";
+import {languageNames} from "../../../i18nConfig";
 
 
 function Navbar() {
@@ -18,10 +19,13 @@ function Navbar() {
     const { isLoggedIn, logout } = useAuth();
 
     const {t, i18n} = useTranslation();
+    const languageName = languageNames[i18n.language];
 
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
+    const changeLanguage = (language) => {
+        i18n.changeLanguage(language);
+        localStorage.setItem('selectedLanguage', language);
     };
+
     const handleLogout = () => {
             const checkToken = async () => {
                 try {
@@ -58,14 +62,30 @@ function Navbar() {
                         <FontAwesomeIcon icon={faBars} />
                     </div>
                     <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+                        <li className='nav-item'>
                             <div className="language-selector">
-                                <select className="language-select" onChange={(e) => changeLanguage(e.target.value)}
-                                        value={i18n.language}>
-                                    <option value="en" className="language-option">English</option>
-                                    <option value="de" className="language-option">Deutsch</option>
-                                    <option value="jap" className="language-option">Japanese</option>
-                                </select>
+                                <div className="selected-language" onClick={() => changeLanguage(i18n.language)}>
+                                    <img src={`/assets/Flaggs/${i18n.language}.png`} alt={i18n.language} />
+                                    <span>{languageName}</span>
+                                </div>
+                                <div className="language-dropdown">
+                                    <ul className="language-list">
+                                        <li className="language-list-item" onClick={() => changeLanguage('de')}>
+                                            <img src="/assets/Flaggs/de.png" alt="German" />
+                                            <span>German</span>
+                                        </li>
+                                        <li className="language-list-item" onClick={() => changeLanguage('jp')}>
+                                            <img src="/assets/Flaggs/jp.png" alt="Japanese" />
+                                            <span>Japanese</span>
+                                        </li>
+                                        <li className="language-list-item" onClick={() => changeLanguage('gb')}>
+                                            <img src="/assets/Flaggs/gb.png" alt="English" />
+                                            <span>English</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
+                        </li>
                         <li className='nav-item'>
                             <Link reloadDocument  to='/' className='nav-links' onClick={closeMobileMenu}>
                                 {t('navbar.home')}

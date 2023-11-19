@@ -18,7 +18,7 @@ function MyTravels() {
                 <Link to="/travel">
                     <Button buttonStyle="btn--large-image">{t('myTravels.createTrip')}</Button>
                 </Link>
-                <Link to="/pastTrips">
+                <Link to="/pastTravels">
                     <Button buttonStyle="btn--large-image">{t('myTravels.closedTravels')}</Button>
                 </Link>
             </div>

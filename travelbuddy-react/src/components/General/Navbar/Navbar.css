@@ -80,77 +80,72 @@
   .menu-icon {
     display: none;
   }
-
-
-
 .language-selector {
   position: relative;
   cursor: pointer;
   height: 80px;
   color: #fff;
   display: flex;
-  flex-direction: column;
+  align-items: center; /* Center items vertically */
 }
-
-.language-selector select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: transparent;
-  color: #fff;
-  outline: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-  border: none;
-  padding: 0.5rem 0.5rem;
-
-  height: 100%;
-}
-
 .language-selector:hover {
-  border-bottom: 4px solid #fff;
-  transition: all 0.2s ease-out;
-}
-.language-selector:hover select{
   color: #125f8d;
   transition: all 0.2s ease-out;
 }
 
-.language-dropdown {
-  position: absolute;
-  right: 0;
-  overflow: hidden;
-  font-size: 16px;
-  border: none;
-  top:200%;
-
+.selected-language {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.5rem;
+  border-bottom: 4px solid transparent;
+  transition: all 0.2s ease-out;
 }
 
-.language-selector.open .language-dropdown {
-  display: flex; /* Änderung: Anpassung der Anzeige auf flex */
-  flex-direction: column; /* Änderung: Flexbox jetzt vertikal */
+.selected-language img {
+  margin-right: 8px;
+  border-radius: 5px;
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+}
+
+.language-selector:hover .language-dropdown {
+  display: block;
 }
 
 .language-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  border: 1px solid #fff; /* Add a border between items */
+  border-radius: 0 10px 10px 10px;
 }
 
 .language-list-item {
+  display: flex;
   cursor: pointer;
   color: #fff;
   transition: all 0.3s ease-out;
   padding: 0.5rem 0.5rem;
+  border-bottom: 1px solid #fff;
+}
+.language-list-item:last-child {
+  border-bottom: none;
 }
 
-.language-option {
-  display: flex;
-  background: rgb(26, 23, 23) 100%;
-  font-size: 1rem;
-  text-align: left;
+.language-list-item img {
+  border-radius: 5px;
+  margin-right: 8px; /* Adjust margin as needed */
 }
 
+.language-list-item:hover {
+  color: #125f8d;
+}
 .logo-image {
   width: 120px;
   height: 80px;

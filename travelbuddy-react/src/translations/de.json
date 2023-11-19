@@ -44,7 +44,8 @@
     "myTravels": {
     "openTravels": "Offene Reisen",
     "createTrip": "Reise erstellen",
-    "closedTravels": "Abgeschlossene Reisen"
+    "closedTravels": "Abgeschlossene Reisen",
+    "yourTrips": "Deine Reisen"
     },
     "createTrip": {
       "title": "Reise erstellen",
