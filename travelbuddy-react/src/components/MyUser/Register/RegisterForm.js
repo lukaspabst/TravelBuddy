@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import './RegisterForm.scss';
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../Containers/Authentication/AuthProvider";
+import { useAuth } from "../../../Containers/Authentication/AuthProvider";
 import axios from "axios";
-import { API_BASE_URL } from "../../config";
-import {Button} from "../Button/Button";
-import BackgroundImage from "../../Components/General/Background/StartingBackground";
+import { API_BASE_URL } from "../../../config";
+import {Button} from "../../../Containers/Button/Button";
+import BackgroundImage from "../../General/Background/StartingBackground";
 import { motion } from 'framer-motion';
 function RegisterForm() {
     const { t } = useTranslation();

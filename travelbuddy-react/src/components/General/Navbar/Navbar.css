@@ -55,6 +55,8 @@
   .nav-item {
     height: 80px;
     position: relative;
+    display:flex;
+    align-items: center;
   }
 
 .nav-item::before {
@@ -68,7 +70,7 @@
   transition: width 0.5s ease-out;
 }
 
-.nav-item:hover::before {
+.nav-item:not(:last-child):hover::before {
   width: 100%;
 }
   
@@ -98,7 +100,7 @@
   height: 80px;
   color: #fff;
   display: flex;
-  align-items: center; /* Center items vertically */
+  align-items: center;
 }
 .language-selector:hover {
   color: #125f8d;
@@ -134,7 +136,7 @@
   padding: 0;
   margin: 0;
   background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
-  border: 1px solid #fff; /* Add a border between items */
+  border: 1px solid #fff;
   border-radius: 0 10px 10px 10px;
 }
 
@@ -145,6 +147,7 @@
   transition: all 0.3s ease-out;
   padding: 0.5rem 0.5rem;
   border-bottom: 1px solid #fff;
+  white-space: nowrap;
 }
 .language-list-item:last-child {
   border-bottom: none;
@@ -152,12 +155,74 @@
 
 .language-list-item img {
   border-radius: 5px;
-  margin-right: 8px; /* Adjust margin as needed */
+  margin-right: 8px;
 }
 
 .language-list-item:hover {
   color: #125f8d;
 }
+
+.user-profile {
+  position: relative;
+  cursor: pointer;
+  height: 80px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.user-profile:hover {
+  color: #125f8d;
+  transition: all 0.5s ease-out;
+}
+.user-profile:hover img {
+  scale: 1.05;
+  transition: all 0.5s ease-out;
+}
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+}
+
+.user-profile:hover .profile-dropdown {
+  display: block;
+}
+
+.profile-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  border: 1px solid #fff;
+  border-radius: 0 10px 10px 10px;
+}
+
+.profile-menu-item {
+  display: flex;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s ease-out;
+  padding: 0.5rem 0.5rem;
+  border-bottom: 1px solid #fff;
+  white-space: nowrap;
+}
+
+.profile-menu-item:last-child {
+  border-bottom: none;
+}
+
+.profile-menu-item:hover {
+  color: #125f8d;
+}
+
 .logo-image {
   width: 120px;
   height: 80px;

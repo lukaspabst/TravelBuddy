@@ -1,5 +1,6 @@
 package com.travelbuddy.demo.RestController;
 
+import com.travelbuddy.demo.AdapterClasses.UserProfileDTO;
 import com.travelbuddy.demo.Entities.User;
 import com.travelbuddy.demo.Secruity.ServiceSec.AuthenticationService;
 import com.travelbuddy.demo.Secruity.ServiceSec.JwtService;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,21 +31,26 @@ public class UserController {
     private final UserSecService userSecService;
 
     private final JwtService service;
-    @GetMapping("/{username}")
-    @Operation(summary = "Get a user by username")
+    @GetMapping("/profile")
+    @Operation(summary = "Get the current user profile")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User found"),
-            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "200", description = "User profile found"),
+            @ApiResponse(responseCode = "404", description = "User profile not found"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+    public ResponseEntity<UserProfileDTO> getCurrentUserProfile() {
         try {
-            User user = userService.findByUsername(username);
-            if (user != null) {
-                return ResponseEntity.ok(user);
-            } else {
-                return ResponseEntity.notFound().build();
+
+            String currentUsername = getCurrentUsername();
+            log.error(getCurrentUsername());
+            User user = userService.findByUsername(currentUsername);
+            UserProfileDTO userProfileDTO;
+            if(user != null) {
+                 userProfileDTO = new UserProfileDTO( user.getFirstName(), user.getLastName(), user.getPicture(), user.getPreferences(), user.getTravelDestination(), user.getSocialMediaLinks(), user.getGender());
+            }else{
+                 userProfileDTO= new UserProfileDTO("","","","","","","");
             }
+            return ResponseEntity.ok(userProfileDTO);
         } catch (Exception e) {
             log.error("An error occurred while processing the request.", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -109,6 +116,15 @@ public class UserController {
             log.error("An error occurred while processing the request.", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the request.");
 
+        }
+    }
+    private String getCurrentUsername() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
         }
     }
 }

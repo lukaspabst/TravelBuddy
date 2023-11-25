@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './CreateTrip.scss';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-
+import { motion } from 'framer-motion';
 import TravelBackground from "../../General/Background/TravelBackground";
 import {API_BASE_URL} from "../../../config";
 import {Button} from "../../../Containers/Button/Button";
@@ -73,6 +73,7 @@ function CreateTripFormContent({ handleSubmit, handleChange, state, t }) {
     return (
         <div className="StartPage-content">
             <TravelBackground />
+            <div className="create-trip-container">
             <div className="create-trip-form-container">
                 <h1>{t('createTrip.title')}</h1>
                 <form onSubmit={handleSubmit}>
@@ -147,6 +148,7 @@ function CreateTripFormContent({ handleSubmit, handleChange, state, t }) {
                     </Link>
                 </p>
             </div>
+        </div>
         </div>
     );
 }

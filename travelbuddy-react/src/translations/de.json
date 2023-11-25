@@ -22,7 +22,10 @@
     "aboutUs": "Über uns",
     "login": "Anmelden",
     "logout": "Abmelden",
-    "MyTrips": "Meine Reisen"
+    "MyTrips": "Meine Reisen",
+    "MyProfile": "Mein Profil",
+    "Settings": "Einstellungen",
+    "Support": "Support"
   },
   "footer": {
     "home": "Startseite",
@@ -58,5 +61,29 @@
       "createTripButton": "Reise erstellen",
       "goBackMessage": "Zurück zu",
       "goBackLink": "Meine Reisen"
-    }
+    },
+  "userProfile": {
+    "title": "Dein Profil",
+    "name": "Vorname",
+    "surname": "Nachname",
+    "preferences": "Präferenzen",
+    "travelDestinations": "Reiseziele",
+    "socialMedia": "Soziale Medien",
+    "gender": "Geschlecht",
+    "uploadAvatar": "Avatar hochladen",
+    "location": "Wohnort",
+    "zipCode": "Postleitzahl",
+    "aboutMe": "Über mich",
+    "birthday": "Geburtstag",
+    "usernameLabel": "Benutzername",
+    "emailLabel": "E-Mail",
+    "handyLabel": "Handy",
+    "changePasswordButton": "Passwort ändern",
+    "changePasswordTitle": "Passwort ändern",
+    "oldPasswordLabel": "Altes Passwort",
+    "newPasswordLabel": "Neues Passwort",
+    "confirmPasswordLabel": "Passwort bestätigen",
+    "goBackMessage": "Zurück zu",
+    "goBackLink": "Meine Reisen"
+  }
 }

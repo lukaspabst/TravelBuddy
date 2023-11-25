@@ -22,7 +22,10 @@
     "aboutUs": "会社情報",
     "login": "ログイン",
     "logout": "ログアウト",
-    "MyTrips": "私の旅行"
+    "MyTrips": "私の旅行",
+    "MyProfile": "私のプロフィール",
+    "Settings": "設定",
+    "Support": "サポート"
   },
   "footer": {
     "home": "ホーム",

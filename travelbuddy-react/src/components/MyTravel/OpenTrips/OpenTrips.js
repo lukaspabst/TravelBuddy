@@ -7,18 +7,23 @@ import './OpenTrips.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faImage, faPerson, faUser} from "@fortawesome/free-solid-svg-icons";
 import {useTranslation} from "react-i18next";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { motion } from 'framer-motion';
+import AnimationFlash from "../../../Containers/Animations/PageTransitionAnimations/AnimationFlash";
+// ... (import statements)
+
 function OpenTrips() {
     const [userTrips, setUserTrips] = useState([]);
-    const {t, i18n} = useTranslation();
-
+    const { t, i18n } = useTranslation();
+    const navigation = useNavigate();
+    const handleTripClick = (trip) => {
+        localStorage.setItem('selectedTrip', JSON.stringify(trip));
+    };
     useEffect(() => {
         const fetchUserTrips = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/api/trips/userTrips/open`,   { withCredentials: true });
+                const response = await axios.get(`${API_BASE_URL}/api/trips/userTrips/open`, { withCredentials: true });
                 const tripsData = response.data;
-
                 const formattedTrips = tripsData.map((trip) => {
                     return new TripDTO(
                         trip.id,
@@ -39,35 +44,42 @@ function OpenTrips() {
     }, []);
 
     return (
-        <motion.div key="uniqueKey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-        <div className="StartPage-container">
-            <TravelBackground />
-            <div className="trips-container">
-                <h2> {t('myTravels.yourTrips')}</h2>
-                <br/>
-                {userTrips.map((trip) => (
-                    <Link to={`/trip/${trip.id}`}>
-                    <div key={trip.id} className="trip-card">
-                        <div className="trip-info">
-                            <div className="placeholder">
-                                <img src="/assets/ImagePlaceHolder.png" alt="Placeholder" />
+        <AnimationFlash>
+            <div className="StartPage-container">
+                <TravelBackground />
+                <div className="trips-container">
+                    <h2>{t('myTravels.yourTrips')}</h2>
+                    <br />
+                    {userTrips.map((trip) => (
+                        <Link
+                            to={{
+                                pathname: `/trip/${trip.id}`
+                            }}
+                            onClick={() => handleTripClick(trip)}
+                        >
+                            <div key={trip.id} className="trip-card">
+                                <div className="trip-info">
+                                    <div className="placeholder">
+                                        <img src="/assets/ImagePlaceHolder.png" alt="Placeholder" />
+                                    </div>
+                                    <div className="trip-name">{trip.name}</div>
+                                    <div className="max-persons">
+                                        <i data-number={trip.maxPersons}>
+                                            <FontAwesomeIcon icon={faPerson} size="2xl" />
+                                        </i>
+                                    </div>
+                                    <div className="dates">
+                                        <div>{trip.startDate || 'N/A'}</div>
+                                        <div>{trip.endDate || 'N/A'}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="trip-name">{trip.name}</div>
-                            <div className="max-persons">
-                                <i data-number={trip.maxPersons}>
-                                    <FontAwesomeIcon icon={faPerson} size="2xl"/></i>
-                            </div>
-                            <div className="dates">
-                                <div>{trip.startDate || 'N/A'}</div>
-                                <div>{trip.endDate || 'N/A'}</div>
-                            </div>
-                        </div>
-                    </div>
-                    </Link>
-                ))}
+                        </Link>
+                    ))}
+                </div>
             </div>
-        </div>
-        </motion.div>
+        </AnimationFlash>
     );
 }
+
 export default OpenTrips;

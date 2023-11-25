@@ -22,7 +22,11 @@
     "aboutUs": "About us",
     "login": "Login",
     "logout": "Logout",
-    "MyTrips": "My Trips"
+    "MyTrips": "My Trips",
+    "MyProfile": "My Profile",
+    "Settings": "Settings",
+    "Support": "Support"
+
   },
   "footer": {
     "home": "Home",

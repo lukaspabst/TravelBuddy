@@ -7,6 +7,9 @@ import {Button} from "../../../Containers/Button/Button";
 import BackgroundImage from "../../General/Background/StartingBackground";
 import TravelCarousel from "../TravelCarousel/TravelCarousel";
 import { motion } from 'framer-motion';
+import AnimatedTripCard from "../../../Containers/Animations/PageTransitionAnimations/AnimationTrip";
+import AnimationFlash from "../../../Containers/Animations/PageTransitionAnimations/AnimationFlash";
+import AnimationLogo from "../../../Containers/Animations/PageTransitionAnimations/AnimationLogo";
 
 function StartPage() {
     const { t } = useTranslation();
@@ -27,7 +30,7 @@ function StartPage() {
 
 
     return (
-        <motion.div key="uniqueKey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <AnimationFlash>
         <div className="StartPage-content">
             <BackgroundImage />
             <div className="button-container-Start">
@@ -37,7 +40,7 @@ function StartPage() {
                 <TravelCarousel />
             </div>
         </div>
-        </motion.div>
+        </AnimationFlash>
     );
 }
 

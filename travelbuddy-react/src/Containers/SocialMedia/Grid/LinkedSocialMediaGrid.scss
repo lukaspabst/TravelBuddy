@@ -1,0 +1,12 @@
+.linked-social-media-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.linked-media-item {
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 4px;
+}

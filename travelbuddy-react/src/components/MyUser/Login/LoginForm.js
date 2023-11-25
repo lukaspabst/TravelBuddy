@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import './LoginForm.scss';
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import {useAuth} from "../Authentication/AuthProvider";
-import {Button} from "../Button/Button";
-import { API_BASE_URL } from "../../config";
-import BackgroundImage from "../../Components/General/Background/StartingBackground";
+import {useAuth} from "../../../Containers/Authentication/AuthProvider";
+import {Button} from "../../../Containers/Button/Button";
+import { API_BASE_URL } from "../../../config";
+import BackgroundImage from "../../General/Background/StartingBackground";
 import { motion } from 'framer-motion';
 function LoginForm() {
     const [state, setState] = useState({

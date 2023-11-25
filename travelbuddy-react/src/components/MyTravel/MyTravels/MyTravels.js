@@ -4,12 +4,12 @@ import {Button} from "../../../Containers/Button/Button";
 import React from "react";
 import TravelBackground from "../../General/Background/TravelBackground";
 import './MyTravels.scss';
-import { motion } from 'framer-motion';
+import AnimationFlash from "../../../Containers/Animations/PageTransitionAnimations/AnimationFlash";
 function MyTravels() {
     const { t } = useTranslation();
 
     return (
-        <motion.div key="uniqueKey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <AnimationFlash>
         <div className="StartPage-content">
             <TravelBackground />
             <div className="button-container">
@@ -24,7 +24,7 @@ function MyTravels() {
                 </Link>
             </div>
         </div>
-        </motion.div>
+        </AnimationFlash>
     );
 }
 

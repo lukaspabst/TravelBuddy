@@ -21,6 +21,8 @@ function Navbar() {
     const {t, i18n} = useTranslation();
     const languageName = languageNames[i18n.language];
 
+    const [profileMenu, setProfileMenu] = useState(false);
+
     const changeLanguage = (language) => {
         i18n.changeLanguage(language);
         localStorage.setItem('selectedLanguage', language);
@@ -96,19 +98,49 @@ function Navbar() {
                                 {t('navbar.aboutUs')}
                             </Link>
                         </li>
-                        <li className='nav-item'>
-                            <Link  to='/MyTrips' className='nav-links' onClick={closeMobileMenu}>
-                                {t('navbar.MyTrips')}
-                            </Link>
+                        {isLoggedIn && (
+                            <li className='nav-item'>
+                                <div className="user-profile">
+                                    <img src="/assets/pb_placeholder.png" alt="Profile" className="profile-image" />
+                                    <div className="profile-dropdown">
+                                        <ul className="profile-menu">
+                                            <li className="profile-menu-item">
+                                                <Link  to='/MyProfile' className='nav-links' onClick={closeMobileMenu}>
+                                                    {t('navbar.MyProfile')}
+                                                </Link>
+                                            </li>
+                                            <li className="profile-menu-item">
+                                                <Link  to='/MyTrips' className='nav-links' onClick={closeMobileMenu}>
+                                                    {t('navbar.MyTrips')}
+                                                </Link>
+                                            </li>
+                                            <li className="profile-menu-item">
+                                                <Link  to='/Settings' className='nav-links' onClick={closeMobileMenu}>
+                                                    {t('navbar.Settings')}
+                                                </Link>
+                                            </li>
+                                            <li className="profile-menu-item">
+                                                <Link  to='/Support' className='nav-links' onClick={closeMobileMenu}>
+                                                    {t('navbar.Support')}
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        )}
+                        <li>
+                            <div className="nav-item">
+                                {isLoggedIn ?
+                                    <Button onClick={handleLogout} buttonStyle='btn--outline'>{t('navbar.logout')}</Button>
+                                    : (
+                                        <Link to="/login">
+                                            {(button && <Button buttonStyle="btn--outline">{t('navbar.login')}</Button>)}
+                                        </Link>
+                                    )}
+                            </div>
                         </li>
                     </ul>
-                    {isLoggedIn ?
-                        <Button onClick={handleLogout} buttonStyle='btn--outline'>{t('navbar.logout')}</Button>
-                        : (
-                        <Link to="/login">
-                            {(button && <Button buttonStyle="btn--outline">{t('navbar.login')}</Button>)}
-                        </Link>
-                    )}
                 </div>
             </nav>
             </header>

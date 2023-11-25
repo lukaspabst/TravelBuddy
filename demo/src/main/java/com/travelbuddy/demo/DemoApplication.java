@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		description = "Beschreibung meiner API"
 ))
 @Server(url = "http://localhost:8080")
-public class DemoApplication {
+public class  DemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}

@@ -99,24 +99,18 @@ p {
   overflow-x: hidden;
   flex-direction: column;
 }
-.fade-enter {
-  opacity: 0;
-  transform: translateX(-100%);
+body {
+  scrollbar-width: thin; /* Für Firefox */
+  scrollbar-color: #0f71a9 transparent; /* Für Firefox */
 }
 
-.fade-enter-active {
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 300ms, transform 300ms;
+/* Für Webkit-basierte Browser (Chrome, Safari, Opera) und Microsoft Edge */
+::-webkit-scrollbar {
+  width: 8px; /* Breite der Scrollleiste */
+
 }
 
-.fade-exit {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.fade-exit-active {
-  opacity: 0;
-  transform: translateX(100%);
-  transition: opacity 300ms, transform 300ms;
+::-webkit-scrollbar-thumb {
+  background-color: #0f71a9; /* Farbe des Scrollbalkens */
+  border-radius: 5px;
 }
