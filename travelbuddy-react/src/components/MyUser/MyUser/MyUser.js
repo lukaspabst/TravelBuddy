@@ -9,6 +9,7 @@ import {API_BASE_URL} from "../../../config";
 import {Button} from "../../../Containers/Button/Button";
 import SocialMediaDropdown from "../../../Containers/SocialMedia/Dropdown/SocialMediaDropdown";
 import LinkedSocialMediaGrid from "../../../Containers/SocialMedia/Grid/LinkedSocialMediaGrid";
+import SocialMediaInterface from "../../../Containers/SocialMedia/SocialMediaInterface/SocialMediaInterface";
 
 function MyUser() {
     const { t } = useTranslation();
@@ -50,26 +51,7 @@ function MyUser() {
     );
 }
 function UserProfileContent({ userData, t }) {
-    const [selectedSocialMedia, setSelectedSocialMedia] = useState('');
-    const [linkedSocialMedia, setLinkedSocialMedia] = useState([]);
 
-    const socialMediaOptions = [
-        { value: 'facebook', label: 'Facebook' },
-        { value: 'twitter', label: 'Twitter' },
-        { value: 'instagram', label: 'Instagram' },
-        // Weitere soziale Medien hinzufügen
-    ];
-
-    const handleSocialMediaChange = (value) => {
-        setSelectedSocialMedia(value);
-    };
-
-    const handleAddSocialMedia = () => {
-        if (selectedSocialMedia) {
-            setLinkedSocialMedia([...linkedSocialMedia, { label: selectedSocialMedia, link: '' }]);
-            setSelectedSocialMedia('');
-        }
-    };
     return (
         <AnimationFlash>
             <div className="StartPage-content">
@@ -91,14 +73,12 @@ function UserProfileContent({ userData, t }) {
                                         type="text"
                                         id="firstName"
                                         value={userData.name}
-                                        // Hier können Sie eine Funktion zum Aktualisieren des Datenmodells hinzufügen
                                     />
                                     <label htmlFor="location">{t('userProfile.location')}</label>
                                     <input
                                         type="text"
                                         id="location"
                                         value={userData.location}
-                                        // Hier können Sie eine Funktion zum Aktualisieren des Datenmodells hinzufügen
                                     />
                                 </div>
                                 <div className="user-profile-right">
@@ -107,29 +87,19 @@ function UserProfileContent({ userData, t }) {
                                         type="text"
                                         id="lastName"
                                         value={userData.surname}
-                                        // Hier können Sie eine Funktion zum Aktualisieren des Datenmodells hinzufügen
                                     />
                                     <label htmlFor="zipCode">{t('userProfile.zipCode')}</label>
                                     <input
                                         type="text"
                                         id="zipCode"
                                         value={userData.zipCode}
-                                        // Hier können Sie eine Funktion zum Aktualisieren des Datenmodells hinzufügen
                                     />
                                 </div>
                                 </div>
-                                <div>
-                                    <label htmlFor="socialMediaLinks">{t('userProfile.socialMedia')}</label>
-                                    <SocialMediaDropdown
-                                        options={socialMediaOptions}
-                                        value={selectedSocialMedia}
-                                        onChange={handleSocialMediaChange}
-                                    />
-                                    <Button buttonStyle="btn--small-avatar" onClick={handleAddSocialMedia}>
-                                        {t('userProfile.addSocialMedia')}
-                                    </Button>
+                            </div>
+                                <div className="">
+                                    <SocialMediaInterface />
                                 </div>
-                                <LinkedSocialMediaGrid linkedMedia={linkedSocialMedia} />
 
                                 <div>
                                     <label htmlFor="preferences">{t('userProfile.preferences')}</label>
@@ -137,7 +107,6 @@ function UserProfileContent({ userData, t }) {
                                         type="text"
                                         id="preferences"
                                         value={userData.preferences}
-                                        // Hier können Sie eine Funktion zum Aktualisieren des Datenmodells hinzufügen
                                     />
                                 </div>
                                 <div>
@@ -146,7 +115,6 @@ function UserProfileContent({ userData, t }) {
                                         type="text"
                                         id="travelDestination"
                                         value={userData.travelDestination}
-                                        // Hier können Sie eine Funktion zum Aktualisieren des Datenmodells hinzufügen
                                     />
                                 </div>
                                 <div>
@@ -155,13 +123,11 @@ function UserProfileContent({ userData, t }) {
                                         type="text"
                                         id="gender"
                                         value={userData.gender}
-                                        // Hier können Sie eine Funktion zum Aktualisieren des Datenmodells hinzufügen
                                     />
                                 </div>
                             <Button buttonStyle="btn--outline" onClick={() => console.log('Edit profile clicked')}>
                                 {t('userProfile.editProfileButton')}
                             </Button>
-                        </div>
                     </div>
                 </div>
         </AnimationFlash>
