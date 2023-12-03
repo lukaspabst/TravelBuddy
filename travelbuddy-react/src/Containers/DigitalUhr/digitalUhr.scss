@@ -1,7 +1,7 @@
 
 :root {
-  --shadow-1: #aeb6bf; /* Beispielwert, anpassen nach Bedarf */
-  --shadow-2: #34495e; /* Beispielwert, anpassen nach Bedarf */
+  --shadow-1: #aeb6bf;
+  --shadow-2: #34495e;
 }
 
 .date,
@@ -11,7 +11,7 @@
 .colon {
   text-align: center;
   color: var(--text);
-  text-shadow: 0 0 1px var(--shadow-1), 0 0 1px var(--shadow-2), 0 0 1px var(--shadow-2), 0 0 15px rgba(255, 255, 255, 0.5); /* Shining-Effekt mit reduzierter Intensität */
+  text-shadow: 0 0 1px var(--shadow-1), 0 0 2px var(--shadow-2), 0 0 3px var(--shadow-2), 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
 .date {
