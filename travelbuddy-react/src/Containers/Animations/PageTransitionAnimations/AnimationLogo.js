@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
 const blackBox = {
     initial: {
@@ -40,7 +40,7 @@ const text = {
     },
 };
 
-const AnimatedLogo = ({ children }) => {
+const AnimatedLogo = ({children}) => {
     return (
         <motion.div
             className="absolute flex items-center justify-center w-full bg-black"
@@ -59,7 +59,7 @@ const AnimatedLogo = ({ children }) => {
                     height={800}
                     className="text-white"
                 >
-                    <rect className="w-full h-full fill-current" />
+                    <rect className="w-full h-full fill-current"/>
                     <motion.rect
                         variants={text}
                         className="w-full h-full text-gray-600 fill-current"
@@ -70,7 +70,7 @@ const AnimatedLogo = ({ children }) => {
                     textAnchor="middle"
                     x="50%"
                     y="50%"
-                    style={{ fill: "url(#pattern)" }}
+                    style={{fill: "url(#pattern)"}}
                 >
                     tailstore
                 </text>

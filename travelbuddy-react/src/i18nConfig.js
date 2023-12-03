@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import {initReactI18next} from 'react-i18next';
 import languageNames from './translations/languageNames.json';
 
 i18n
@@ -23,5 +23,5 @@ i18n
         lng: localStorage.getItem('selectedLanguage') || 'gb',
     });
 
-export { languageNames };
+export {languageNames};
 export default i18n;

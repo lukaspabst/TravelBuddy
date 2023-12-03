@@ -1,7 +1,6 @@
 package com.travelbuddy.demo.Secruity.ServiceSec;
 
 import com.travelbuddy.demo.Entities.UserSecurity;
-
 import com.travelbuddy.demo.Exceptions.LoginFailedException;
 import com.travelbuddy.demo.Secruity.Infrastructure.AuthenticationResponse;
 import com.travelbuddy.demo.Secruity.Infrastructure.LoginRequest;
@@ -14,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -66,6 +66,7 @@ public class AuthenticationService {
             throw new LoginFailedException("Login failed. Please try again.");
         }
     }
+
     public boolean checkJwtToken(String jwtToken) {
         return jwtService.isTokenValid(jwtToken, jwtService.extractUsername(jwtToken));
     }

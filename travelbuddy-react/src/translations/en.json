@@ -26,7 +26,6 @@
     "MyProfile": "My Profile",
     "Settings": "Settings",
     "Support": "Support"
-
   },
   "footer": {
     "home": "Home",
@@ -47,7 +46,7 @@
   },
   "myTravels": {
     "openTravels": "Open Travels",
-    "createTrip":"Create Trip",
+    "createTrip": "Create Trip",
     "closedTravels": "Closed Travels",
     "yourTrips": "Your Trips"
   },
@@ -62,5 +61,40 @@
     "createTripButton": "Create Trip",
     "goBackMessage": "Go back to",
     "goBackLink": "My Trips"
+  },
+  "userProfile": {
+    "title": "Your Profile",
+    "name": "First Name",
+    "surname": "Last Name",
+    "preferences": "Preferences",
+    "travelDestinations": "Travel Destinations",
+    "socialMedia": "Social Media",
+    "gender": "Gender",
+    "selectGender": "Select gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "editProfileButton": "Edit Profile",
+    "uploadAvatar": "Upload Avatar",
+    "location": "Location",
+    "zipCode": "Zip Code",
+    "aboutMe": "About Me",
+    "birthday": "Birthday",
+    "usernameLabel": "Username",
+    "emailLabel": "E-Mail",
+    "handyLabel": "Handy",
+    "changePasswordButton": "Change Password",
+    "changePasswordTitle": "Change Password",
+    "oldPasswordLabel": "Old Password",
+    "newPasswordLabel": "New Password",
+    "confirmPasswordLabel": "Confirm Password",
+    "goBackMessage": "Go back to",
+    "goBackLink": "My Travels"
+  },
+  "socialMedia": {
+    "editLinksLabel": "Edit Your Social Media Links",
+    "enterLinkLabel": "Enter link for {{platform}}",
+    "linkPlaceholder": "Link for {{platform}}",
+    "saveButton": "Save"
   }
 }

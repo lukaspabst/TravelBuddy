@@ -25,14 +25,14 @@ public class UserSecurity {
     @Schema(description = "Benutzername", example = "john_doe", required = true)
     private String username;
     @NotNull
-    @Schema(description  = "Passwort", example = "********", required = true)
+    @Schema(description = "Passwort", example = "********", required = true)
     private String password;
     @NotNull
     @Indexed(unique = true)
     @Schema(description = "E-Mail-Adresse des Benutzers", example = "john@example.com", required = true)
     private String email;
     @NotNull
-    @Schema(description  = "Handynummer des Benutzers", example = "+1234567890", required = true)
+    @Schema(description = "Handynummer des Benutzers", example = "+1234567890", required = true)
     private String handy;
     @NotNull
     @Schema(description = "Gibt an, ob der Benutzer gesperrt ist", example = "false")

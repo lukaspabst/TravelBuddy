@@ -18,13 +18,13 @@ public class JwtService implements JwtServicePort {
 
     @Value("${jwt.secret-key}")
     private String SECRET_KEY;
+
     public String extractUsername(String jwtToken) {
         return extractClaim(jwtToken, Claims::getSubject);
     }
 
 
-
-    public <T> T extractClaim(String jwtToken, Function<Claims, T> claimResolver){
+    public <T> T extractClaim(String jwtToken, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(jwtToken);
         return claimResolver.apply(claims);
     }
@@ -41,7 +41,7 @@ public class JwtService implements JwtServicePort {
     }
 
 
-    public boolean isTokenValid(String jwtToken, String pUsername){
+    public boolean isTokenValid(String jwtToken, String pUsername) {
         final String username = extractUsername(jwtToken);
         return username.equals(pUsername) && !isTokenExpired(jwtToken);
     }
@@ -54,7 +54,7 @@ public class JwtService implements JwtServicePort {
         return extractClaim(jwtToken, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String jwtToken){
+    private Claims extractAllClaims(String jwtToken) {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSigningKey())

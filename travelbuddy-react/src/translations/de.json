@@ -41,27 +41,27 @@
     "registerError": "Bei der Registrierung ist ein Fehler aufgetreten.",
     "badRequest": "Schlechte Anfrage: Ungültige Eingabedaten."
   },
-    "home": {
-        "startingButton":"Plane jetzt deine Reise"
-    },
-    "myTravels": {
+  "home": {
+    "startingButton": "Plane jetzt deine Reise"
+  },
+  "myTravels": {
     "openTravels": "Offene Reisen",
     "createTrip": "Reise erstellen",
     "closedTravels": "Abgeschlossene Reisen",
     "yourTrips": "Deine Reisen"
-    },
-    "createTrip": {
-      "title": "Reise erstellen",
-      "tripNameLabel": "Reisename",
-      "startDateLabel": "Startdatum",
-      "endDateLabel": "Enddatum",
-      "destinationLabel": "Ziel",
-      "maxPersonsLabel": "Maximale Personen",
-      "maxPriceLabel": "Maximaler Preis",
-      "createTripButton": "Reise erstellen",
-      "goBackMessage": "Zurück zu",
-      "goBackLink": "Meine Reisen"
-    },
+  },
+  "createTrip": {
+    "title": "Reise erstellen",
+    "tripNameLabel": "Reisename",
+    "startDateLabel": "Startdatum",
+    "endDateLabel": "Enddatum",
+    "destinationLabel": "Ziel",
+    "maxPersonsLabel": "Maximale Personen",
+    "maxPriceLabel": "Maximaler Preis",
+    "createTripButton": "Reise erstellen",
+    "goBackMessage": "Zurück zu",
+    "goBackLink": "Meine Reisen"
+  },
   "userProfile": {
     "title": "Dein Profil",
     "name": "Vorname",
@@ -70,6 +70,11 @@
     "travelDestinations": "Reiseziele",
     "socialMedia": "Soziale Medien",
     "gender": "Geschlecht",
+    "selectGender": "Geschlecht auswählen",
+    "male": "Männlich",
+    "female": "Weiblich",
+    "other": "Andere",
+    "editProfileButton": "Profil bearbeiten",
     "uploadAvatar": "Avatar hochladen",
     "location": "Wohnort",
     "zipCode": "Postleitzahl",
@@ -85,5 +90,11 @@
     "confirmPasswordLabel": "Passwort bestätigen",
     "goBackMessage": "Zurück zu",
     "goBackLink": "Meine Reisen"
+  },
+  "socialMedia": {
+    "editLinksLabel": "Bearbeite Deine Social Media Links",
+    "enterLinkLabel": "Link für {{platform}} eingeben",
+    "linkPlaceholder": "Link für {{platform}}",
+    "saveButton": "Speichern"
   }
 }

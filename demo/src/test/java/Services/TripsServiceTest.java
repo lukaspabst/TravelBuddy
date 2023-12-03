@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
@@ -84,7 +83,7 @@ public class TripsServiceTest {
         TripMember member2 = new TripMember("targetUser", TripRole.Traveler, "active");
         trip.getMembers().add(member2);
         when(tripsRepo.findById("1")).thenReturn(java.util.Optional.of(trip));
-        tripsService.changeUserRole("1", "username", "targetUser",TripRole.Assistant.getDescription());
+        tripsService.changeUserRole("1", "username", "targetUser", TripRole.Assistant.getDescription());
         verify(tripsRepo, times(1)).save(trip);
     }
 

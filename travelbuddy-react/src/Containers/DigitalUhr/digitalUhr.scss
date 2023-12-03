@@ -1,0 +1,48 @@
+
+:root {
+  --shadow-1: #aeb6bf; /* Beispielwert, anpassen nach Bedarf */
+  --shadow-2: #34495e; /* Beispielwert, anpassen nach Bedarf */
+}
+
+.date,
+.hr,
+.min,
+.sec,
+.colon {
+  text-align: center;
+  color: var(--text);
+  text-shadow: 0 0 1px var(--shadow-1), 0 0 1px var(--shadow-2), 0 0 1px var(--shadow-2), 0 0 15px rgba(255, 255, 255, 0.5); /* Shining-Effekt mit reduzierter Intensität */
+}
+
+.date {
+  width: 100%;
+  font-size: 1rem;
+}
+
+.hr,
+.min,
+.sec,
+.colon {
+  width: 20%;
+  font-size: 1.25rem;
+}
+
+.colon {
+  margin: 0 5px;
+}
+
+.digital-clock {
+  border: solid black 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  color: #125f8d;
+}
+
+.uhrzeit-helper-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+}

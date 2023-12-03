@@ -45,7 +45,7 @@
     "startingButton": "今すぐ旅行を計画する"
   },
   "myTravels": {
-    "openTravels":  "開いた旅行",
+    "openTravels": "開いた旅行",
     "createTrip": "旅行を作成する",
     "closedTravels": "閉じた旅行",
     "yourTrips": "あなたの旅行"
@@ -61,5 +61,40 @@
     "createTripButton": "旅行を作成する",
     "goBackMessage": "戻る",
     "goBackLink": "私の旅行"
+  },
+  "userProfile": {
+    "title": "あなたのプロフィール",
+    "name": "名前",
+    "surname": "苗字",
+    "preferences": "好み",
+    "travelDestinations": "旅行先",
+    "socialMedia": "ソーシャルメディア",
+    "gender": "性別",
+    "selectGender": "性別を選択",
+    "male": "男性",
+    "female": "女性",
+    "other": "その他",
+    "editProfileButton": "プロフィールを編集",
+    "uploadAvatar": "アバターをアップロード",
+    "location": "居住地",
+    "zipCode": "郵便番号",
+    "aboutMe": "自己紹介",
+    "birthday": "誕生日",
+    "usernameLabel": "ユーザー名",
+    "emailLabel": "Eメール",
+    "handyLabel": "携帯電話",
+    "changePasswordButton": "パスワードを変更",
+    "changePasswordTitle": "パスワードを変更",
+    "oldPasswordLabel": "旧パスワード",
+    "newPasswordLabel": "新しいパスワード",
+    "confirmPasswordLabel": "パスワードを確認",
+    "goBackMessage": "戻る",
+    "goBackLink": "私の旅行"
+  },
+  "socialMedia": {
+    "editLinksLabel": "ソーシャルメディアリンクを編集",
+    "enterLinkLabel": "{{platform}}のリンクを入力",
+    "linkPlaceholder": "{{platform}}のリンク",
+    "saveButton": "保存"
   }
 }

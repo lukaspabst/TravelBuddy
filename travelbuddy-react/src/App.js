@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import React, {useRef} from 'react';
+import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import './App.css';
 import Navbar from './Components/General/Navbar/Navbar';
 import LoginForm from './Components/MyUser/Login/LoginForm';
@@ -18,24 +18,24 @@ import MyUser from "./Components/MyUser/MyUser/MyUser";
 
 function App() {
     const appContainerRef = useRef(null);
-    const { isLoggedIn, isLoading } = useAuth();
+    const {isLoggedIn, isLoading} = useAuth();
 
     return (
         <Router>
             <AuthProvider>
                 <div ref={appContainerRef}>
-                    <Navbar />
+                    <Navbar/>
                     <AnimatePresence mode="out-in">
                         <Routes>
-                            <Route path="/" element={<StartPage />} />
-                            <Route path="/login" element={<LoginForm />} />
-                            <Route path="/register" element={<RegisterForm />} />
-                            <Route path="/travel" element={<CreateTrip />} />
-                            <Route path="/MyTrips" element={isLoggedIn ? <MyTravels /> : <Navigate to="/login" />} />
-                            <Route path="/openTravels" element={isLoggedIn ? <OpenTrips /> : <Navigate to="/login" />} />
-                            <Route path="/pastTravels" element={isLoggedIn ? <ClosedTrips /> : <Navigate to="/login" />} />
-                            <Route path="/trip/:id" element={isLoggedIn ? <Trip /> : <Navigate to="/login" />} />
-                            <Route path="/MyProfile" element={isLoggedIn ? <MyUser /> : <Navigate to="/login" />} />
+                            <Route path="/" element={<StartPage/>}/>
+                            <Route path="/login" element={<LoginForm/>}/>
+                            <Route path="/register" element={<RegisterForm/>}/>
+                            <Route path="/travel" element={<CreateTrip/>}/>
+                            <Route path="/MyTrips" element={isLoggedIn ? <MyTravels/> : <Navigate to="/login"/>}/>
+                            <Route path="/openTravels" element={isLoggedIn ? <OpenTrips/> : <Navigate to="/login"/>}/>
+                            <Route path="/pastTravels" element={isLoggedIn ? <ClosedTrips/> : <Navigate to="/login"/>}/>
+                            <Route path="/trip/:id" element={isLoggedIn ? <Trip/> : <Navigate to="/login"/>}/>
+                            <Route path="/MyProfile" element={isLoggedIn ? <MyUser/> : <Navigate to="/login"/>}/>
                         </Routes>
                     </AnimatePresence>
                 </div>

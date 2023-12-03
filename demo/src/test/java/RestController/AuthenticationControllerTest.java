@@ -11,14 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +30,14 @@ class AuthenticationControllerTest {
 
     @Mock
     private AuthenticationService authenticationService;
+
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @BeforeEach
     void setUp() {
@@ -58,7 +64,7 @@ class AuthenticationControllerTest {
 
     @Test
     void testCreateUser() throws Exception {
-        UserSecurity userSecurity = new UserSecurity("id","username", "password", "email", "handy",true);
+        UserSecurity userSecurity = new UserSecurity("id", "username", "password", "email", "handy", true);
 
         AuthenticationResponse mockResponse = AuthenticationResponse.builder()
                 .jwtToken("your_mocked_jwt_token")
@@ -73,13 +79,5 @@ class AuthenticationControllerTest {
                 .andExpect(status().isOk());
 
         verify(authenticationService, times(1)).register(userSecurity);
-    }
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

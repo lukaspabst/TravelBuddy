@@ -28,22 +28,21 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 public class SecurityConfig {
 
+    private final SecurityUserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtAuthFilter;
     @Value("${allowed-origins}")
     private String allowedOrigins;
 
-    private final SecurityUserDetailsService userDetailsService;
-
-    private final JwtAuthenticationFilter jwtAuthFilter;
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors()
                 .and()
                 .csrf((csrf) -> csrf.disable())
-                .headers((headers)-> {
+                .headers((headers) -> {
                     try {
-                        headers.frameOptions((frameOptions)->frameOptions.disable())
-                        .and().authorizeHttpRequests()
+                        headers.frameOptions((frameOptions) -> frameOptions.disable())
+                                .and().authorizeHttpRequests()
                                 .requestMatchers(
                                         "/api/register",
                                         "/api/authenticate",
@@ -56,7 +55,7 @@ public class SecurityConfig {
                                         "/swagger-ui.html"
                                 )
                                 .permitAll()
-                                        .requestMatchers("/api/**").authenticated();
+                                .requestMatchers("/api/**").authenticated();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -67,12 +66,13 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
@@ -91,7 +91,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public BCryptPasswordEncoder  passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

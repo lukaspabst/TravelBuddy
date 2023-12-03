@@ -3,9 +3,7 @@ package com.travelbuddy.demo.Entities;
 import com.travelbuddy.demo.AdapterClasses.TripMember;
 import com.travelbuddy.demo.AdapterClasses.TripsMainContent;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import jakarta.validation.constraints.NotNull;
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,12 +50,13 @@ public class Trips {
     @NotNull
     @Schema(description = "Fortbewegungsmittel des Trips", example = "Auto", required = true)
     private String travelVehicle;
+    private String type;
 
     public Trips(List<TripMember> members) {
         this.members = members;
     }
 
-    public Trips(String id,String nameTrip, String startdate, String enddate, String destination, String description, Integer costs, Integer maxPersons, TravelVehicle travelVehicle, String type, List<TripMember> members) {
+    public Trips(String id, String nameTrip, String startdate, String enddate, String destination, String description, Integer costs, Integer maxPersons, TravelVehicle travelVehicle, String type, List<TripMember> members) {
         if (id == null || startdate == null || enddate == null || destination == null
                 || description == null || costs == null || maxPersons == null || travelVehicle == null
                 || type == null || members == null || nameTrip == null) {
@@ -76,6 +75,7 @@ public class Trips {
         this.type = type;
         this.members = members;
     }
+
     public Trips(TripsMainContent tripsMainContent) {
         this.nameTrip = tripsMainContent.getTripName();
         this.Startdate = tripsMainContent.getStartDate();
@@ -85,8 +85,13 @@ public class Trips {
         this.maxPersons = tripsMainContent.getMaxPersons();
     }
 
-    private String type;
+    public static Trips mapFromTripsMainContent(TripsMainContent tripsMainContent) {
+        return new Trips(tripsMainContent);
+    }
 
+    public void addMember(TripMember member) {
+        members.add(member);
+    }
 
     public enum TravelVehicle {
         CAR("Car"),
@@ -103,12 +108,5 @@ public class Trips {
         public String getDescription() {
             return description;
         }
-    }
-    public void addMember(TripMember member) {
-        members.add(member);
-    }
-
-    public static Trips mapFromTripsMainContent(TripsMainContent tripsMainContent) {
-        return new Trips(tripsMainContent);
     }
 }

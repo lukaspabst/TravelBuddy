@@ -1,7 +1,5 @@
-import { motion, useAnimation } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPerson } from '@fortawesome/free-solid-svg-icons';
-import React, {useEffect} from "react";
+import {motion} from 'framer-motion';
+import React from "react";
 
 const blackBox = {
     initial: {
@@ -14,7 +12,7 @@ const blackBox = {
 };
 
 
-const AnimatedTripCard = ({ children }) => {
+const AnimatedTripCard = ({children}) => {
     const selectedTrip = JSON.parse(localStorage.getItem('selectedTrip'));
     console.log(selectedTrip);
     return (
