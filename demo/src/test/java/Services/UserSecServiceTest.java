@@ -1,15 +1,12 @@
 package Services;
 
 import com.travelbuddy.demo.Entities.UserSecurity;
-
 import com.travelbuddy.demo.Repository.UserSecRepo;
 import com.travelbuddy.demo.Services.UserSecService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 

@@ -1,0 +1,100 @@
+{
+  "login": {
+    "title": "Login",
+    "usernameLabel": "Username",
+    "passwordLabel": "Password",
+    "loginButton": "Login",
+    "signupMessage": "Don't have an account?",
+    "signupLink": "Sign up"
+  },
+  "register": {
+    "title": "Register",
+    "usernameLabel": "Username",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "handyLabel": "Handy",
+    "registerButton": "Register",
+    "loginMessage": "Already have an account?",
+    "loginLink": "Login here"
+  },
+  "navbar": {
+    "home": "Home",
+    "aboutUs": "About us",
+    "login": "Login",
+    "logout": "Logout",
+    "MyTrips": "My Trips",
+    "MyProfile": "My Profile",
+    "Settings": "Settings",
+    "Support": "Support"
+  },
+  "footer": {
+    "home": "Home",
+    "ourServices": "Our Services",
+    "paymentOptions": "Payment Options",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "rightsReserved": "All rights reserved"
+  },
+  "errorMessages": {
+    "wrongCredentials": "Username or password is incorrect.",
+    "internalServerError": "Error: Internal server error.",
+    "registerError": "An error occurred during registration.",
+    "badRequest": "Bad Request: Invalid input data."
+  },
+  "home": {
+    "startingButton": "Plan Your Trip Now"
+  },
+  "myTravels": {
+    "openTravels": "Open Travels",
+    "createTrip": "Create Trip",
+    "closedTravels": "Closed Travels",
+    "yourTrips": "Your Trips"
+  },
+  "createTrip": {
+    "title": "Create Trip",
+    "tripNameLabel": "Trip Name",
+    "startDateLabel": "Start Date",
+    "endDateLabel": "End Date",
+    "destinationLabel": "Destination",
+    "maxPersonsLabel": "Max Persons",
+    "maxPriceLabel": "Max Price",
+    "createTripButton": "Create Trip",
+    "goBackMessage": "Go back to",
+    "goBackLink": "My Trips"
+  },
+  "userProfile": {
+    "title": "Your Profile",
+    "name": "First Name",
+    "surname": "Last Name",
+    "preferences": "Preferences",
+    "travelDestinations": "Travel Destinations",
+    "socialMedia": "Social Media",
+    "gender": "Gender",
+    "selectGender": "Select gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "editProfileButton": "Edit Profile",
+    "uploadAvatar": "Upload Avatar",
+    "location": "Location",
+    "zipCode": "Zip Code",
+    "aboutMe": "About Me",
+    "birthday": "Birthday",
+    "usernameLabel": "Username",
+    "emailLabel": "E-Mail",
+    "handyLabel": "Handy",
+    "changePasswordButton": "Change Password",
+    "changePasswordTitle": "Change Password",
+    "oldPasswordLabel": "Old Password",
+    "newPasswordLabel": "New Password",
+    "confirmPasswordLabel": "Confirm Password",
+    "goBackMessage": "Go back to",
+    "goBackLink": "My Travels"
+  },
+  "socialMedia": {
+    "editLinksLabel": "Edit Your Social Media Links",
+    "enterLinkLabel": "Enter link for {{platform}}",
+    "linkPlaceholder": "Link for {{platform}}",
+    "saveButton": "Save"
+  }
+}

@@ -1,7 +1,6 @@
 package RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.travelbuddy.demo.AdapterClasses.RoleChangeRequest;
 import com.travelbuddy.demo.AdapterClasses.TripMember;
 import com.travelbuddy.demo.AdapterClasses.TripRole;
 import com.travelbuddy.demo.Entities.Trips;
@@ -11,11 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,16 +18,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class TripsControllerTest {
@@ -42,6 +35,14 @@ public class TripsControllerTest {
     @InjectMocks
     private TripsController tripsController;
     private TripsService tripsService;
+
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @BeforeEach
     public void setup() {
@@ -60,7 +61,6 @@ public class TripsControllerTest {
     @Test
     @WithMockUser(username = "testUser")
     public void testCreateTrip() throws Exception {
-        // Create a sample trip for the request payload
         Trips trip = new Trips();
         trip.setId("1");
         trip.setStartdate("01.01.2024");
@@ -75,16 +75,15 @@ public class TripsControllerTest {
         trip.setMaxPersons(12);
         trip.setTravelVehicle("Auto");
         trip.setType("Wandern");
-        // Mock the tripsService
+
         when(tripsService.saveTrip(any(Trips.class))).thenReturn(trip);
 
-        // Perform the POST request
+
         mockMvc.perform(post("/trips")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
     }
-
 
     @Test
     public void testGetTrip() throws Exception {
@@ -178,13 +177,6 @@ public class TripsControllerTest {
         result.andExpect(status().isBadRequest());
     }
 
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
     @Test
     @WithMockUser(username = "testUser")
     void testDeleteExistingTrip() throws Exception {

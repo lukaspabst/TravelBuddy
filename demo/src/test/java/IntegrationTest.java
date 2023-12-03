@@ -1,6 +1,4 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.travelbuddy.demo.AdapterClasses.RoleChangeRequest;
 import com.travelbuddy.demo.AdapterClasses.TripMember;
 import com.travelbuddy.demo.AdapterClasses.TripRole;
 import com.travelbuddy.demo.DemoApplication;
@@ -17,22 +15,21 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-
 import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(classes = DemoApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -52,7 +49,7 @@ public class IntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
     private String jwtToken;
-    private TestRestTemplate restTemplate = new TestRestTemplate();
+    private final TestRestTemplate restTemplate = new TestRestTemplate();
 
     private String getBaseUrl() {
         return "http://localhost:" + port;
@@ -68,6 +65,7 @@ public class IntegrationTest {
         jwtToken = jwtService
                 .generateToken("username");
     }
+
     @Test
     @Order(2)
     public void testLogin() {
@@ -98,6 +96,7 @@ public class IntegrationTest {
         String username = responseEntity.getBody();
         assertEquals(userSecurity.getUsername(), username);
     }
+
     @Test
     @Order(3)
     public void testLoginWithInvalidCredentials() {
@@ -108,13 +107,14 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
+
     @Test
     @Order(5)
     public void testGetUserByUsername() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken);
         HttpEntity<String> entity = new HttpEntity<>("username", headers);
-        ResponseEntity<User> responseEntity = restTemplate.exchange(getBaseUrl() + "/users/username",HttpMethod.GET, entity, User.class);
+        ResponseEntity<User> responseEntity = restTemplate.exchange(getBaseUrl() + "/users/username", HttpMethod.GET, entity, User.class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         User user = responseEntity.getBody();
@@ -128,7 +128,7 @@ public class IntegrationTest {
         headers.setBearerAuth(jwtToken);
         String username = "nonexistentuser";
         HttpEntity<String> entity = new HttpEntity<>(username, headers);
-        ResponseEntity<User> responseEntity = restTemplate.exchange(getBaseUrl() + "/users/"+username, HttpMethod.GET, entity, User.class);
+        ResponseEntity<User> responseEntity = restTemplate.exchange(getBaseUrl() + "/users/" + username, HttpMethod.GET, entity, User.class);
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
@@ -138,7 +138,7 @@ public class IntegrationTest {
     public void testCreateUser() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken);
-        User user = new User("firstname", "lastname", "username","2023-01-01", "link.com", "hiking", "malle","sociallinks", User.Gender.D);
+        User user = new User("firstname", "lastname", "username", "2023-01-01", "link.com", "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
 
         HttpEntity<User> entity = new HttpEntity<>(user, headers);
 
@@ -159,7 +159,7 @@ public class IntegrationTest {
     public void testCreateUserWithInvalidUsername() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken);
-        User user = new User("firstname", "lastname", "testname","2023-01-01", "link.com", "hiking", "malle","sociallinks", User.Gender.D);
+        User user = new User("firstname", "lastname", "testname", "2023-01-01", "link.com", "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
         HttpEntity<User> entity = new HttpEntity<>(user, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
@@ -191,6 +191,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
     }
+
     @Test
     @Order(8)
     public void testCreateTrip() throws Exception {
@@ -215,7 +216,7 @@ public class IntegrationTest {
         HttpEntity<Trips> entity = new HttpEntity<>(trip, headers);
 
 
-        ResponseEntity<Trips> responseEntity  = restTemplate.exchange(
+        ResponseEntity<Trips> responseEntity = restTemplate.exchange(
                 getBaseUrl() + "/trips",
                 HttpMethod.POST,
                 entity,
@@ -226,6 +227,7 @@ public class IntegrationTest {
         Trips createdTrip = responseEntity.getBody();
         assertNotNull(createdTrip);
     }
+
     @Test
     @Order(9)
     public void testGetTrip() {
@@ -285,6 +287,7 @@ public class IntegrationTest {
         Trips updated = responseEntity.getBody();
         assertNotNull(updated);
     }
+
     @Test
     @Order(11)
     public void testCreateTripBadRequest() {
@@ -349,6 +352,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
+
     @Test
     @Order(14)
     public void testAddMemberToTripUnauthorized() throws Exception {
@@ -380,8 +384,9 @@ public class IntegrationTest {
                         .content(objectMapper.writeValueAsString(username))
                         .header("Authorization", "Bearer " + unauthorizedJwtToken))
                 .andExpect(MockMvcResultMatchers.status().isForbidden()
-             );
+                );
     }
+
     @Test
     @Order(16)
     public void testAddMemberToTrip() throws Exception {
@@ -397,10 +402,11 @@ public class IntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.patch(addMemberUrl)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newMember))
-                .header("Authorization", "Bearer " + jwtToken))
+                        .header("Authorization", "Bearer " + jwtToken))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
     }
+
     @Test
     @Order(17)
     public void testRemoveMemberFromTrip() throws Exception {
@@ -415,6 +421,7 @@ public class IntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isOk()
                 );
     }
+
     @Test
     @Order(19)
     public void testDeleteTrip_Success() {
@@ -434,6 +441,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
     }
+
     @Test
     @Order(18)
     public void testDeleteTrip_Error() {

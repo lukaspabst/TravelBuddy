@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -15,15 +16,15 @@ import java.util.function.Function;
 @Component
 public class JwtService implements JwtServicePort {
 
-    //TODO put the key outside the service. Properties or...
-    private static final String SECRET_KEY = "3777217A25432A462D4A614E645267556B58703272357538782F413F4428472B";
+    @Value("${jwt.secret-key}")
+    private String SECRET_KEY;
+
     public String extractUsername(String jwtToken) {
         return extractClaim(jwtToken, Claims::getSubject);
     }
 
 
-
-    public <T> T extractClaim(String jwtToken, Function<Claims, T> claimResolver){
+    public <T> T extractClaim(String jwtToken, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(jwtToken);
         return claimResolver.apply(claims);
     }
@@ -34,13 +35,13 @@ public class JwtService implements JwtServicePort {
                 .builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
 
-    public boolean isTokenValid(String jwtToken, String pUsername){
+    public boolean isTokenValid(String jwtToken, String pUsername) {
         final String username = extractUsername(jwtToken);
         return username.equals(pUsername) && !isTokenExpired(jwtToken);
     }
@@ -53,7 +54,7 @@ public class JwtService implements JwtServicePort {
         return extractClaim(jwtToken, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String jwtToken){
+    private Claims extractAllClaims(String jwtToken) {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSigningKey())

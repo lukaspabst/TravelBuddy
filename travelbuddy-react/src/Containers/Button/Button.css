@@ -1,0 +1,82 @@
+:root {
+    --primary: #fff;
+}
+
+.btn {
+    padding: 8px 20px;
+    border-radius: 2px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn--primary {
+    background-color: var(--primary);
+    color: #242424;
+    border: 1px solid var(--primary);
+}
+
+.btn--outline {
+    padding: 10px;
+    background-color: #0f71a9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+
+.btn--medium {
+    padding: 8px 20px;
+    font-size: 20px;
+}
+
+.btn--large {
+    padding: 12px 26px;
+}
+
+.btn--medium:hover, .btn--large:hover {
+    background-color: #125f8d;
+    color: #242424;
+    transition: all 0.3s ease-out;
+}
+
+.btn--small-avatar {
+    padding: 0.5rem 0.5rem;
+    font-size: 16px;
+    border: 1px solid #fff;
+    background-color: #0f71a9;
+    color: #fff;
+    transition: all 0.3s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:auto;
+    height: 35px;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.btn--large-image {
+    font-size: 3vw;
+    width: 35vw;
+    height: 10%;
+    border-radius: 2vw;
+    border: 0.3vw solid #0f71a9;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 2vw 2vw 4vw rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.btn--large-image:hover {
+    background-color: #125f8d;
+    color: #fff;
+    transition: all 0.5s ease-out;
+    transform: scale(1.01);
+}

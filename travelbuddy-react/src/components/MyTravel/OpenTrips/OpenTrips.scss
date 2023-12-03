@@ -1,0 +1,108 @@
+.StartPage-container {
+  position: relative;
+  display: flex;
+  justify-items: center;
+  top: -80px;
+  overflow-x: hidden;
+  flex-direction: column;
+  height: calc((100vh) - 149px);
+}
+
+.trips-container {
+  position: absolute;
+  margin-top: 50px;
+  left: 10%;
+  flex-direction: column;
+  align-items: center;
+  height: 80%;
+  overflow-y: auto;
+  width: 85%;
+}
+
+.trip-card {
+  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  margin-left: 2.5%;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  width: 80vw;
+
+}
+
+.trip-card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  scale: 1.01;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.trip-info {
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+
+.placeholder {
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  margin-right: 16px;
+  border-radius: 8px 0 0 8px;
+}
+
+.placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 8px 0 0 8px;
+}
+
+.trip-name {
+  font-size: 1.5rem;
+  margin-left: 16px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #fff;
+  width: 75%;
+}
+
+.max-persons {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  width: 5%;
+  border-right: 1px solid #fff;
+  margin-right: 16px;
+  justify-content: center;
+}
+
+.max-persons i {
+  font-size: 2.5rem; /* Adjust the size of the icon */
+  position: relative;
+
+}
+
+.max-persons i::before {
+  content: attr(data-number); /* Use the data-number attribute as content */
+  position: absolute;
+  top: 47.5%;
+  left: 47.5%;
+  transform: translate(-50%, -50%);
+  color: #242424;
+  font-size: 1.5rem;
+  font-family: sans-serif;
+}
+
+.dates {
+  height: 100px;
+  text-align: right;
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.25rem;
+  justify-content: center;
+}

@@ -1,0 +1,89 @@
+.social-media-container {
+  flex-direction: column;
+  max-width: 300px;
+  border-radius: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1vw;
+  margin-left: 1vw;
+}
+
+.padding-for-button {
+  padding-top: 12px;
+}
+
+#platformDropdown {
+  width: 250px;
+  color: black;
+
+  .react-select__control {
+    border: 1px solid #2e59a3;
+    border-radius: 4px;
+  }
+
+
+  .react-select__menu {
+    max-height: 20px;
+    overflow-y: auto;
+    z-index: 9999;
+  }
+
+  .platform-Dropdown-options {
+    display: flex;
+    align-items: center;
+    color: #fff;
+  }
+
+
+  .platform-Dropdown-options .icon-container {
+    width: 20px;
+    height: 20px;
+  }
+
+  .platform-Dropdown-options .icon-container svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .platform-Dropdown-options > div {
+    margin-right: 8px;
+  }
+
+  .platform-Dropdown-options > div:last-child {
+    margin-right: 0;
+  }
+}
+
+.button-and-tooltip-row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.tooltip-info-button-socialMedia {
+  width: 80px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tooltip-info-button-socialMedia svg {
+  width: 25px;
+  height: 25px;
+}
+
+.tooltip-content {
+  position: absolute;
+  background-color: white;
+  color: #ff6666;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  top: 50%;
+  left: 100%;
+  transform: translate(10px, 0);
+  white-space: nowrap;
+  min-width: 150px;
+  max-width: 300px;
+  z-index: 9999;
+}

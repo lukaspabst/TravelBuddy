@@ -1,8 +1,6 @@
 package com.travelbuddy.demo.RestController;
 
-import com.travelbuddy.demo.AdapterClasses.RoleChangeRequest;
-import com.travelbuddy.demo.AdapterClasses.TripMember;
-import com.travelbuddy.demo.AdapterClasses.TripRole;
+import com.travelbuddy.demo.AdapterClasses.*;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Services.TripsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,7 +8,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +15,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.travelbuddy.demo.Entities.Trips.mapFromTripsMainContent;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/trips")
+@RequestMapping("/api/trips")
 public class TripsController {
     @Autowired
     private TripsService tripsService;
+
     @Operation(summary = "Create a trip")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Trip created successfully"),
@@ -40,15 +41,14 @@ public class TripsController {
     })
     @PostMapping
 
-    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true)@Valid @RequestBody Trips trip) {
+    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true) @Valid @RequestBody TripsMainContent tripsMainContent) {
 
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
-
+            Trips trip = mapFromTripsMainContent(tripsMainContent);
             TripMember adminMember = new TripMember(username, TripRole.Organizer, "Active");
             trip.addMember(adminMember);
-
             Trips createdTrip = tripsService.saveTrip(trip);
             log.info("Created a new trip with ID: {} for user: {}", createdTrip.getId(), username);
             return new ResponseEntity<>(createdTrip, HttpStatus.CREATED);
@@ -57,6 +57,7 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @Operation(summary = "Get a trip by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Trip retrieved successfully"),
@@ -64,7 +65,7 @@ public class TripsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/{tripId}")
-    public ResponseEntity<Optional<Trips>> getTrip(@Parameter(description = "Trip ID", required = true)@PathVariable String tripId) {
+    public ResponseEntity<Optional<Trips>> getTrip(@Parameter(description = "Trip ID", required = true) @PathVariable String tripId) {
         try {
             Optional<Trips> trip = tripsService.getTripById(tripId);
             if (!trip.isPresent()) {
@@ -77,6 +78,7 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @Operation(summary = "Update a trip by ID and Trips")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Trip updated successfully"),
@@ -85,7 +87,7 @@ public class TripsController {
     })
     @PutMapping("/{tripId}")
 
-    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true)@PathVariable String tripId, @Valid @RequestBody Trips updatedTrip) {
+    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true) @PathVariable String tripId, @Valid @RequestBody Trips updatedTrip) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -107,7 +109,7 @@ public class TripsController {
                         return new ResponseEntity<>(updated, HttpStatus.OK);
                     }
                 }
-            } else{
+            } else {
                 log.warn("No trip found with ID: {} by user: {}", tripId, loggedInUser);
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -120,6 +122,7 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @Operation(summary = "Add a Member by trip ID and newMember")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Member added to trip successfully"),
@@ -127,7 +130,7 @@ public class TripsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PatchMapping("/{tripId}/addMember")
-    public ResponseEntity<Trips> addMemberToTrip(@Parameter(description = "Trip ID and New Member", required = true)@PathVariable String tripId, @RequestBody TripMember newMember) {
+    public ResponseEntity<Trips> addMemberToTrip(@Parameter(description = "Trip ID and New Member", required = true) @PathVariable String tripId, @RequestBody TripMember newMember) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -139,7 +142,7 @@ public class TripsController {
                                 (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
-                    Trips updatedTrip = tripsService.addMemberToTrip(tripId, newMember.getUsername(),TripRole.Traveler, newMember.getStatus());
+                    Trips updatedTrip = tripsService.addMemberToTrip(tripId, newMember.getUsername(), TripRole.Traveler, newMember.getStatus());
                     if (updatedTrip != null) {
                         log.info("Added member to trip with ID: {} by user: {}", tripId, loggedInUser);
                         return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
@@ -154,6 +157,7 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @Operation(summary = "Remove a Member by trip ID and username")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Member removed from trip successfully"),
@@ -161,7 +165,7 @@ public class TripsController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PatchMapping("/{tripId}/removeMember/{username}")
-    public ResponseEntity<Trips> removeMemberFromTrip(@Parameter(description = "Trip ID and username", required = true)@PathVariable String tripId, @PathVariable String username) {
+    public ResponseEntity<Trips> removeMemberFromTrip(@Parameter(description = "Trip ID and username", required = true) @PathVariable String tripId, @PathVariable String username) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -243,8 +247,8 @@ public class TripsController {
     })
     @PatchMapping("/{tripId}/changeUserRole")
     public ResponseEntity<Trips> changeUserRole(@Parameter(description = "Trip ID and RoleChangeRequest", required = true)
-            @PathVariable String tripId,
-            @RequestBody RoleChangeRequest roleChangeRequest) {
+                                                @PathVariable String tripId,
+                                                @RequestBody RoleChangeRequest roleChangeRequest) {
         try {
             String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
@@ -276,4 +280,68 @@ public class TripsController {
         }
     }
 
+    @Operation(summary = "Get all trips for the current user that are open")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trips retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @GetMapping("/userTrips/open")
+    public ResponseEntity<List<UserTripsDto>> getUserTripsOpen() {
+        try {
+            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
+            List<UserTripsDto> userTripsDtoList = userTrips.stream()
+                    .filter(trip -> {
+                        LocalDate endDate = LocalDate.parse(trip.getEnddate());
+                        return endDate.isAfter(LocalDate.now());
+                    })
+                    .sorted(Comparator.comparing(trip -> LocalDate.parse(trip.getEnddate())))
+                    .map(trip -> new UserTripsDto(
+                            trip.getId(),
+                            trip.getNameTrip(),
+                            trip.getMaxPersons(),
+                            trip.getStartdate(),
+                            trip.getEnddate()
+                    ))
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(userTripsDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error getting user trips: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Get all trips for the current user that are closed")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trips retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @GetMapping("/userTrips/closed")
+    public ResponseEntity<List<UserTripsDto>> getUserTripsClosed() {
+        try {
+            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
+            List<UserTripsDto> userTripsDtoList = userTrips.stream()
+                    .filter(trip -> {
+                        LocalDate endDate = LocalDate.parse(trip.getEnddate());
+                        return endDate.isBefore(LocalDate.now());
+                    })
+                    .map(trip -> new UserTripsDto(
+                            trip.getId(),
+                            trip.getNameTrip(),
+                            trip.getMaxPersons(),
+                            trip.getStartdate(),
+                            trip.getEnddate()
+                    ))
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(userTripsDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error getting user trips: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -1,38 +1,121 @@
-.App {
-  text-align: center;
+@font-face {
+    font-family: 'OleoScript-Regular';
+    src: url('../public/fonts/Oleo_Script/OleoScript-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'OleoScript-Regular', sans-serif;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
+}
+
+body {
+    background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 36px;
+    color: #0f71a9;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #555;
+}
+
+a {
+    text-decoration: none;
+    color: #0f71a9;
+    transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+    color: #125f8d;
+}
+
+p {
+    text-align: center;
+    margin: 8px;
+}
+
+.errorMessages {
+    color: red;
+    font-size: 1.2rem;
+}
+
+.StartPage-content {
+    position: relative;
+    display: flex;
+    justify-items: center;
+    top: -80px;
+    overflow-x: hidden;
+    flex-direction: column;
+}
+
+body {
+    scrollbar-width: thin; /* Für Firefox */
+    scrollbar-color: #0f71a9 transparent; /* Für Firefox */
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #0f71a9; /* Farbe des Scrollbalkens */
+    border-radius: 5px;
 }

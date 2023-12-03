@@ -7,20 +7,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-
-
-
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(
-		title = "Meine API",
-		version = "1.0",
-		description = "Beschreibung meiner API"
+        title = "Meine API",
+        version = "1.0",
+        description = "Beschreibung meiner API"
 ))
 @Server(url = "http://localhost:8080")
 public class DemoApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 }
 
 

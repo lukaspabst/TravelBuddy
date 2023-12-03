@@ -13,15 +13,9 @@ public class SecurityUserDetails implements UserDetails {
 
     private UserSecurity userSecurity;
 
-   @Override
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-     //  List<GrantedAuthority> grantedAuthorities = userSec.getRoleList().stream()
-      //         .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
-       //        .collect(Collectors.toList());
-
-       // List<GrantedAuthority> grantedAuthorities1 = new ArrayList<>();
-       // grantedAuthorities1.add(new SimpleGrantedAuthority("ROLE_" + userSecruity.getRole()));
 
         return null;
     }
@@ -51,8 +45,8 @@ public class SecurityUserDetails implements UserDetails {
         return true;
     }
 
-   @Override
-   public boolean isEnabled() {
-       return false;
-   }
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }

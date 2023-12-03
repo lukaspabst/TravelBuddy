@@ -1,0 +1,100 @@
+{
+  "login": {
+    "title": "Anmelden",
+    "usernameLabel": "Benutzername",
+    "passwordLabel": "Passwort",
+    "loginButton": "Anmelden",
+    "signupMessage": "Sie haben noch kein Konto?",
+    "signupLink": "Hier registrieren"
+  },
+  "register": {
+    "title": "Registrieren",
+    "usernameLabel": "Benutzername",
+    "emailLabel": "E-Mail",
+    "passwordLabel": "Passwort",
+    "handyLabel": "Handy",
+    "registerButton": "Registrieren",
+    "loginMessage": "Haben Sie bereits ein Konto?",
+    "loginLink": "Hier einloggen"
+  },
+  "navbar": {
+    "home": "Startseite",
+    "aboutUs": "Über uns",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "MyTrips": "Meine Reisen",
+    "MyProfile": "Mein Profil",
+    "Settings": "Einstellungen",
+    "Support": "Support"
+  },
+  "footer": {
+    "home": "Startseite",
+    "ourServices": "Unsere Dienstleistungen",
+    "paymentOptions": "Zahlungsoptionen",
+    "aboutUs": "Über uns",
+    "contact": "Kontakt",
+    "rightsReserved": "Alle Rechte vorbehalten"
+  },
+  "errorMessages": {
+    "wrongCredentials": "Benutzername oder Passwort ist falsch.",
+    "internalServerError": "Fehler: Interner Serverfehler.",
+    "registerError": "Bei der Registrierung ist ein Fehler aufgetreten.",
+    "badRequest": "Schlechte Anfrage: Ungültige Eingabedaten."
+  },
+  "home": {
+    "startingButton": "Plane jetzt deine Reise"
+  },
+  "myTravels": {
+    "openTravels": "Offene Reisen",
+    "createTrip": "Reise erstellen",
+    "closedTravels": "Abgeschlossene Reisen",
+    "yourTrips": "Deine Reisen"
+  },
+  "createTrip": {
+    "title": "Reise erstellen",
+    "tripNameLabel": "Reisename",
+    "startDateLabel": "Startdatum",
+    "endDateLabel": "Enddatum",
+    "destinationLabel": "Ziel",
+    "maxPersonsLabel": "Maximale Personen",
+    "maxPriceLabel": "Maximaler Preis",
+    "createTripButton": "Reise erstellen",
+    "goBackMessage": "Zurück zu",
+    "goBackLink": "Meine Reisen"
+  },
+  "userProfile": {
+    "title": "Dein Profil",
+    "name": "Vorname",
+    "surname": "Nachname",
+    "preferences": "Präferenzen",
+    "travelDestinations": "Reiseziele",
+    "socialMedia": "Soziale Medien",
+    "gender": "Geschlecht",
+    "selectGender": "Geschlecht auswählen",
+    "male": "Männlich",
+    "female": "Weiblich",
+    "other": "Andere",
+    "editProfileButton": "Profil bearbeiten",
+    "uploadAvatar": "Avatar hochladen",
+    "location": "Wohnort",
+    "zipCode": "Postleitzahl",
+    "aboutMe": "Über mich",
+    "birthday": "Geburtstag",
+    "usernameLabel": "Benutzername",
+    "emailLabel": "E-Mail",
+    "handyLabel": "Handy",
+    "changePasswordButton": "Passwort ändern",
+    "changePasswordTitle": "Passwort ändern",
+    "oldPasswordLabel": "Altes Passwort",
+    "newPasswordLabel": "Neues Passwort",
+    "confirmPasswordLabel": "Passwort bestätigen",
+    "goBackMessage": "Zurück zu",
+    "goBackLink": "Meine Reisen"
+  },
+  "socialMedia": {
+    "editLinksLabel": "Bearbeite Deine Social Media Links",
+    "enterLinkLabel": "Link für {{platform}} eingeben",
+    "linkPlaceholder": "Link für {{platform}}",
+    "saveButton": "Speichern"
+  }
+}

@@ -1,7 +1,6 @@
 package com.travelbuddy.demo.Secruity.ServiceSec;
 
 import com.travelbuddy.demo.Entities.UserSecurity;
-
 import com.travelbuddy.demo.Exceptions.LoginFailedException;
 import com.travelbuddy.demo.Secruity.Infrastructure.AuthenticationResponse;
 import com.travelbuddy.demo.Secruity.Infrastructure.LoginRequest;
@@ -14,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -26,10 +26,10 @@ public class AuthenticationService {
     private final UserAuthPort authenticationManager;
 
     public AuthenticationResponse register(UserSecurity user) {
-            if (user.getPassword().length() < 8) {
-                throw new IllegalArgumentException("Password must be at least 8 characters long.");
-            }
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getPassword().length() < 8) {
+            throw new IllegalArgumentException("Password must be at least 8 characters long.");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userSecService.saveUser(user);
         var jwtToken = jwtService
                 .generateToken(user.getUsername());
@@ -65,5 +65,9 @@ public class AuthenticationService {
             log.error("Error during login: {}", e.getMessage());
             throw new LoginFailedException("Login failed. Please try again.");
         }
+    }
+
+    public boolean checkJwtToken(String jwtToken) {
+        return jwtService.isTokenValid(jwtToken, jwtService.extractUsername(jwtToken));
     }
 }

@@ -1,0 +1,195 @@
+.user-profile-container {
+  position: absolute;
+  margin-top: 100px;
+  left: 5vw;
+  height: auto;
+  overflow-y: auto;
+  width: 70vw;
+  background-color: #333;
+  border-radius: 3vw;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
+  color: #fff;
+  z-index: 1;
+
+}
+
+.user-profile-container h1 {
+  text-align: left;
+  padding: 2vw;
+  margin-bottom: -25px;
+}
+
+.user-profile-image {
+  display: flex;
+  flex-direction: column;
+  padding: 2vw;
+  width: 190px;
+  height: 240px;
+  justify-content: center;
+  gap: 12px;
+  align-items: center;
+  margin-left: 1vw;
+}
+
+.user-profile-image img {
+  width: 150px;
+  height: 150px;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
+  border-radius: 50% 50% 25px 25px;
+
+}
+
+.user-profile-content {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 4vw;
+  align-items: center;
+
+}
+
+
+.user-profile-info-important {
+  display: flex;
+}
+
+
+.user-profile-left,
+.user-profile-right {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  flex-direction: column;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.app-container {
+  display: flex;
+}
+
+.interface-container {
+  margin-right: 20px;
+}
+
+.grid-container {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.preferences-container,
+.travel-destination-container,
+.gender-container,
+.birthday-container {
+  display: inline-block;
+  width: calc(50% - 1.34vw);
+  padding: 1vw;
+  margin-left: 1vw;
+
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  select {
+    margin-top: 5px;
+  }
+}
+
+.format-button-editProfile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.birthday-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.birthday-container label {
+  margin-bottom: 8px;
+}
+
+.birthday-container input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+
+.react-datepicker__input-container input {
+  border-radius: 4px;
+}
+
+.gender-and-birthday-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.wrapper-for-profile-and-helpingLinks {
+  display: flex;
+  flex-direction: row;
+  z-index: 99;
+}
+
+.helpingLinks {
+  position: absolute;
+  margin-top: 100px;
+  left: 80vw;
+  background-color: #333;
+  width: 15vw;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 25px;
+  height: auto;
+  padding: 15px;
+  overflow-x: auto;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
+  li {
+    margin-bottom: 10px;
+    align-content: center;
+    display: flex;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: solid 1px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  }
+
+  p {
+    margin-top: -25px;
+    color: #125f8d;
+    font-size: 24px;
+  }
+}
+
+.digital-clock-wrapper-in-helpingLinks {
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.selected-gender {
+  select {
+    background: #555;
+    color: #fff;
+  }
+}

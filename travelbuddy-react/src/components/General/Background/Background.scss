@@ -1,0 +1,30 @@
+.Image-Scaler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background-header {
+  position: relative;
+  z-index: 0;
+}
+
+.centered-image {
+  border-bottom-left-radius: 1vw;
+  border-bottom-right-radius: 1vw;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.2);
+  z-index: -1;
+  width: 1920px;
+  height: 1080px;
+}
+
+@media screen and (min-width: 1920px) {
+  .centered-image {
+    width: 100%;
+    height: 100%;
+  }
+
+}

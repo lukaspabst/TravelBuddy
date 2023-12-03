@@ -2,18 +2,16 @@ package com.travelbuddy.demo.Entities;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
-
 import jakarta.validation.constraints.NotNull;
-
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -21,10 +19,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Document(collection = "users")
 public class User {
+    @Schema(description = "Social Media Links des Benutzers", example = "insta.com/hsohn", required = true)
+    Map<String, String> socialMediaLinks;
     @Id
     @Schema(description = "Eindeutige ID des Benutzers", example = "12345", required = true)
     private String id;
-
     @NotNull
     @Schema(description = "Vorname des Benutzers", example = "Max", required = true)
     private String firstName;
@@ -45,12 +44,69 @@ public class User {
     private String preferences;
     @Schema(description = "Reiseziele des Benutzers", example = "Madrid", required = true)
     private String travelDestination;
-    @Schema(description = "Social Media Links des Benutzers", example = "insta.com/hsohn", required = true)
-    private String socialMediaLinks;
     @NotNull
     @Schema(description = "Geschlecht des Benutzers", example = "IdentifiziertSichAlsTisch", required = true)
     private String gender;
+    @Schema(description = "Wohnort des Benutzers", example = "Berlin", required = true)
+    private String location;
 
+    @Schema(description = "ZIP-Code des Benutzers", example = "12345", required = true)
+    private String zipCode;
+
+
+    public User(String firstName, String lastName, String username, String bday, String bild, String interests, String reiseziele, Map<String, String> socialMediaLinks, Gender geschlecht, String location, String zipCode) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.birthday = bday;
+        this.picture = bild;
+        this.preferences = interests;
+        this.travelDestination = reiseziele;
+        this.socialMediaLinks = socialMediaLinks;
+        this.gender = geschlecht.getDescription();
+        this.location = location;
+        this.zipCode = zipCode;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", picture='" + picture + '\'' +
+                ", preferences='" + preferences + '\'' +
+                ", travelDestination='" + travelDestination + '\'' +
+                ", socialMediaLinks=" + socialMediaLinksToString() +
+                ", gender='" + gender + '\'' +
+                ", location='" + location + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                '}';
+    }
+
+    private String socialMediaLinksToString() {
+        if (socialMediaLinks == null) {
+            return "null";
+        }
+
+        StringBuilder sb = new StringBuilder("{");
+        for (Map.Entry<String, String> entry : socialMediaLinks.entrySet()) {
+            sb.append(entry.getKey())
+                    .append(": ")
+                    .append('"')
+                    .append(entry.getValue())
+                    .append('"')
+                    .append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2);
+        }
+        sb.append("}");
+
+        return sb.toString();
+    }
 
     public enum Gender {
         M("Male"),
@@ -66,16 +122,5 @@ public class User {
         public String getDescription() {
             return description;
         }
-    }
-    public User(String firstName, String lastName, String username, String bday, String bild, String interests, String reiseziele, String socialMediaLinks, Gender geschlecht) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.birthday = bday;
-        this.picture = bild;
-        this.preferences = interests;
-        this.travelDestination = reiseziele;
-        this.socialMediaLinks = socialMediaLinks;
-        this.gender = geschlecht.getDescription();
     }
 }

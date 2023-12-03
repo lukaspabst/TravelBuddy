@@ -1,10 +1,9 @@
 package com.travelbuddy.demo.Entities;
 
 import com.travelbuddy.demo.AdapterClasses.TripMember;
+import com.travelbuddy.demo.AdapterClasses.TripsMainContent;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import jakarta.validation.constraints.NotNull;
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +23,9 @@ public class Trips {
     @Id
     @Schema(description = "Eindeutige ID des Trips", example = "12345", required = true)
     private String id;
-
+    @NotNull
+    @Schema(description = "Name des Trips", example = "Ausflug Saufen", required = true)
+    private String nameTrip;
     @NotNull
     @Schema(description = "Starttag des Trips", example = "01.01.2024", required = true)
     private String Startdate;
@@ -49,19 +50,21 @@ public class Trips {
     @NotNull
     @Schema(description = "Fortbewegungsmittel des Trips", example = "Auto", required = true)
     private String travelVehicle;
+    private String type;
 
     public Trips(List<TripMember> members) {
         this.members = members;
     }
 
-    public Trips(String id, String startdate, String enddate, String destination, String description, Integer costs, Integer maxPersons, TravelVehicle travelVehicle, String type, List<TripMember> members) {
+    public Trips(String id, String nameTrip, String startdate, String enddate, String destination, String description, Integer costs, Integer maxPersons, TravelVehicle travelVehicle, String type, List<TripMember> members) {
         if (id == null || startdate == null || enddate == null || destination == null
                 || description == null || costs == null || maxPersons == null || travelVehicle == null
-                || type == null || members == null) {
+                || type == null || members == null || nameTrip == null) {
             throw new IllegalArgumentException("All fields must be provided.");
         }
 
         this.id = id;
+        this.nameTrip = nameTrip;
         Startdate = startdate;
         this.enddate = enddate;
         this.destination = destination;
@@ -73,8 +76,22 @@ public class Trips {
         this.members = members;
     }
 
-    private String type;
+    public Trips(TripsMainContent tripsMainContent) {
+        this.nameTrip = tripsMainContent.getTripName();
+        this.Startdate = tripsMainContent.getStartDate();
+        this.enddate = tripsMainContent.getEndDate();
+        this.destination = tripsMainContent.getDestination();
+        this.costs = tripsMainContent.getCosts();
+        this.maxPersons = tripsMainContent.getMaxPersons();
+    }
 
+    public static Trips mapFromTripsMainContent(TripsMainContent tripsMainContent) {
+        return new Trips(tripsMainContent);
+    }
+
+    public void addMember(TripMember member) {
+        members.add(member);
+    }
 
     public enum TravelVehicle {
         CAR("Car"),
@@ -91,8 +108,5 @@ public class Trips {
         public String getDescription() {
             return description;
         }
-    }
-    public void addMember(TripMember member) {
-        members.add(member);
     }
 }

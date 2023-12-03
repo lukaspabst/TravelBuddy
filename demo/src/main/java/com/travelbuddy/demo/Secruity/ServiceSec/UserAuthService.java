@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 @Slf4j
 @Service
 public class UserAuthService implements UserAuthPort {
@@ -26,7 +27,7 @@ public class UserAuthService implements UserAuthPort {
                 log.error("Authentication failed for user: " + username);
                 throw new AuthenticationException("Authentication failed");
             }
-            return isAuthenticated;
+            return true;
         } catch (Exception e) {
             log.error("Authentication error for user: " + username, e);
             throw new AuthenticationException("Authentication error");
