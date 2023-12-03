@@ -1,4 +1,3 @@
-
 export class TripDTO {
     constructor(id, name, maxPersons, startDate, endDate) {
         this.id = id;

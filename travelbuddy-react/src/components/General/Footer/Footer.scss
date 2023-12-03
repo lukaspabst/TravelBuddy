@@ -1,4 +1,4 @@
-.footer{
+.footer {
   width: 100%;
   z-index: 1;
   position: relative;
@@ -25,13 +25,15 @@
   display: flex;
   gap: 6vw;
 }
-.footer-links a{
+
+.footer-links a {
   color: #fff;
   text-decoration: none;
   font-size: 1rem;
   transition: 0.3s;
 }
-.footer-links a:hover{
+
+.footer-links a:hover {
   color: #125f8d;
 }
 

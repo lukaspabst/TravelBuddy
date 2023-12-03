@@ -5,7 +5,7 @@ function ProfileBackground() {
     return (
         <header className="background-header">
             <div className="Image-Scaler">
-                <img src="/assets/BackgroundImages/PB_Placeholder.png" alt="Bild" className="centered-image" />
+                <img src="/assets/BackgroundImages/PB_Placeholder.png" alt="Bild" className="centered-image"/>
             </div>
         </header>
     );

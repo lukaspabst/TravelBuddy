@@ -11,24 +11,24 @@ function Footer({}) {
         <footer className="footer">
             <div className="footer-content">
                 <div className="footer-links">
-                       <a href="/">{t('footer.home')}</a>
-                        <a href="/dienstleistungen">{t('footer.ourServices')}</a>
-                        <a href="/kontakt">{t('footer.paymentOptions')}</a>
-                        <a href="/über-uns">{t('footer.aboutUs')}</a>
-                        <a href="/kontakt">{t('footer.contact')}</a>
+                    <a href="/">{t('footer.home')}</a>
+                    <a href="/dienstleistungen">{t('footer.ourServices')}</a>
+                    <a href="/kontakt">{t('footer.paymentOptions')}</a>
+                    <a href="/über-uns">{t('footer.aboutUs')}</a>
+                    <a href="/kontakt">{t('footer.contact')}</a>
                 </div>
                 <div className="footer-links">
                     <a href='URL für Instagram'>
-                        <FontAwesomeIcon icon={faInstagram} />
+                        <FontAwesomeIcon icon={faInstagram}/>
                     </a>
                     <a href='URL für Facebook'>
-                        <FontAwesomeIcon icon={faFacebook} />
+                        <FontAwesomeIcon icon={faFacebook}/>
                     </a>
                     <a href='URL für LinkedIn'>
-                        <FontAwesomeIcon icon={faLinkedin} />
+                        <FontAwesomeIcon icon={faLinkedin}/>
                     </a>
                     <a href='URL für WhatsApp'>
-                        <FontAwesomeIcon icon={faWhatsapp} />
+                        <FontAwesomeIcon icon={faWhatsapp}/>
                     </a>
                 </div>
             </div>

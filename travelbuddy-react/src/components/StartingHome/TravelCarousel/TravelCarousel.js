@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './TravelCarousel.scss';
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Link} from "react-router-dom";
 
 const TravelCarousel = () => {
@@ -48,18 +48,20 @@ const TravelCarousel = () => {
     return (
         <div className="travel-carousel">
             <div className="carousel-container">
-                <button onClick={handlePrev} className="carousel-button"><FontAwesomeIcon icon={faChevronLeft} /></button>
+                <button onClick={handlePrev} className="carousel-button"><FontAwesomeIcon icon={faChevronLeft}/>
+                </button>
                 {travelData.slice(currentIndex, currentIndex + itemsToShow).map((travel, index) => (
                     <div className="travel-card" key={index}>
                         <Link to={`/travel/${travel.travelId}`} className="travel-card-link">
                             <div className="card-content">
-                                <img src={travel.image} alt={travel.title} className="travel-image" />
+                                <img src={travel.image} alt={travel.title} className="travel-image"/>
                                 <p className="travel-title">{travel.title}</p>
                             </div>
                         </Link>
                     </div>
                 ))}
-                <button onClick={handleNext} className="carousel-button"><FontAwesomeIcon icon={faChevronRight} /></button>
+                <button onClick={handleNext} className="carousel-button"><FontAwesomeIcon icon={faChevronRight}/>
+                </button>
             </div>
         </div>
     );
