@@ -1,2 +1,7 @@
-/.idea/
-/.gitignore/
+# .gitignore
+
+# Ignoriere das out-Verzeichnis
+out/
+
+# Ignoriere das .idea-Verzeichnis
+.idea/
