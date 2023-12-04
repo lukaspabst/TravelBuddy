@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -37,8 +38,8 @@ public class User {
     @NotNull
     @Schema(description = "Geburtstag des Benutzers", example = "01.01.2000", required = true)
     private String birthday;
-    @Schema(description = "Link zum ProfilBild des Benutzers", example = "xxx.com", required = true)
-    private String picture;
+    @Schema(description = "ProfilBild des Benutzers", example = "xxx.com", required = true)
+    private Binary picture;
     @NotNull
     @Schema(description = "Bevorzugte Interessen des Benutzers", example = "Wandern", required = true)
     private String preferences;
@@ -54,12 +55,12 @@ public class User {
     private String zipCode;
 
 
-    public User(String firstName, String lastName, String username, String bday, String bild, String interests, String reiseziele, Map<String, String> socialMediaLinks, Gender geschlecht, String location, String zipCode) {
+    public User(String firstName, String lastName, String username, String bday, byte[] bild, String interests, String reiseziele, Map<String, String> socialMediaLinks, Gender geschlecht, String location, String zipCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.birthday = bday;
-        this.picture = bild;
+        this.picture = new Binary(bild);
         this.preferences = interests;
         this.travelDestination = reiseziele;
         this.socialMediaLinks = socialMediaLinks;
@@ -67,6 +68,7 @@ public class User {
         this.location = location;
         this.zipCode = zipCode;
     }
+
 
     @Override
     public String toString() {

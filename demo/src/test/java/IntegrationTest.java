@@ -138,7 +138,7 @@ public class IntegrationTest {
     public void testCreateUser() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken);
-        User user = new User("firstname", "lastname", "username", "2023-01-01", "link.com", "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
+        User user = new User("firstname", "lastname", "username", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
 
         HttpEntity<User> entity = new HttpEntity<>(user, headers);
 
@@ -159,7 +159,7 @@ public class IntegrationTest {
     public void testCreateUserWithInvalidUsername() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken);
-        User user = new User("firstname", "lastname", "testname", "2023-01-01", "link.com", "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
+        User user = new User("firstname", "lastname", "testname", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
         HttpEntity<User> entity = new HttpEntity<>(user, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
