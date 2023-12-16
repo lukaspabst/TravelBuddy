@@ -1,0 +1,32 @@
+.info-icon-container {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.info-icon-container svg {
+  width: 25px;
+  height: 25px;
+}
+
+.tooltip-content {
+  position: absolute;
+  background-color: #414141;
+  color: #ff6666;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  top: 50%;
+  left: 100%;
+  transform: translate(10px, 0);
+  min-width: 150px;
+  max-width: 300px;
+  z-index: 9999;
+}
+.info-icon {
+  color: #ff6666;
+  cursor: pointer;
+}

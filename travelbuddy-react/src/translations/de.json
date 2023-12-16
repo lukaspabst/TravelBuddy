@@ -1,4 +1,9 @@
 {
+  "language": {
+    "german": "Deutsch",
+    "english": "Englisch",
+    "japanese": "Japanisch"
+  },
   "login": {
     "title": "Anmelden",
     "usernameLabel": "Benutzername",
@@ -39,7 +44,14 @@
     "wrongCredentials": "Benutzername oder Passwort ist falsch.",
     "internalServerError": "Fehler: Interner Serverfehler.",
     "registerError": "Bei der Registrierung ist ein Fehler aufgetreten.",
-    "badRequest": "Schlechte Anfrage: Ungültige Eingabedaten."
+    "badRequest": "Schlechte Anfrage: Ungültige Eingabedaten.",
+    "invalidStartDate": "Ungültiges Startdatum. Das Datum muss heute oder in der Zukunft liegen und darf nicht mehr als 50 Jahre in der Zukunft liegen.",
+    "invalidEndDate": "Ungültiges Enddatum. Das Datum muss heute oder in der Zukunft liegen und darf nicht mehr als 50 Jahre in der Zukunft liegen.",
+    "endDateBeforeStartDate": "Das Enddatum sollte nicht vor dem Startdatum liegen.",
+    "invalidMaxPersons": "Ungültige Anzahl von Personen. Der Wert muss zwischen 2 und 25 liegen.",
+    "invalidMaxPrice": "Ungültiger Maximalpreis. Der Wert muss höher als 0 sein.",
+    "emptyTripName": "Der Reisename darf nicht leer sein.",
+    "emptyFields": "Bitte füllen Sie alle Felder aus."
   },
   "home": {
     "startingButton": "Plane jetzt deine Reise"

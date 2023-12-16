@@ -1,6 +1,6 @@
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import './Navbar.css'
 import {Button} from '../../../Containers/Button/Button'
@@ -14,6 +14,9 @@ import {languageNames} from "../../../i18nConfig";
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
+
+    const [profilePicture, setProfilePicture] = useState(null);
+
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
     const {isLoggedIn, logout} = useAuth();
@@ -27,6 +30,21 @@ function Navbar() {
         i18n.changeLanguage(language);
         localStorage.setItem('selectedLanguage', language);
     };
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                if (isLoggedIn) {
+                    // Make an API request to fetch user profile information
+                    const response = await axios.get(`${API_BASE_URL}/api/users/profile-picture`, { withCredentials: true });
+                    if (response.data && response.data.profilePicture) {
+                        setProfilePicture(response.data.profilePicture);
+                    }
+                }
+            } catch (error) {
+            }
+        };
+        fetchUserProfile();
+    }, [isLoggedIn]);
 
     const handleLogout = () => {
         const checkToken = async () => {
@@ -68,21 +86,21 @@ function Navbar() {
                                 <div className="language-selector">
                                     <div className="selected-language" onClick={() => changeLanguage(i18n.language)}>
                                         <img src={`/assets/Flaggs/${i18n.language}.png`} alt={i18n.language}/>
-                                        <span>{languageName}</span>
+                                        <span>{t(`language.${languageName}`)}</span>
                                     </div>
                                     <div className="language-dropdown">
                                         <ul className="language-list">
                                             <li className="language-list-item" onClick={() => changeLanguage('de')}>
                                                 <img src="/assets/Flaggs/de.png" alt="German"/>
-                                                <span>German</span>
+                                                <span> {t('language.german')}</span>
                                             </li>
                                             <li className="language-list-item" onClick={() => changeLanguage('jp')}>
                                                 <img src="/assets/Flaggs/jp.png" alt="Japanese"/>
-                                                <span>Japanese</span>
+                                                <span> {t('language.japanese')}</span>
                                             </li>
                                             <li className="language-list-item" onClick={() => changeLanguage('gb')}>
                                                 <img src="/assets/Flaggs/gb.png" alt="English"/>
-                                                <span>English</span>
+                                                <span> {t('language.english')}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -101,7 +119,7 @@ function Navbar() {
                             {isLoggedIn && (
                                 <li className='nav-item'>
                                     <div className="user-profile">
-                                        <img src="/assets/pb_placeholder.png" alt="Profile" className="profile-image"/>
+                                        <img src={profilePicture ? `data:image/png;base64,${profilePicture}` : '/assets/pb_placeholder.png'} alt="Avatar" className="profile-image"/>
                                         <div className="profile-dropdown">
                                             <ul className="profile-menu">
                                                 <li className="profile-menu-item">

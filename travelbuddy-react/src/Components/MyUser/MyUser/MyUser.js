@@ -167,7 +167,7 @@ function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedI
         }
     };
 
-
+    console.log(selectedImage)
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());

@@ -215,19 +215,18 @@ public class UserController {
             log.error(getCurrentUsername());
             User user = userService.findByUsername(currentUsername);
             NavbarDTO navbarDTO= new NavbarDTO();
+            byte[] userPictureByteArray = null;
+            if (user != null) {
+                Binary userPictureBinary = user.getPicture();
+                if (userPictureBinary != null) {
+                    userPictureByteArray = userPictureBinary.getData();
+                }}
 
             if (user.getPicture() == null) {
                 log.info("User not found: " + currentUsername);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
-            Binary userPictureBinary = user.getPicture();
-
-            if (userPictureBinary != null) {
-                byte[] userPictureByteArray = userPictureBinary.getData();
-                navbarDTO.setProfilePicture(userPictureByteArray);
-            } else {
-                navbarDTO.setProfilePicture(null); // oder ein Standardbild als Byte-Array
-            }
+            navbarDTO.setProfilePicture(userPictureByteArray);
             log.info("Profile picture retrieved for user: " + currentUsername);
             return ResponseEntity.ok(navbarDTO);
 
