@@ -221,9 +221,9 @@ function CreateTripFormContent({handleSubmit, handleChange, state, t,errorInfo,i
                                 onChange={handleChange}
                             />
                             <div className="button-holder-spinButtons">
-                                <button onClick={incrementPersons} className="button-style-spin-buttons"><FontAwesomeIcon
+                                <button type="button" onClick={incrementPersons} className="button-style-spin-buttons"><FontAwesomeIcon
                                     icon={faChevronUp}/></button>
-                                <button onClick={decrementPersons} className="button-style-spin-buttons"><FontAwesomeIcon
+                                <button type="button" onClick={decrementPersons} className="button-style-spin-buttons"><FontAwesomeIcon
                                     icon={faChevronDown}/></button>
                             </div>
                         </div>
@@ -239,9 +239,9 @@ function CreateTripFormContent({handleSubmit, handleChange, state, t,errorInfo,i
                                 step="50"
                             />
                             <div className="button-holder-spinButtons">
-                                <button onClick={incrementPrice} className="button-style-spin-buttons"><FontAwesomeIcon
+                                <button type="button" onClick={incrementPrice} className="button-style-spin-buttons"><FontAwesomeIcon
                                     icon={faChevronUp}/></button>
-                                <button onClick={decrementPrice} className="button-style-spin-buttons"><FontAwesomeIcon
+                                <button type="button"  onClick={decrementPrice} className="button-style-spin-buttons"><FontAwesomeIcon
                                     icon={faChevronDown}/></button>
                             </div>
                         </div>

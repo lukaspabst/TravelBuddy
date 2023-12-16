@@ -4,6 +4,7 @@ import com.travelbuddy.demo.AdapterClasses.TripMember;
 import com.travelbuddy.demo.AdapterClasses.TripsMainContent;
 import com.travelbuddy.demo.Validators.DateInFutureOrPresent;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.Getter;
