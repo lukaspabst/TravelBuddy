@@ -1,4 +1,10 @@
 {
+  "language": {
+    "german": "German",
+    "english": "English",
+    "japanese": "Japanese",
+    "russian": "Russian"
+  },
   "login": {
     "title": "Login",
     "usernameLabel": "Username",
@@ -39,7 +45,15 @@
     "wrongCredentials": "Username or password is incorrect.",
     "internalServerError": "Error: Internal server error.",
     "registerError": "An error occurred during registration.",
-    "badRequest": "Bad Request: Invalid input data."
+    "badRequest": "Bad Request: Invalid input data.",
+    "invalidStartDate": "Invalid start date. The date must be today or in the future and no more than 50 years from now.",
+    "invalidEndDate": "Invalid end date. The date must be today or in the future and no more than 50 years from now.",
+    "endDateBeforeStartDate": "End date should not be prior to start date.",
+    "invalidMaxPersons": "Invalid number of persons. The value should be between 2 and 25.",
+    "invalidMaxPrice": "Invalid max price. The value should be greater than 0.",
+    "emptyTripName": "Trip name cannot be empty.",
+    "emptyFields": "Please fill all fields.",
+    "ageRestriction": "User must be at least 16 years old"
   },
   "home": {
     "startingButton": "Plan Your Trip Now"

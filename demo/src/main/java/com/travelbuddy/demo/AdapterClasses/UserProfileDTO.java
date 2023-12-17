@@ -12,7 +12,7 @@ public class UserProfileDTO {
     private String firstName;
     private String lastName;
     private String birthday;
-    private String profilePicture;
+    private byte[] profilePicture;
     private String preferences;
     private String travelDestination;
     private Map<String, String> socialMediaLinks;
@@ -20,7 +20,7 @@ public class UserProfileDTO {
     private String location;
     private String zipCode;
 
-    public UserProfileDTO(String firstName, String lastName, String profilePicture, String preferences, String travelDestination, Map<String, String> socialMediaLinks, String gender, String birthday, String location, String zipCode) {
+    public UserProfileDTO(String firstName, String lastName, byte[] profilePicture, String preferences, String travelDestination, Map<String, String> socialMediaLinks, String gender, String birthday, String location, String zipCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.profilePicture = profilePicture;

@@ -1,5 +1,6 @@
 package com.travelbuddy.demo.RestController;
 
+import com.travelbuddy.demo.AdapterClasses.NavbarDTO;
 import com.travelbuddy.demo.AdapterClasses.UserProfileDTO;
 import com.travelbuddy.demo.Entities.User;
 import com.travelbuddy.demo.Secruity.ServiceSec.JwtService;
@@ -11,12 +12,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.Binary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,11 +47,26 @@ public class UserController {
             User user = userService.findByUsername(currentUsername);
             UserProfileDTO userProfileDTO;
             if (user != null) {
-                userProfileDTO = new UserProfileDTO(user.getFirstName(), user.getLastName(), user.getPicture(), user.getPreferences(), user.getTravelDestination(), user.getSocialMediaLinks(), user.getGender(), user.getBirthday(), user.getLocation(), user.getZipCode());
+                Binary userPictureBinary = user.getPicture();
+                byte[] userPictureByteArray;
+                if (userPictureBinary != null) {
+                    userPictureByteArray = userPictureBinary.getData();
+                }else {
+                    userPictureByteArray=null;
+                }
+                    userProfileDTO = new UserProfileDTO(
+                            user.getFirstName(), user.getLastName(),
+                            userPictureByteArray, user.getPreferences(),
+                            user.getTravelDestination(), user.getSocialMediaLinks(),
+                            user.getGender(), user.getBirthday(), user.getLocation(),
+                            user.getZipCode()
+                    );
+               return ResponseEntity.status(HttpStatus.OK).body(userProfileDTO);
             } else {
-                userProfileDTO = new UserProfileDTO("", "", "", "", "", null, "", null, "", "");
+                userProfileDTO = new UserProfileDTO("", "", null, "", "", null, "", null, "", "");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userProfileDTO);
             }
-            return ResponseEntity.ok(userProfileDTO);
+
         } catch (Exception e) {
             log.error("An error occurred while processing the request.", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -55,7 +74,6 @@ public class UserController {
     }
 
     @PostMapping("/register")
-
     @Operation(summary = "Register a new user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created successfully"),
@@ -66,6 +84,7 @@ public class UserController {
     public ResponseEntity<String> createUser(@Valid @RequestBody UserProfileDTO userProfileDTO) {
         try {
             log.error(userProfileDTO.toString());
+            log.error(Arrays.toString(userProfileDTO.getProfilePicture()));
             String currentUsername = getCurrentUsername();
             if (currentUsername == null) {
                 log.warn("Username must equal the Security username");
@@ -94,6 +113,58 @@ public class UserController {
 
         }
     }
+
+    @PostMapping("/update")
+    @Operation(summary = "Update user profile")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User profile updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    public ResponseEntity<String> updateUser(@Valid @RequestBody UserProfileDTO userProfileDTO) {
+        try {
+            log.info("Received request to update user profile: {}", userProfileDTO);
+
+            String currentUsername = getCurrentUsername();
+
+            if (currentUsername == null) {
+                log.warn("Username must equal the Security username");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Username must equal the Security username");
+            }
+
+            User existingUser = userService.findByUsername(currentUsername);
+
+            if (existingUser == null) {
+                log.warn("User not found: {}", currentUsername);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found: " + currentUsername);
+            }
+
+            existingUser.setFirstName(userProfileDTO.getFirstName());
+            existingUser.setLastName(userProfileDTO.getLastName());
+            existingUser.setBirthday(userProfileDTO.getBirthday());
+            existingUser.setPreferences(userProfileDTO.getPreferences());
+            existingUser.setTravelDestination(userProfileDTO.getTravelDestination());
+            existingUser.setSocialMediaLinks(userProfileDTO.getSocialMediaLinks());
+            User.Gender.valueOf(userProfileDTO.getGender());
+            existingUser.setLocation(userProfileDTO.getLocation());
+            existingUser.setZipCode(userProfileDTO.getZipCode());
+
+            byte[] pictureByteArray = userProfileDTO.getProfilePicture();
+            if (pictureByteArray != null) {
+                Binary pictureBinary = new Binary(pictureByteArray);
+                existingUser.setPicture(pictureBinary);
+            }
+
+            userService.saveUser(existingUser);
+
+            return ResponseEntity.status(HttpStatus.OK).body("User profile updated successfully");
+        } catch (Exception e) {
+            log.error("An error occurred while processing the request.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the request");
+        }
+    }
+
 
     @DeleteMapping("/{username}")
 
@@ -130,6 +201,40 @@ public class UserController {
 
         }
     }
+    @GetMapping("/profile-picture")
+    @Operation(summary = "Get profile picture by username")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Profile picture retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    public ResponseEntity<NavbarDTO> getProfilePictureByUsername() {
+        try {
+            String currentUsername = getCurrentUsername();
+            log.error(getCurrentUsername());
+            User user = userService.findByUsername(currentUsername);
+            NavbarDTO navbarDTO= new NavbarDTO();
+            byte[] userPictureByteArray = null;
+            if (user != null) {
+                Binary userPictureBinary = user.getPicture();
+                if (userPictureBinary != null) {
+                    userPictureByteArray = userPictureBinary.getData();
+                }}
+
+            if (user.getPicture() == null) {
+                log.info("User not found: " + currentUsername);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            navbarDTO.setProfilePicture(userPictureByteArray);
+            log.info("Profile picture retrieved for user: " + currentUsername);
+            return ResponseEntity.ok(navbarDTO);
+
+        } catch (Exception e) {
+            log.error("An error occurred while processing the request.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     private String getCurrentUsername() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -140,4 +245,5 @@ public class UserController {
             return principal.toString();
         }
     }
+
 }

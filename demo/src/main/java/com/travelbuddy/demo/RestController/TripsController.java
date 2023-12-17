@@ -15,12 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.travelbuddy.demo.Entities.Trips.mapFromTripsMainContent;
@@ -41,8 +41,14 @@ public class TripsController {
     })
     @PostMapping
 
-    public ResponseEntity<Trips> createTrip(@Parameter(description = "Trip details", required = true) @Valid @RequestBody TripsMainContent tripsMainContent) {
-
+    public ResponseEntity<?> createTrip(@Parameter(description = "Trip details", required = true) @Valid @RequestBody TripsMainContent tripsMainContent, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorMap = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+        }
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();

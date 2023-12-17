@@ -1,4 +1,10 @@
 {
+  "language": {
+    "german": "ドイツ語",
+    "english": "英語",
+    "japanese": "日本語",
+    "russian": "ロシア語"
+  },
   "login": {
     "title": "ログイン",
     "usernameLabel": "ユーザー名",
@@ -39,7 +45,15 @@
     "wrongCredentials": "ユーザー名またはパスワードが正しくありません。",
     "internalServerError": "エラー：内部サーバーエラー。",
     "registerError": "登録中にエラーが発生しました。",
-    "badRequest": "不正なリクエスト：無効な入力データ。"
+    "badRequest": "不正なリクエスト：無効な入力データ。",
+    "invalidStartDate": "無効な開始日です。日付は今日または未来であり、今から50年以内である必要があります。",
+    "invalidEndDate": "無効な終了日です。日付は今日または未来であり、今から50年以内である必要があります。",
+    "endDateBeforeStartDate": "終了日は開始日よりも前にするべきではありません。",
+    "invalidMaxPersons": "無効な人数です。 値は2から25の間でなければなりません。",
+    "invalidMaxPrice": "無効な最大価格。 値は0より大きくなければなりません。",
+    "emptyTripName": "旅行名は空にできません。",
+    "emptyFields": "すべてのフィールドを入力してください。",
+    "ageRestriction": "ユーザーは最低16歳でなければなりません"
   },
   "home": {
     "startingButton": "今すぐ旅行を計画する"

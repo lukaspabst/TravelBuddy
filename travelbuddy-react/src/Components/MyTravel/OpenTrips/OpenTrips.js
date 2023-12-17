@@ -7,37 +7,39 @@ import './OpenTrips.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPerson} from "@fortawesome/free-solid-svg-icons";
 import {useTranslation} from "react-i18next";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import AnimationFlash from "../../../Containers/Animations/PageTransitionAnimations/AnimationFlash";
 
 function OpenTrips() {
     const [userTrips, setUserTrips] = useState([]);
     const {t, i18n} = useTranslation();
-    const navigation = useNavigate();
     const handleTripClick = (trip) => {
         localStorage.setItem('selectedTrip', JSON.stringify(trip));
     };
+    const mapDataToDTO = (tripData) => {
+        return tripData.map((trip) => {
+            return new TripDTO(
+                trip.id,
+                trip.name,
+                trip.maxPersons,
+                trip.startDate,
+                trip.endDate
+            );
+        });
+    };
+
+    const fetchUserTrips = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/api/trips/userTrips/open`, {withCredentials: true});
+            const tripsData = response.data;
+            const formattedTrips = mapDataToDTO(tripsData);
+            setUserTrips(formattedTrips);
+        } catch (error) {
+            console.error('Error fetching user trips:', error);
+        }
+    };
+
     useEffect(() => {
-        const fetchUserTrips = async () => {
-            try {
-                const response = await axios.get(`${API_BASE_URL}/api/trips/userTrips/open`, {withCredentials: true});
-                const tripsData = response.data;
-                const formattedTrips = tripsData.map((trip) => {
-                    return new TripDTO(
-                        trip.id,
-                        trip.nameTrip,
-                        trip.maxPersons,
-                        trip.startdate,
-                        trip.enddate
-                    );
-                });
-                setUserTrips(formattedTrips);
-
-            } catch (error) {
-                console.error('Error fetching user trips:', error);
-            }
-        };
-
         fetchUserTrips();
     }, []);
 
@@ -81,3 +83,4 @@ function OpenTrips() {
 }
 
 export default OpenTrips;
+

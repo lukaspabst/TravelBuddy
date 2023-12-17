@@ -23,6 +23,7 @@ import {validateLink} from "../LinkValidationUtils";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import Tooltip from 'react-tooltip-lite';
 import {useTranslation} from "react-i18next";
+import InfoIcon from "../../InfoIcon/InfoIcon";
 
 const SocialMediaInterface = () => {
     const {t} = useTranslation();
@@ -168,14 +169,7 @@ const SocialMediaInterface = () => {
                     </Button>
                 </div>
                 <div className="tooltip-info-button-socialMedia">
-                    {errorInfo && (
-                        <Tooltip
-                            content={<div className="tooltip-content">{errorInfo}</div>}
-                            arrow={false}
-                        >
-                            <FontAwesomeIcon icon={faInfoCircle} style={{color: '#ff6666', cursor: 'pointer'}}/>
-                        </Tooltip>
-                    )}
+                    {errorInfo && <InfoIcon tooltipMessage={errorInfo}/>}
                 </div>
             </div>
         </div>

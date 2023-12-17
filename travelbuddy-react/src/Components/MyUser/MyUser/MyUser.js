@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import AnimationFlash from "../../../Containers/Animations/PageTransitionAnimations/AnimationFlash";
 import ProfileBackground from "../../General/Background/MyProfilBackground";
 import './MyUser.scss';
@@ -12,9 +12,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import {Link} from "react-router-dom";
 import DigitalClock from "../../../Containers/DigitalUhr/digitalUhr";
-
+import {use} from "i18next";
+import InfoIcon from "../../../Containers/InfoIcon/InfoIcon";
+//TODO WE NEED COUNTRY FOR ZIPCODE AND LOCATION CHECK AND TEST STH ABOUT PRÄFERENZEN ALSO BACKEND CHECK FOR VALID BIRTHDAY
 function MyUser() {
     const {t} = useTranslation();
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const [userData, setUserData] = useState({
         firstName: '',
@@ -26,6 +30,7 @@ function MyUser() {
         travelDestination: '',
         socialMediaLinks: '',
         gender: '',
+        profilePicture:'',
     });
     useEffect(() => {
         const fetchUserData = async () => {
@@ -59,10 +64,14 @@ function MyUser() {
                         preferences: response.data.preferences,
                         travelDestination: response.data.travelDestination,
                         socialMediaLinks: response.data.socialMediaLinks,
-                        gender: mapBackendValueToDropdownValue(response.data.gender), // Mapping hier anwenden
+                        gender: mapBackendValueToDropdownValue(response.data.gender),
+
                     });
-                } else {
-                    console.error('Invalid date format received:');
+
+                    setSelectedImage(response.data.profilePicture);
+                    setIsEditMode(true);
+                } else if (response.status === 404) {
+                    setIsEditMode(false);
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
@@ -73,7 +82,6 @@ function MyUser() {
     }, []);
 
     const handleSaveProfile = async () => {
-        console.log("UserData in handleSave:", userData);
         try {
             const requestData = {
                 firstName: userData.firstName,
@@ -83,18 +91,28 @@ function MyUser() {
                 zipCode: userData.zipCode,
                 preferences: userData.preferences,
                 travelDestination: userData.travelDestination,
-                socialMediaLinks: JSON.parse(localStorage.getItem('socialMediaLinks')), // Social Media Links aus dem Local Storage
+                socialMediaLinks: JSON.parse(localStorage.getItem('socialMediaLinks')),
                 gender: userData.gender,
+                profilePicture: JSON.parse(localStorage.getItem("userProfilePicture"))
             };
-            console.error(requestData)
-            const response = await axios.post(`${API_BASE_URL}/api/users/register`, requestData, {
-                withCredentials: true,
-            });
+
+            let response;
+            localStorage.removeItem("userProfilePicture")
+            if (isEditMode) {
+
+                response = await axios.post(`${API_BASE_URL}/api/users/update`, requestData, {
+                    withCredentials: true,
+                });
+            } else {
+                // Register a new user profile
+                response = await axios.post(`${API_BASE_URL}/api/users/register`, requestData, {
+                    withCredentials: true,
+                });
+            }
 
             if (response.status === 200) {
                 console.log('Profile updated successfully');
             } else {
-
                 console.error('Error updating profile:', response.data);
             }
         } catch (error) {
@@ -103,12 +121,50 @@ function MyUser() {
     };
 
     return (
-        <UserProfileContent userData={userData} setUserData={setUserData} t={t} onSaveProfile={handleSaveProfile}/>
+        <UserProfileContent
+            userData={userData}
+            setUserData={setUserData}
+            t={t}
+            onSaveProfile={handleSaveProfile}
+            selectedImage={selectedImage}
+            setSelectedImage={setSelectedImage}
+        />
     );
 }
 
-function UserProfileContent({userData, setUserData, t, onSaveProfile}) {
+function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedImage, setSelectedImage }) {
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [errorInfo, setErrorInfo] = useState(null);
+    const fileInputRef = useRef(null);
+    const handleUploadButtonClick = () => {
+        fileInputRef.current.click();
+    };
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result;
+                const indexOfComma = base64String.indexOf(',') + 1;
+                const trimmedImage = base64String.substring(indexOfComma);
+
+                // Convert base64 to ByteArray
+                const byteCharacters = atob(trimmedImage);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+
+                // Save ByteArray to localStorage
+                localStorage.setItem("userProfilePicture", JSON.stringify(Array.from(byteArray)));
+
+                // Set selectedImage state
+                setSelectedImage(trimmedImage);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -117,10 +173,9 @@ function UserProfileContent({userData, setUserData, t, onSaveProfile}) {
 
         return () => clearInterval(intervalId);
     }, []);
-    console.log("UserData in UserProfileContent:", userData);
+
     const handleInputChange = (e) => {
         const {id, value} = e.target;
-        console.log(`Setting ${id} to: ${value}`);
         setUserData((prevUserData) => ({
             ...prevUserData,
             [id]: value,
@@ -129,17 +184,22 @@ function UserProfileContent({userData, setUserData, t, onSaveProfile}) {
 
     const handleGenderSelection = (e) => {
         const selectedGender = e.target.value;
-        console.log(`Selected gender: ${selectedGender}`);
         setUserData((prevUserData) => ({
             ...prevUserData,
             gender: selectedGender,
         }));
     };
     const handleDateChange = (date) => {
+        const userAge = new Date().getFullYear() - new Date(date).getFullYear();
+        if (userAge < 16) {
+            setErrorInfo(t('errorMessages.ageRestriction'));
+            return;
+        }
         setUserData((prevUserData) => ({
             ...prevUserData,
             birthday: date,
         }));
+        setErrorInfo(null);
     };
     return (
         <AnimationFlash>
@@ -149,10 +209,21 @@ function UserProfileContent({userData, setUserData, t, onSaveProfile}) {
                     <h1>{t('userProfile.title')}</h1>
                     <div className="user-profile-content">
                         <div className="user-profile-image">
-                            <img src="/assets/pb_placeholder.png" alt="Placeholder"/>
-                            <Button buttonStyle="btn--small-avatar">
-                                {t('userProfile.uploadAvatar')}
-                            </Button>
+                            <img
+                                src={selectedImage ? `data:image/png;base64,${selectedImage}` : '/assets/pb_placeholder.png'}
+                                alt="Avatar"/>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                style={{display: 'none'}}
+                                ref={fileInputRef}
+                            />
+                            <label htmlFor="upload-avatar-input">
+                                <Button buttonStyle="btn--small-avatar" onClick={handleUploadButtonClick}>
+                                    {t('userProfile.uploadAvatar')}
+                                </Button>
+                            </label>
                         </div>
                         <div className="user-profile-info-important">
                             <div className="user-profile-left">
@@ -249,9 +320,11 @@ function UserProfileContent({userData, setUserData, t, onSaveProfile}) {
                         </div>
                     </div>
                     <div className="format-button-editProfile">
-                        <Button buttonStyle="btn--outline" onClick={onSaveProfile}>
-                            {t('userProfile.editProfileButton')}
-                        </Button>
+                        {errorInfo ? <InfoIcon tooltipMessage={errorInfo}/> :
+                            <Button buttonStyle="btn--outline" onClick={onSaveProfile}>
+                                {t('userProfile.editProfileButton')}
+                            </Button>
+                        }
                     </div>
                 </div>
                 <div className="helpingLinks">

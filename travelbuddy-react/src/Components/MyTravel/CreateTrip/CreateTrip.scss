@@ -1,3 +1,8 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .create-trip-container {
   position: absolute;
   margin-top: 150px;
@@ -50,4 +55,47 @@ p {
     z-index: 1;
     margin-top: 1vw;
   }
+}
+.container-for-error-and-button{
+  display: flex;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+  scale: 1.5;
+}.input-holder-for-spinButton-and-Input {
+   position: relative;
+   display: flex;
+   align-items: center;
+ }
+
+.input-holder-for-spinButton-and-Input input {
+  width: 100%;
+}
+
+.button-holder-spinButtons {
+  position: absolute;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  z-index: 99;
+  top:2.5px;
+}
+
+.button-style-spin-buttons {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  color: white;
+
+  &:hover{
+    color:#125f8d;
+    transition: 0.3s;
+  }
+}
+
+.container-for-error-and-button {
+  display: flex;
+  align-items: center;
 }
