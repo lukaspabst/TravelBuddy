@@ -15,6 +15,10 @@ i18n
             jp: {
                 translation: require('./translations/jp.json')
             },
+
+            ru: {
+                translation: require('./translations/ru.json')
+            },
         },
         fallbackLng: 'gb',
         interpolation: {

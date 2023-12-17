@@ -13,7 +13,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {Link} from "react-router-dom";
 import DigitalClock from "../../../Containers/DigitalUhr/digitalUhr";
 import {use} from "i18next";
-
+import InfoIcon from "../../../Containers/InfoIcon/InfoIcon";
+//TODO WE NEED COUNTRY FOR ZIPCODE AND LOCATION CHECK AND TEST STH ABOUT PRÄFERENZEN ALSO BACKEND CHECK FOR VALID BIRTHDAY
 function MyUser() {
     const {t} = useTranslation();
     const [isEditMode, setIsEditMode] = useState(false);
@@ -81,8 +82,6 @@ function MyUser() {
     }, []);
 
     const handleSaveProfile = async () => {
-        console.log("UserData in handleSave:", userData);
-
         try {
             const requestData = {
                 firstName: userData.firstName,
@@ -135,7 +134,7 @@ function MyUser() {
 
 function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedImage, setSelectedImage }) {
     const [currentTime, setCurrentTime] = useState(new Date());
-
+    const [errorInfo, setErrorInfo] = useState(null);
     const fileInputRef = useRef(null);
     const handleUploadButtonClick = () => {
         fileInputRef.current.click();
@@ -167,7 +166,6 @@ function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedI
         }
     };
 
-    console.log(selectedImage)
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
@@ -192,10 +190,16 @@ function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedI
         }));
     };
     const handleDateChange = (date) => {
+        const userAge = new Date().getFullYear() - new Date(date).getFullYear();
+        if (userAge < 16) {
+            setErrorInfo(t('errorMessages.ageRestriction'));
+            return;
+        }
         setUserData((prevUserData) => ({
             ...prevUserData,
             birthday: date,
         }));
+        setErrorInfo(null);
     };
     return (
         <AnimationFlash>
@@ -205,12 +209,14 @@ function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedI
                     <h1>{t('userProfile.title')}</h1>
                     <div className="user-profile-content">
                         <div className="user-profile-image">
-                            <img src={selectedImage ? `data:image/png;base64,${selectedImage}` : '/assets/pb_placeholder.png'} alt="Avatar" />
+                            <img
+                                src={selectedImage ? `data:image/png;base64,${selectedImage}` : '/assets/pb_placeholder.png'}
+                                alt="Avatar"/>
                             <input
                                 type="file"
                                 accept="image/*"
                                 onChange={handleImageChange}
-                                style={{ display: 'none' }}
+                                style={{display: 'none'}}
                                 ref={fileInputRef}
                             />
                             <label htmlFor="upload-avatar-input">
@@ -314,9 +320,11 @@ function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedI
                         </div>
                     </div>
                     <div className="format-button-editProfile">
-                        <Button buttonStyle="btn--outline" onClick={onSaveProfile}>
-                            {t('userProfile.editProfileButton')}
-                        </Button>
+                        {errorInfo ? <InfoIcon tooltipMessage={errorInfo}/> :
+                            <Button buttonStyle="btn--outline" onClick={onSaveProfile}>
+                                {t('userProfile.editProfileButton')}
+                            </Button>
+                        }
                     </div>
                 </div>
                 <div className="helpingLinks">

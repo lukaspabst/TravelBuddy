@@ -102,6 +102,10 @@ function Navbar() {
                                                 <img src="/assets/Flaggs/gb.png" alt="English"/>
                                                 <span> {t('language.english')}</span>
                                             </li>
+                                            <li className="language-list-item" onClick={() => changeLanguage('ru')}>
+                                                <img src="/assets/Flaggs/ru.png" alt="Russian"/>
+                                                <span> {t('language.russian')}</span>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>

@@ -2,7 +2,8 @@
   "language": {
     "german": "German",
     "english": "English",
-    "japanese": "Japanese"
+    "japanese": "Japanese",
+    "russian": "Russian"
   },
   "login": {
     "title": "Login",
@@ -51,7 +52,8 @@
     "invalidMaxPersons": "Invalid number of persons. The value should be between 2 and 25.",
     "invalidMaxPrice": "Invalid max price. The value should be greater than 0.",
     "emptyTripName": "Trip name cannot be empty.",
-    "emptyFields": "Please fill all fields."
+    "emptyFields": "Please fill all fields.",
+    "ageRestriction": "User must be at least 16 years old"
   },
   "home": {
     "startingButton": "Plan Your Trip Now"

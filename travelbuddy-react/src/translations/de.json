@@ -2,7 +2,8 @@
   "language": {
     "german": "Deutsch",
     "english": "Englisch",
-    "japanese": "Japanisch"
+    "japanese": "Japanisch",
+    "russian": "Russisch"
   },
   "login": {
     "title": "Anmelden",
@@ -51,7 +52,8 @@
     "invalidMaxPersons": "Ungültige Anzahl von Personen. Der Wert muss zwischen 2 und 25 liegen.",
     "invalidMaxPrice": "Ungültiger Maximalpreis. Der Wert muss höher als 0 sein.",
     "emptyTripName": "Der Reisename darf nicht leer sein.",
-    "emptyFields": "Bitte füllen Sie alle Felder aus."
+    "emptyFields": "Bitte füllen Sie alle Felder aus.",
+    "ageRestriction": "Benutzer muss mindestens 16 Jahre alt sein"
   },
   "home": {
     "startingButton": "Plane jetzt deine Reise"

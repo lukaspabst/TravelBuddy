@@ -1,0 +1,114 @@
+{
+  "language": {
+    "german": "Немецкий",
+    "english": "Английский",
+    "japanese": "Японский",
+    "russian":"русский"
+  },
+  "login": {
+    "title": "Войти",
+    "usernameLabel": "Имя пользователя",
+    "passwordLabel": "Пароль",
+    "loginButton": "Войти",
+    "signupMessage": "У вас нет аккаунта?",
+    "signupLink": "Зарегистрируйтесь здесь"
+  },
+  "register": {
+    "title": "Зарегистрироваться",
+    "usernameLabel": "Имя пользователя",
+    "emailLabel": "Электронная почта",
+    "passwordLabel": "Пароль",
+    "handyLabel": "Мобильный",
+    "registerButton": "Зарегистрироваться",
+    "loginMessage": "У вас уже есть аккаунт?",
+    "loginLink": "Войти здесь"
+  },
+  "navbar": {
+    "home": "Домой",
+    "aboutUs": "О нас",
+    "login": "Войти",
+    "logout": "Выйти",
+    "MyTrips": "Мои поездки",
+    "MyProfile": "Мой профиль",
+    "Settings": "Настройки",
+    "Support": "Поддержка"
+  },
+  "footer": {
+    "home": "Домой",
+    "ourServices": "Наши услуги",
+    "paymentOptions": "Варианты оплаты",
+    "aboutUs": "О нас",
+    "contact": "Контакт",
+    "rightsReserved": "Все права защищены"
+  },
+  "errorMessages": {
+    "wrongCredentials": "Неверное имя пользователя или пароль.",
+    "internalServerError": "Ошибка: Внутренняя ошибка сервера.",
+    "registerError": "Произошла ошибка при регистрации.",
+    "badRequest": "Плохой запрос: Недопустимые входные данные.",
+    "invalidStartDate": "Неверная дата начала. Дата должна быть сегодня или в будущем и не более чем через 50 лет в будущем.",
+    "invalidEndDate": "Неверная дата окончания. Дата должна быть сегодня или в будущем и не более чем через 50 лет в будущем.",
+    "endDateBeforeStartDate": "Дата окончания не должна быть раньше даты начала.",
+    "invalidMaxPersons": "Неверное количество людей. Значение должно быть от 2 до 25.",
+    "invalidMaxPrice": "Неверная максимальная цена. Значение должно быть больше 0.",
+    "emptyTripName": "Название поездки не должно быть пустым.",
+    "emptyFields": "Пожалуйста, заполните все поля.",
+    "ageRestriction": "Пользователь должен быть не младше 16 лет"
+  },
+  "home": {
+    "startingButton": "Запланируйте свою поездку сейчас"
+  },
+  "myTravels": {
+    "openTravels": "Открытые поездки",
+    "createTrip": "Создать поездку",
+    "closedTravels": "Завершенные поездки",
+    "yourTrips": "Ваши поездки"
+  },
+  "createTrip": {
+    "title": "Создать поездку",
+    "tripNameLabel": "Название поездки",
+    "startDateLabel": "Дата начала",
+    "endDateLabel": "Дата окончания",
+    "destinationLabel": "Цель",
+    "maxPersonsLabel": "Максимальное количество людей",
+    "maxPriceLabel": "Максимальная цена",
+    "createTripButton": "Создать поездку",
+    "goBackMessage": "Вернуться к",
+    "goBackLink": "Мои поездки"
+  },
+  "userProfile": {
+    "title": "Ваш профиль",
+    "name": "Имя",
+    "surname": "Фамилия",
+    "preferences": "Предпочтения",
+    "travelDestinations": "Пункты назначения",
+    "socialMedia": "Социальные медиа",
+    "gender": "Пол",
+    "selectGender": "Выберите пол",
+    "male": "Мужской",
+    "female": "Женский",
+    "other": "Другое",
+    "editProfileButton": "Редактировать профиль",
+    "uploadAvatar": "Загрузить аватар",
+    "location": "Местоположение",
+    "zipCode": "Почтовый индекс",
+    "aboutMe": "Обо мне",
+    "birthday": "День рождения",
+    "usernameLabel": "Имя пользователя",
+    "emailLabel": "Электронная почта",
+    "handyLabel": "Мобильный",
+    "changePasswordButton": "Изменить пароль",
+    "changePasswordTitle": "Изменить пароль",
+    "oldPasswordLabel": "Старый пароль",
+    "newPasswordLabel": "Новый пароль",
+    "confirmPasswordLabel": "Подтвердите пароль",
+    "goBackMessage": "Вернуться к",
+    "goBackLink": "Мои поездки"
+  },
+  "socialMedia": {
+    "editLinksLabel": "Измените ваши ссылки в социальных сетях",
+    "enterLinkLabel": "Введите ссылку для {{platform}}",
+    "linkPlaceholder": "Ссылка для {{platform}}",
+    "saveButton": "Сохранить"
+  }
+}

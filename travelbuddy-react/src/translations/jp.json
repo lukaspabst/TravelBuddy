@@ -2,7 +2,8 @@
   "language": {
     "german": "ドイツ語",
     "english": "英語",
-    "japanese": "日本語"
+    "japanese": "日本語",
+    "russian": "ロシア語"
   },
   "login": {
     "title": "ログイン",
@@ -51,7 +52,8 @@
     "invalidMaxPersons": "無効な人数です。 値は2から25の間でなければなりません。",
     "invalidMaxPrice": "無効な最大価格。 値は0より大きくなければなりません。",
     "emptyTripName": "旅行名は空にできません。",
-    "emptyFields": "すべてのフィールドを入力してください。"
+    "emptyFields": "すべてのフィールドを入力してください。",
+    "ageRestriction": "ユーザーは最低16歳でなければなりません"
   },
   "home": {
     "startingButton": "今すぐ旅行を計画する"
