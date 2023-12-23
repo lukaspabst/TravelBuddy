@@ -6,10 +6,10 @@
   max-height: 80vh;
   overflow-y: auto;
   width: 70vw;
-  background-color: #333;
+  background: var(--bg-color);
   border-radius: 3vw;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
-  color: #fff;
+  color: var(--font-color);
   z-index: 1;
 
 }
@@ -48,22 +48,28 @@
 
 }
 
-
 .user-profile-info-important {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-right: 1.34vw;
 }
 
-
-.user-profile-left,
-.user-profile-right {
+.user-profile-name,
+.user-profile-location {
   display: flex;
+  flex-direction: row;
   gap: 16px;
-  flex: 1;
-  flex-direction: column;
   padding-right: 8px;
   padding-left: 8px;
+
 }
 
+.user-profile-field {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
 
 label {
   display: block;
@@ -154,7 +160,7 @@ label {
   position: absolute;
   margin-top: 100px;
   left: 80vw;
-  background-color: #333;
+  background: var(--bg-color);
   width: 15vw;
   align-content: center;
   display: flex;
@@ -178,7 +184,7 @@ label {
 
   p {
     margin-top: -25px;
-    color: #125f8d;
+    color: var(--the-dark-blue-of-the-side-color);
     font-size: 24px;
   }
 }
@@ -190,7 +196,7 @@ label {
 
 .selected-gender {
   select {
-    background: #555;
-    color: #fff;
+    background: var(--bg-color-input);
+    color: var(--font-color);
   }
 }

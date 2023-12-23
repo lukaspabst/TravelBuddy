@@ -33,12 +33,12 @@ public class Trips {
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Invalid date format. Use (yyyy-MM-dd)")
     @DateInFutureOrPresent
     @Schema(description = "Starttag des Trips", example = "01.01.2024", required = true)
-    private String Startdate;
+    private String startDate;
 
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Invalid date format. Use (yyyy-MM-dd)")
     @DateInFutureOrPresent
     @Schema(description = "Enddatum des Trips", example = "10.01.2024", required = true)
-    private String enddate;
+    private String endDate;
 
     @NotBlank(message = "Destination is mandatory")
     @Schema(description = "Zielort des Trips", example = "Davids Oarschloch", required = true)
@@ -70,8 +70,8 @@ public class Trips {
         this.members = members;
     }
 
-    public Trips(String id, String nameTrip, String startdate, String enddate, String destination, String description, Integer costs, Integer maxPersons, TravelVehicle travelVehicle, String type, List<TripMember> members) {
-        if (id == null || startdate == null || enddate == null || destination == null
+    public Trips(String id, String nameTrip, String startDate, String endDate, String destination, String description, Integer costs, Integer maxPersons, TravelVehicle travelVehicle, String type, List<TripMember> members) {
+        if (id == null || startDate == null || endDate == null || destination == null
                 || description == null || costs == null || maxPersons == null || travelVehicle == null
                 || type == null || members == null || nameTrip == null) {
             throw new IllegalArgumentException("All fields must be provided.");
@@ -79,8 +79,8 @@ public class Trips {
 
         this.id = id;
         this.nameTrip = nameTrip;
-        Startdate = startdate;
-        this.enddate = enddate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.destination = destination;
         this.description = description;
         this.costs = costs;
@@ -92,8 +92,8 @@ public class Trips {
 
     public Trips(TripsMainContent tripsMainContent) {
         this.nameTrip = tripsMainContent.getTripName();
-        this.Startdate = tripsMainContent.getStartDate();
-        this.enddate = tripsMainContent.getEndDate();
+        this.startDate = tripsMainContent.getStartDate();
+        this.endDate = tripsMainContent.getEndDate();
         this.destination = tripsMainContent.getDestination();
         this.costs = tripsMainContent.getCosts();
         this.maxPersons = tripsMainContent.getMaxPersons();

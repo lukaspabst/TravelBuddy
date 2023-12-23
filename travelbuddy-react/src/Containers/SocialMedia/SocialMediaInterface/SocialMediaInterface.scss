@@ -13,10 +13,10 @@
 
 #platformDropdown {
   width: 250px;
-  color: black;
+  color: var(--diff-font-color);
 
   .react-select__control {
-    border: 1px solid #2e59a3;
+    border: 1px solid var(--the-dark-blue-of-the-side-color);
     border-radius: 4px;
   }
 
@@ -30,7 +30,7 @@
   .platform-Dropdown-options {
     display: flex;
     align-items: center;
-    color: #fff;
+    color: var(--font-color);
   }
 
 

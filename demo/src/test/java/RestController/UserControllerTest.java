@@ -48,7 +48,7 @@ public class UserControllerTest {
     @Test
     public void testGetUserByUsername() throws Exception {
 
-        User user = new User("firstname", "lastname", "username", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
+        User user = new User("firstname", "lastname", "username", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777","Deutschland");
         when(userService.findByUsername("username")).thenReturn(user);
 
 
@@ -70,7 +70,7 @@ public class UserControllerTest {
     @Test
     public void testDeleteUserByUsername() throws Exception {
 
-        User user = new User("firstname", "lastname", "username", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
+        User user = new User("firstname", "lastname", "username", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777","Deutschland");
         when(userService.findByUsername("username")).thenReturn(user);
 
 
@@ -81,7 +81,7 @@ public class UserControllerTest {
     @Test
     public void testDeleteUserByUsernameForbidden() throws Exception {
 
-        when(userService.findByUsername("username")).thenReturn(new User("firstname", "lastname", "firstlast", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777"));
+        when(userService.findByUsername("username")).thenReturn(new User("firstname", "lastname", "firstlast", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777","Deutschland"));
 
 
         mockMvc.perform(delete("/users/firstlast"))

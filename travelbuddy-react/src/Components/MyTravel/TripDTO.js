@@ -1,7 +1,7 @@
 export class TripDTO {
-    constructor(id, name, maxPersons, startDate, endDate) {
+    constructor(id, nameTrip, maxPersons, startDate, endDate) {
         this.id = id;
-        this.name = name;
+        this.nameTrip = nameTrip;
         this.maxPersons = maxPersons;
         this.startDate = startDate;
         this.endDate = endDate;

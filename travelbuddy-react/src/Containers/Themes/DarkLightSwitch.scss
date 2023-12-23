@@ -1,0 +1,56 @@
+.dark-mode-switch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dark-mode-switch input {
+  display: none;
+}
+
+.switch-toggle {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 3vw;
+  height: 20px;
+  background: var(--bg-color-input);
+  border-radius: 20px;
+  padding: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.switch-toggle:hover {
+  background: var(--hover-bg-color);
+}
+
+.moon-icon,
+.lightbulb-icon {
+  font-size: 1.2rem;
+  color: var(--font-color);
+  margin: 5px;
+  transition: color 0.3s ease;
+}
+
+.ball {
+  width: 18px;
+  height: 18px;
+  background: var(--font-color);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left:20%;
+  transform: translateX(-50%) translateY(-50%);
+  transition: left 3s ease;
+}
+
+.switch-light-mode {
+  background: var(--bg-color-input); // Use the original color, or whichever color you prefer
+  .ball { left: 80%; }
+}
+
+.switch-dark-mode {
+  background: var(--bg-color-input); // Use the color you want for your dark mode
+  .ball { left: 20%; }
+}

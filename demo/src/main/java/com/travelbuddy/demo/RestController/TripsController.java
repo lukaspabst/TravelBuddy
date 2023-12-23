@@ -299,16 +299,16 @@ public class TripsController {
             List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
             List<UserTripsDto> userTripsDtoList = userTrips.stream()
                     .filter(trip -> {
-                        LocalDate endDate = LocalDate.parse(trip.getEnddate());
+                        LocalDate endDate = LocalDate.parse(trip.getEndDate());
                         return endDate.isAfter(LocalDate.now());
                     })
-                    .sorted(Comparator.comparing(trip -> LocalDate.parse(trip.getEnddate())))
+                    .sorted(Comparator.comparing(trip -> LocalDate.parse(trip.getEndDate())))
                     .map(trip -> new UserTripsDto(
                             trip.getId(),
                             trip.getNameTrip(),
                             trip.getMaxPersons(),
-                            trip.getStartdate(),
-                            trip.getEnddate()
+                            trip.getStartDate(),
+                            trip.getEndDate()
                     ))
                     .collect(Collectors.toList());
 
@@ -332,15 +332,15 @@ public class TripsController {
             List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
             List<UserTripsDto> userTripsDtoList = userTrips.stream()
                     .filter(trip -> {
-                        LocalDate endDate = LocalDate.parse(trip.getEnddate());
+                        LocalDate endDate = LocalDate.parse(trip.getEndDate());
                         return endDate.isBefore(LocalDate.now());
                     })
                     .map(trip -> new UserTripsDto(
                             trip.getId(),
                             trip.getNameTrip(),
                             trip.getMaxPersons(),
-                            trip.getStartdate(),
-                            trip.getEnddate()
+                            trip.getStartDate(),
+                            trip.getEndDate()
                     ))
                     .collect(Collectors.toList());
 

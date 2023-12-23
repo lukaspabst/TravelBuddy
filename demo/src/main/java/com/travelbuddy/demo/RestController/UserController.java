@@ -59,11 +59,11 @@ public class UserController {
                             userPictureByteArray, user.getPreferences(),
                             user.getTravelDestination(), user.getSocialMediaLinks(),
                             user.getGender(), user.getBirthday(), user.getLocation(),
-                            user.getZipCode()
+                            user.getZipCode(),user.getCountry()
                     );
                return ResponseEntity.status(HttpStatus.OK).body(userProfileDTO);
             } else {
-                userProfileDTO = new UserProfileDTO("", "", null, "", "", null, "", null, "", "");
+                userProfileDTO = new UserProfileDTO("", "", null, "", "", null, "", null, "", "","");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userProfileDTO);
             }
 
@@ -101,7 +101,8 @@ public class UserController {
                     userProfileDTO.getSocialMediaLinks(),
                     User.Gender.valueOf(userProfileDTO.getGender()),
                     userProfileDTO.getLocation(),
-                    userProfileDTO.getZipCode()
+                    userProfileDTO.getZipCode(),
+                    userProfileDTO.getCountry()
             );
 
             userService.saveUser(user);
@@ -149,6 +150,7 @@ public class UserController {
             User.Gender.valueOf(userProfileDTO.getGender());
             existingUser.setLocation(userProfileDTO.getLocation());
             existingUser.setZipCode(userProfileDTO.getZipCode());
+            existingUser.setCountry(userProfileDTO.getCountry());
 
             byte[] pictureByteArray = userProfileDTO.getProfilePicture();
             if (pictureByteArray != null) {

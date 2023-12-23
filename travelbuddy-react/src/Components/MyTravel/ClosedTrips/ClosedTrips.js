@@ -24,8 +24,8 @@ function OpenTrips() {
                         trip.id,
                         trip.nameTrip,
                         trip.maxPersons,
-                        trip.startdate,
-                        trip.enddate
+                        trip.startDate,
+                        trip.endDate
                     );
                 });
                 setUserTrips(formattedTrips);
@@ -50,7 +50,7 @@ function OpenTrips() {
                                 <div className="placeholder">
                                     <img src="/assets/ImagePlaceHolder.png" alt="Placeholder"/>
                                 </div>
-                                <div className="trip-name">{trip.name}</div>
+                                <div className="trip-name">{trip.nameTrip}</div>
                                 <div className="max-persons">
                                     <i data-number={trip.maxPersons}>
                                         <FontAwesomeIcon icon={faPerson} size="2xl"/></i>

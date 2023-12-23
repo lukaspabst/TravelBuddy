@@ -15,12 +15,15 @@ import Trip from "./Components/MyTravel/Trips/Trip";
 
 import {AnimatePresence} from "framer-motion";
 import MyUser from "./Components/MyUser/MyUser/MyUser";
+import {ThemeProvider} from "./Containers/Themes/ThemeProvider";
+import Settings from "./Components/HelpingLinks/Settings/Settings";
 
 function App() {
     const appContainerRef = useRef(null);
     const {isLoggedIn, isLoading} = useAuth();
 
     return (
+        <ThemeProvider>
         <Router>
             <AuthProvider>
                 <div ref={appContainerRef}>
@@ -35,13 +38,15 @@ function App() {
                             <Route path="/openTravels" element={isLoggedIn ? <OpenTrips/> : <Navigate to="/login"/>}/>
                             <Route path="/pastTravels" element={isLoggedIn ? <ClosedTrips/> : <Navigate to="/login"/>}/>
                             <Route path="/trip/:id" element={isLoggedIn ? <Trip/> : <Navigate to="/login"/>}/>
-                            <Route path="/MyProfile" element={isLoggedIn ? <MyUser/> : <Navigate to="/login"/>}/>
+                            <Route path="/myProfile" element={isLoggedIn ? <MyUser/> : <Navigate to="/login"/>}/>
+                            <Route path="/settings" element={isLoggedIn ? <Settings/> : <Navigate to="/login"/>}/>
                         </Routes>
                     </AnimatePresence>
                 </div>
                 <Footer/>
             </AuthProvider>
         </Router>
+        </ThemeProvider>
     );
 }
 

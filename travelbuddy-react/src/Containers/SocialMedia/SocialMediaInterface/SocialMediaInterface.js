@@ -20,8 +20,6 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import {Button} from "../../Button/Button";
 import {validateLink} from "../LinkValidationUtils";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
-import Tooltip from 'react-tooltip-lite';
 import {useTranslation} from "react-i18next";
 import InfoIcon from "../../InfoIcon/InfoIcon";
 
@@ -68,7 +66,9 @@ const SocialMediaInterface = () => {
     const customStyles = {
         control: (provided) => ({
             ...provided,
-            background: '#555',
+            background: window
+                .getComputedStyle(document.documentElement)
+                .getPropertyValue('--bg-color-input').trim(),
         }),
         option: (provided, state) => ({
             ...provided,
@@ -76,7 +76,11 @@ const SocialMediaInterface = () => {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '8px',
-            background: state.isFocused ? '#444' : '#555',
+            background: state.isFocused ? window
+                .getComputedStyle(document.documentElement)
+                .getPropertyValue('--bg-color').trim() : window
+                .getComputedStyle(document.documentElement)
+                .getPropertyValue('--bg-color-input').trim(),
             borderBottom: 'solid black 1px',
             transition: 'color 0.3s',
             cursor: 'pointer',
@@ -86,7 +90,9 @@ const SocialMediaInterface = () => {
             ...provided,
             zIndex: 9999,
             height: 'auto',
-            background: '#555', // Hintergrundfarbe für das Menü
+            background: window
+                .getComputedStyle(document.documentElement)
+                .getPropertyValue('--bg-color-input').trim(),
         }),
         menuList: (provided) => ({
             ...provided,

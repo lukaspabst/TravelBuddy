@@ -17,10 +17,10 @@ input::-webkit-inner-spin-button {
   margin-top: 1vw;
   width: 40vw;
   padding: 50px;
-  background-color: #333;
+  background: var(--bg-color);
   border-radius: 3vw;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
-  color: #fff;
+  color: var(--font-color);
   position: absolute;
   left: 30vw;
   z-index: 1;
@@ -46,10 +46,10 @@ p {
   .create-trip-form-container {
     width: 40vw;
     padding: 50px;
-    background-color: #333;
+    background: var(--bg-color);
     border-radius: 3vw;
     box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
-    color: #fff;
+    color: var(--font-color);
     position: absolute;
     left: 30vw;
     z-index: 1;
@@ -87,10 +87,10 @@ p {
   cursor: pointer;
   padding: 0;
   font-size: 16px;
-  color: white;
+  color: var(--font-color);
 
   &:hover{
-    color:#125f8d;
+    color: var(--the-dark-blue-of-the-side-color);
     transition: 0.3s;
   }
 }

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import React, {useContext, useState} from 'react';
+import {Link, useNavigate, useHi} from 'react-router-dom';
 import './LoginForm.scss';
 import {useTranslation} from "react-i18next";
 import axios from "axios";
@@ -15,14 +15,12 @@ function LoginForm() {
         password: '',
         message: '',
     });
-
     const navigate = useNavigate();
     const {t} = useTranslation();
-    const {login} = useAuth()
+    const {checkToken} = useAuth()
     const handleChange = (e) => {
         setState({...state, [e.target.name]: e.target.value});
     }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const {username, password} = state;
@@ -33,8 +31,8 @@ function LoginForm() {
                 password
             }, {withCredentials: true});
             if (request.status === 200) {
-                login();
-                navigate('/');
+                await checkToken();
+                window.location.href = "/";
             } else if (request.status === 401) {
                 setState({...state, message: t('errorMessages.wrongCredentials')});
             } else if (request.status === 403) {

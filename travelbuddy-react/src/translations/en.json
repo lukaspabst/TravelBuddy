@@ -80,6 +80,7 @@
     "title": "Your Profile",
     "name": "First Name",
     "surname": "Last Name",
+    "country": "Country",
     "preferences": "Preferences",
     "travelDestinations": "Travel Destinations",
     "socialMedia": "Social Media",

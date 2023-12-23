@@ -12,7 +12,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import {Link} from "react-router-dom";
 import DigitalClock from "../../../Containers/DigitalUhr/digitalUhr";
-import {use} from "i18next";
 import InfoIcon from "../../../Containers/InfoIcon/InfoIcon";
 //TODO WE NEED COUNTRY FOR ZIPCODE AND LOCATION CHECK AND TEST STH ABOUT PRÄFERENZEN ALSO BACKEND CHECK FOR VALID BIRTHDAY
 function MyUser() {
@@ -31,6 +30,7 @@ function MyUser() {
         socialMediaLinks: '',
         gender: '',
         profilePicture:'',
+        country:'',
     });
     useEffect(() => {
         const fetchUserData = async () => {
@@ -60,6 +60,7 @@ function MyUser() {
                         lastName: response.data.lastName,
                         location: response.data.location,
                         birthday: userBirthday,
+                        country:response.data.country,
                         zipCode: response.data.zipCode,
                         preferences: response.data.preferences,
                         travelDestination: response.data.travelDestination,
@@ -87,6 +88,7 @@ function MyUser() {
                 firstName: userData.firstName,
                 lastName: userData.lastName,
                 location: userData.location,
+                country:userData.country,
                 birthday: userData.birthday ? (new Date(userData.birthday)).toISOString() : '',
                 zipCode: userData.zipCode,
                 preferences: userData.preferences,
@@ -226,37 +228,54 @@ function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedI
                             </label>
                         </div>
                         <div className="user-profile-info-important">
-                            <div className="user-profile-left">
-                                <label htmlFor="firstName">{t('userProfile.name')}</label>
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    value={userData.firstName}
-                                    onChange={handleInputChange}
-                                />
-                                <label htmlFor="location">{t('userProfile.location')}</label>
-                                <input
-                                    type="text"
-                                    id="location"
-                                    value={userData.location}
-                                    onChange={handleInputChange}
-                                />
+                            <div className="user-profile-name">
+                                <div className="user-profile-field">
+                                    <label htmlFor="firstName">{t('userProfile.name')}</label>
+                                    <input
+                                        type="text"
+                                        id="firstName"
+                                        value={userData.firstName}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className="user-profile-field">
+                                    <label htmlFor="lastName">{t('userProfile.surname')}</label>
+                                    <input
+                                        type="text"
+                                        id="lastName"
+                                        value={userData.lastName}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
                             </div>
-                            <div className="user-profile-right">
-                                <label htmlFor="lastName">{t('userProfile.surname')}</label>
-                                <input
-                                    type="text"
-                                    id="lastName"
-                                    value={userData.lastName}
-                                    onChange={handleInputChange}
-                                />
-                                <label htmlFor="zipCode">{t('userProfile.zipCode')}</label>
-                                <input
-                                    type="text"
-                                    id="zipCode"
-                                    value={userData.zipCode}
-                                    onChange={handleInputChange}
-                                />
+                            <div className="user-profile-location">
+                                <div className="user-profile-field">
+                                    <label htmlFor="location">{t('userProfile.location')}</label>
+                                    <input
+                                        type="text"
+                                        id="location"
+                                        value={userData.location}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className="user-profile-field">
+                                    <label htmlFor="zipCode">{t('userProfile.zipCode')}</label>
+                                    <input
+                                        type="text"
+                                        id="zipCode"
+                                        value={userData.zipCode}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className="user-profile-field">
+                                    <label htmlFor="country">{t('userProfile.country')}</label>
+                                    <input
+                                        type="text"
+                                        id="country"
+                                        value={userData.country}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

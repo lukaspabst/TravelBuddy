@@ -20,7 +20,7 @@ function OpenTrips() {
         return tripData.map((trip) => {
             return new TripDTO(
                 trip.id,
-                trip.name,
+                trip.nameTrip,
                 trip.maxPersons,
                 trip.startDate,
                 trip.endDate
@@ -62,7 +62,7 @@ function OpenTrips() {
                                     <div className="placeholder">
                                         <img src="/assets/ImagePlaceHolder.png" alt="Placeholder"/>
                                     </div>
-                                    <div className="trip-name">{trip.name}</div>
+                                    <div className="trip-name">{trip.nameTrip}</div>
                                     <div className="max-persons">
                                         <i data-number={trip.maxPersons}>
                                             <FontAwesomeIcon icon={faPerson} size="2xl"/>

@@ -54,8 +54,11 @@ public class User {
     @Schema(description = "ZIP-Code des Benutzers", example = "12345", required = true)
     private String zipCode;
 
+    @Schema(description = "Land des Benutzers", example = "Country", required = true)
+    private String country;
 
-    public User(String firstName, String lastName, String username, String bday, byte[] bild, String interests, String reiseziele, Map<String, String> socialMediaLinks, Gender geschlecht, String location, String zipCode) {
+
+    public User(String firstName, String lastName, String username, String bday, byte[] bild, String interests, String reiseziele, Map<String, String> socialMediaLinks, Gender geschlecht, String location, String zipCode, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -67,6 +70,7 @@ public class User {
         this.gender = geschlecht.getDescription();
         this.location = location;
         this.zipCode = zipCode;
+        this.country = country;
     }
 
 

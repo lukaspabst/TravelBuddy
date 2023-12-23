@@ -63,8 +63,8 @@ public class TripsControllerTest {
     public void testCreateTrip() throws Exception {
         Trips trip = new Trips();
         trip.setId("1");
-        trip.setStartdate("01.01.2024");
-        trip.setEnddate("10.01.2024");
+        trip.setStartDate("01.01.2024");
+        trip.setEndDate("10.01.2024");
         trip.setDestination("Davids Oarschloch");
         trip.setDescription("Hier könnte Ihre Werbung stehen");
         trip.setCosts(200000);
@@ -91,8 +91,8 @@ public class TripsControllerTest {
         String tripId = "your_trip_id";
         Trips trip = new Trips();
         trip.setId("1");
-        trip.setStartdate("01.01.2024");
-        trip.setEnddate("10.01.2024");
+        trip.setStartDate("01.01.2024");
+        trip.setEndDate("10.01.2024");
         trip.setDestination("Davids Oarschloch");
         trip.setDescription("Hier könnte Ihre Werbung stehen");
         trip.setCosts(200000);
@@ -129,8 +129,8 @@ public class TripsControllerTest {
         Trips updatedTrip = new Trips(); // Set your updated trip details
         String tripId = "12345";
         updatedTrip.setId("1");
-        updatedTrip.setStartdate("01.01.2024");
-        updatedTrip.setEnddate("10.01.2024");
+        updatedTrip.setStartDate("01.01.2024");
+        updatedTrip.setEndDate("10.01.2024");
         updatedTrip.setDestination("Davids Oarschloch");
         updatedTrip.setDescription("Hier könnte Ihre Werbung stehen");
         updatedTrip.setCosts(200000);
@@ -182,8 +182,8 @@ public class TripsControllerTest {
     void testDeleteExistingTrip() throws Exception {
         Trips trip = new Trips();
         trip.setId("1");
-        trip.setStartdate("01.01.2024");
-        trip.setEnddate("10.01.2024");
+        trip.setStartDate("01.01.2024");
+        trip.setEndDate("10.01.2024");
         trip.setDestination("Davids Oarschloch");
         trip.setDescription("Hier könnte Ihre Werbung stehen");
         trip.setCosts(200000);

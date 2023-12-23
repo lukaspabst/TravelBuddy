@@ -12,16 +12,16 @@ public class UserTripsDto {
     private String id;
     private String nameTrip;
     private Integer maxPersons;
-    private String startdate;
-    private String enddate;
+    private String startDate;
+    private String endDate;
     @AssertTrue(message = "Start date must be before end date")
     public boolean isDateValid() {
         LocalDate startDateParsed;
         LocalDate endDateParsed;
 
         try {
-            startDateParsed = LocalDate.parse(this.getStartdate());
-            endDateParsed = LocalDate.parse(this.getEnddate());
+            startDateParsed = LocalDate.parse(this.getStartDate());
+            endDateParsed = LocalDate.parse(this.getEndDate());
         } catch(Exception e) {
             return false;
         }
@@ -29,12 +29,12 @@ public class UserTripsDto {
         return !startDateParsed.isAfter(endDateParsed);
     }
 
-    public UserTripsDto(String id, String nameTrip, Integer maxPersons, String startdate, String enddate) {
+    public UserTripsDto(String id, String nameTrip, Integer maxPersons, String startDate, String endDate) {
         this.id = id;
         this.nameTrip = nameTrip;
         this.maxPersons = maxPersons;
-        this.startdate = startdate;
-        this.enddate = enddate;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
 }

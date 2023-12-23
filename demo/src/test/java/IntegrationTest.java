@@ -138,7 +138,7 @@ public class IntegrationTest {
     public void testCreateUser() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken);
-        User user = new User("firstname", "lastname", "username", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
+        User user = new User("firstname", "lastname", "username", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777","Deutschland");
 
         HttpEntity<User> entity = new HttpEntity<>(user, headers);
 
@@ -159,7 +159,7 @@ public class IntegrationTest {
     public void testCreateUserWithInvalidUsername() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken);
-        User user = new User("firstname", "lastname", "testname", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777");
+        User user = new User("firstname", "lastname", "testname", "2023-01-01", null, "hiking", "malle", Map.of("Twitter", "https://twitter.com/ZenayoK", "Instagram", "https://www.instagram.com/lukas_23.03"), User.Gender.D, "ebeleben", "77777","Deutschland");
         HttpEntity<User> entity = new HttpEntity<>(user, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
@@ -197,8 +197,8 @@ public class IntegrationTest {
     public void testCreateTrip() throws Exception {
         Trips trip = new Trips();
         trip.setId("1");
-        trip.setStartdate("01.01.2024");
-        trip.setEnddate("10.01.2024");
+        trip.setStartDate("01.01.2024");
+        trip.setEndDate("10.01.2024");
         trip.setDestination("Davids Oarschloch");
         trip.setDescription("Hier könnte Ihre Werbung stehen");
         trip.setCosts(200000);
@@ -258,8 +258,8 @@ public class IntegrationTest {
 
         Trips updatedTrip = new Trips();
         updatedTrip.setId("1");
-        updatedTrip.setStartdate("01.01.2034");
-        updatedTrip.setEnddate("10.01.2034");
+        updatedTrip.setStartDate("01.01.2034");
+        updatedTrip.setEndDate("10.01.2034");
         updatedTrip.setDestination("Davids Oarschloch");
         updatedTrip.setDescription("Hier könnte Ihre Werbung stehen");
         updatedTrip.setCosts(200000);

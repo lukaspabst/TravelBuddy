@@ -37,10 +37,10 @@ public class TripsMainContent {
 
         return !startDateParsed.isAfter(endDateParsed);
     }
-    public TripsMainContent(String tripName, String startdate, String enddate, String destination, Integer costs, Integer maxPersons) {
+    public TripsMainContent(String tripName, String startDate, String endDate, String destination, Integer costs, Integer maxPersons) {
         this.tripName = tripName;
-        this.startDate = startdate;
-        this.endDate = enddate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.destination = destination;
         this.costs = costs;
         this.maxPersons = maxPersons;
@@ -48,8 +48,8 @@ public class TripsMainContent {
 
     public TripsMainContent(Trips trips) {
         this.tripName = trips.getNameTrip();
-        this.startDate = trips.getStartdate();
-        this.endDate = trips.getEnddate();
+        this.startDate = trips.getStartDate();
+        this.endDate = trips.getEndDate();
         this.destination = trips.getDestination();
         this.costs = trips.getCosts();
         this.maxPersons = trips.getMaxPersons();

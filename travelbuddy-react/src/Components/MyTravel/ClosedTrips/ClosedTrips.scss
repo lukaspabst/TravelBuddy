@@ -20,12 +20,12 @@
 }
 
 .trip-card-closed {
-  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  background: var(--bg-color);
   margin-left: 2.5%;
   margin-bottom: 16px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: #fff;
+  color: var(--font-color);
   width: 80vw;
 
 }
@@ -40,7 +40,7 @@
 .placeholder {
   width: 100px;
   height: 100px;
-  background-color: #ccc;
+  background: var(--bg-color);
   margin-right: 16px;
   border-radius: 8px 0 0 8px;
 }
@@ -58,7 +58,7 @@
   height: 100px;
   display: flex;
   align-items: center;
-  border-right: 1px solid #fff;
+  border-right: 1px solid var(--font-color);
   width: 75%;
 }
 
@@ -67,7 +67,7 @@
   display: flex;
   align-items: center;
   width: 5%;
-  border-right: 1px solid #fff;
+  border-right: 1px solid var(--font-color);
   margin-right: 16px;
   justify-content: center;
 }
@@ -84,7 +84,7 @@
   top: 47.5%;
   left: 47.5%;
   transform: translate(-50%, -50%);
-  color: #242424;
+  color: var(--diff-font-color);
   font-size: 1.5rem;
   font-family: sans-serif;
 }

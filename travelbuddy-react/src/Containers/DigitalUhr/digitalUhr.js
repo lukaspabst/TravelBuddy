@@ -15,8 +15,9 @@ const DigitalClock = () => {
     }, []);
 
     return (
-        <div className="container">
-            <div className="digital-clock">
+
+        <div className="digital-clock">
+            <div className="container">
                 <div className="date">{currentTime.toLocaleDateString()}</div>
                 <div className="uhrzeit-helper-wrapper">
                     <div className="hr">{currentTime.getHours().toString().padStart(2, '0')}</div>

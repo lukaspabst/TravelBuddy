@@ -6,7 +6,7 @@
 }
 
 .linked-media-item {
-  border: 1px solid #ccc;
+  border: 1px solid var(--font-color);
   padding: 12px;
   border-radius: 4px;
   display: flex;
@@ -15,6 +15,6 @@
   .icon-container {
     font-size: 25px;
     margin-right: 10px;
-    color: #125f8d;
+    color: var(--the-dark-blue-of-the-side-color);
   }
 }

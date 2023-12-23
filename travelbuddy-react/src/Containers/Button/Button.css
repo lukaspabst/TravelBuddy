@@ -1,5 +1,5 @@
 :root {
-    --primary: #fff;
+    --primary: var(--font-color);
 }
 
 .btn {
@@ -12,14 +12,14 @@
 
 .btn--primary {
     background-color: var(--primary);
-    color: #242424;
+    color: var(--diff-font-color);
     border: 1px solid var(--primary);
 }
 
 .btn--outline {
     padding: 10px;
-    background-color: #0f71a9;
-    color: #fff;
+    background-color:var(--the-light-blue-of-the-side-color);
+    color: var(--font-color);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -38,17 +38,17 @@
 }
 
 .btn--medium:hover, .btn--large:hover {
-    background-color: #125f8d;
-    color: #242424;
+    background-color: var(--the-dark-blue-of-the-side-color);
+    color: var(--diff-font-color);
     transition: all 0.3s ease-out;
 }
 
 .btn--small-avatar {
     padding: 0.5rem 0.5rem;
     font-size: 16px;
-    border: 1px solid #fff;
-    background-color: #0f71a9;
-    color: #fff;
+    border: 1px solid var(--font-color);
+    background-color: var(--the-light-blue-of-the-side-color);
+    color: var(--font-color);
     transition: all 0.3s ease-out;
     display: flex;
     align-items: center;
@@ -64,8 +64,8 @@
     width: 35vw;
     height: 10%;
     border-radius: 2vw;
-    border: 0.3vw solid #0f71a9;
-    background-color: rgba(255, 255, 255, 0.5);
+    border: 0.3vw solid var(--the-light-blue-of-the-side-color);
+    background: rgba(255, 255, 255, 0.5);
     box-shadow: 2vw 2vw 4vw rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
@@ -74,8 +74,8 @@
 
 
 .btn--large-image:hover {
-    background-color: #125f8d;
-    color: #fff;
+    background-color: var(--the-dark-blue-of-the-side-color);
+    color: var(--font-color);
     transition: all 0.5s ease-out;
     transform: scale(1.01);
 }

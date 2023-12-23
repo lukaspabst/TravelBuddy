@@ -1,6 +1,6 @@
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import './Navbar.css'
 import {Button} from '../../../Containers/Button/Button'
@@ -9,12 +9,13 @@ import {useAuth} from "../../../Containers/Authentication/AuthProvider";
 import axios from "axios";
 import {API_BASE_URL} from "../../../config";
 import {languageNames} from "../../../i18nConfig";
+import {ThemeContext} from "../../../Containers/Themes/ThemeContext";
+import DarkModeSwitch from "../../../Containers/Themes/DarkLightSwitch";
 
 
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
-
     const [profilePicture, setProfilePicture] = useState(null);
 
     const handleClick = () => setClick(!click);
@@ -123,7 +124,9 @@ function Navbar() {
                             {isLoggedIn && (
                                 <li className='nav-item'>
                                     <div className="user-profile">
-                                        <img src={profilePicture ? `data:image/png;base64,${profilePicture}` : '/assets/pb_placeholder.png'} alt="Avatar" className="profile-image"/>
+                                        <img
+                                            src={profilePicture ? `data:image/png;base64,${profilePicture}` : '/assets/pb_placeholder.png'}
+                                            alt="Avatar" className="profile-image"/>
                                         <div className="profile-dropdown">
                                             <ul className="profile-menu">
                                                 <li className="profile-menu-item">
@@ -165,8 +168,12 @@ function Navbar() {
                                             </Link>
                                         )}
                                 </div>
+
                             </li>
                         </ul>
+                        <div className='nav-item'>
+                            <DarkModeSwitch/>
+                        </div>
                     </div>
                 </nav>
             </header>
