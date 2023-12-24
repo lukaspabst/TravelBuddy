@@ -177,7 +177,7 @@ label {
     margin-left: 10px;
     padding: 5px;
     border-radius: 5px;
-    border: solid 1px;
+    border: solid 1px var(--font-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   }
@@ -199,4 +199,7 @@ label {
     background: var(--bg-color-input);
     color: var(--font-color);
   }
+}
+.custom-datepicker::placeholder{
+  color: var(--font-color);
 }

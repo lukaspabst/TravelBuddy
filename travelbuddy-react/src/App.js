@@ -11,24 +11,19 @@ import CreateTrip from "./Components/MyTravel/CreateTrip/CreateTrip";
 import MyTravels from "./Components/MyTravel/MyTravels/MyTravels";
 import OpenTrips from "./Components/MyTravel/OpenTrips/OpenTrips";
 import ClosedTrips from "./Components/MyTravel/ClosedTrips/ClosedTrips";
-import Trip from "./Components/MyTravel/Trips/Trip";
-
-import {AnimatePresence} from "framer-motion";
+import Trip from "./Components/MyTravel/Trips/TripPage/Trip";
 import MyUser from "./Components/MyUser/MyUser/MyUser";
 import {ThemeProvider} from "./Containers/Themes/ThemeProvider";
 import Settings from "./Components/HelpingLinks/Settings/Settings";
 
 function App() {
-    const appContainerRef = useRef(null);
-    const {isLoggedIn, isLoading} = useAuth();
+    const {isLoggedIn} = useAuth();
 
     return (
         <ThemeProvider>
         <Router>
             <AuthProvider>
-                <div ref={appContainerRef}>
                     <Navbar/>
-                    <AnimatePresence mode="out-in">
                         <Routes>
                             <Route path="/" element={<StartPage/>}/>
                             <Route path="/login" element={<LoginForm/>}/>
@@ -41,8 +36,6 @@ function App() {
                             <Route path="/myProfile" element={isLoggedIn ? <MyUser/> : <Navigate to="/login"/>}/>
                             <Route path="/settings" element={isLoggedIn ? <Settings/> : <Navigate to="/login"/>}/>
                         </Routes>
-                    </AnimatePresence>
-                </div>
                 <Footer/>
             </AuthProvider>
         </Router>

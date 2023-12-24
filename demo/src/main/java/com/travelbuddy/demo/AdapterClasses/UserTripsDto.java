@@ -14,6 +14,7 @@ public class UserTripsDto {
     private Integer maxPersons;
     private String startDate;
     private String endDate;
+    private Integer costs;
     @AssertTrue(message = "Start date must be before end date")
     public boolean isDateValid() {
         LocalDate startDateParsed;
@@ -29,12 +30,13 @@ public class UserTripsDto {
         return !startDateParsed.isAfter(endDateParsed);
     }
 
-    public UserTripsDto(String id, String nameTrip, Integer maxPersons, String startDate, String endDate) {
+    public UserTripsDto(String id, String nameTrip, Integer maxPersons, String startDate, String endDate, Integer costs) {
         this.id = id;
         this.nameTrip = nameTrip;
         this.maxPersons = maxPersons;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.costs = costs;
     }
 
 }

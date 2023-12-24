@@ -1,29 +1,75 @@
-import {motion} from 'framer-motion';
-import React from "react";
+import { useEffect, useState } from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPerson} from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import {motion} from "framer-motion";
 
-const blackBox = {
-    initial: {
-        height: "100vh",
-        bottom: 0,
-    },
-    animate: {
-        height: 0,
-    },
-};
+const BlackCoverDiv = styled( motion.div )`
+    background: var(--bg-color-animation);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+`;
 
+const AnimatedTripCard = ({ onAnimationComplete }) => {
+    const [trip, setTrip] = useState({});
 
-const AnimatedTripCard = ({children}) => {
-    const selectedTrip = JSON.parse(localStorage.getItem('selectedTrip'));
-    console.log(selectedTrip);
+    const TripCardDiv = styled(motion.div)`
+    /* Add your trip-card CSS styles here */
+    `;
+    // Get trip data from local storage when the component mounts
+    useEffect(() => {
+        const tripData = localStorage.getItem('selectedTrip');
+        if (tripData) {
+            setTrip(JSON.parse(tripData));
+        }
+    }, []);
+
     return (
-        <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div
-                className="relative z-50 w-full bg-black"
-                initial="initial"
-                animate="animate"
-                variants={blackBox}
-            />
-        </div>
+        <BlackCoverDiv
+            initial={{y: '0%'}}
+            animate={{y: '100%'}}
+            transition={{
+                delay: 1,
+                when: 'afterChildren',
+                duration: 1,
+                ease: [0.87, 0, 0.13, 1],
+            }}
+            onAnimationComplete={onAnimationComplete}>
+            <TripCardDiv
+                className="trip-card"
+                initial={{ scale: 1, opacity: 1 }}
+                animate={{ scale: 0, opacity: 0 }}
+                transition={{
+                    delay: 0.75,
+                    duration: 1,
+                    ease: [0.87, 0, 0.13, 1],
+                }}
+            >
+                <div className="trip-info">
+                    <div className="placeholder">
+                        <img src="/assets/ImagePlaceHolder.png" alt="Placeholder"/>
+                    </div>
+                    <div className="trip-name">{trip.nameTrip}</div>
+                    <div className="max-persons">
+                        <i data-number={trip.maxPersons}>
+                            <FontAwesomeIcon icon={faPerson} size="2xl"/>
+                        </i>
+                    </div>
+                    <div className="dates">
+                        <div>{trip.startDate || 'N/A'}</div>
+                        <div>{trip.endDate || 'N/A'}</div>
+                    </div>
+                </div>
+            </TripCardDiv>
+        </BlackCoverDiv>
     );
 };
 

@@ -85,6 +85,7 @@
     "socialMedia": "Социальные медиа",
     "gender": "Пол",
     "selectGender": "Выберите пол",
+    "country": "Страна",
     "male": "Мужской",
     "female": "Женский",
     "other": "Другое",
@@ -103,12 +104,20 @@
     "newPasswordLabel": "Новый пароль",
     "confirmPasswordLabel": "Подтвердите пароль",
     "goBackMessage": "Вернуться к",
-    "goBackLink": "Мои поездки"
+    "goBackLink": "Мои поездки",
+    "selectBirthday": "Выберите дату рождения"
   },
   "socialMedia": {
     "editLinksLabel": "Измените ваши ссылки в социальных сетях",
     "enterLinkLabel": "Введите ссылку для {{platform}}",
     "linkPlaceholder": "Ссылка для {{platform}}",
     "saveButton": "Сохранить"
+  },
+  "helpingLinks": {
+    "title": "Дополнительные ссылки для вас",
+    "userSecurity": "Ваша безопасность пользователя",
+    "faq": "Часто задаваемые вопросы",
+    "support": "Поддержка"
   }
 }
+

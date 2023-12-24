@@ -19,20 +19,20 @@ function CreateTrip() {
         endDate: '',
         destination: '',
         maxPersons: '',
-        maxPrice: '',
+        costs: '',
     });
     const [errorInfo, setErrorInfo] = useState(null);
     const incrementPrice = () => {
         setState(prevState => ({
             ...prevState,
-            maxPrice: Number(prevState.maxPrice) + 50,
+            costs: Number(prevState.costs) + 50,
         }));
     }
 
     const decrementPrice = () => {
         setState(prevState => ({
             ...prevState,
-            maxPrice: Number(prevState.maxPrice) - 50,
+            costs: Number(prevState.costs) - 50,
         }));
     }
     const incrementPersons = () => {
@@ -92,9 +92,9 @@ function CreateTrip() {
             }
         }
 
-        if (name === "maxPrice") {
-            const maxPrice = parseFloat(value);
-            if (maxPrice <= 0) {
+        if (name === "costs") {
+            const costs = parseFloat(value);
+            if (costs <= 0) {
                 setErrorInfo(t(`errorMessages.invalidMaxPrice`));
                 return;
             }
@@ -104,7 +104,7 @@ function CreateTrip() {
             setErrorInfo(t(`errorMessages.emptyTripName`));
             return;
         }
-        if (['tripName', 'startDate', 'endDate', 'destination', 'maxPersons', 'maxPrice'].every(item => state[item])) {
+        if (['tripName', 'startDate', 'endDate', 'destination', 'maxPersons', 'costs'].every(item => state[item])) {
             setErrorInfo(null);
         } else {
             setErrorInfo(t('errorMessages.emptyFields'));
@@ -114,7 +114,7 @@ function CreateTrip() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const {tripName, startDate, endDate, destination, maxPersons, maxPrice} = state;
+        const {tripName, startDate, endDate, destination, maxPersons, costs} = state;
         try {
             const response = await axios.post(
                 `${API_BASE_URL}/api/trips`,
@@ -124,7 +124,7 @@ function CreateTrip() {
                     endDate,
                     destination,
                     maxPersons,
-                    maxPrice
+                    costs
                 },
                 {withCredentials: true}
             );
@@ -227,14 +227,14 @@ function CreateTripFormContent({handleSubmit, handleChange, state, t,errorInfo,i
                                     icon={faChevronDown}/></button>
                             </div>
                         </div>
-                        <label htmlFor="maxPrice">{t('createTrip.maxPriceLabel')}</label>
+                        <label htmlFor="costs">{t('createTrip.maxPriceLabel')}</label>
                         <div className="input-holder-for-spinButton-and-Input">
                             <input
                                 type="number"
-                                id="maxPrice"
-                                name="maxPrice"
+                                id="costs"
+                                name="costs"
                                 required
-                                value={state.maxPrice}
+                                value={state.costs}
                                 onChange={handleChange}
                                 step="50"
                             />

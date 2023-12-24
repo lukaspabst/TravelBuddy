@@ -104,12 +104,20 @@
     "newPasswordLabel": "New Password",
     "confirmPasswordLabel": "Confirm Password",
     "goBackMessage": "Go back to",
-    "goBackLink": "My Travels"
+    "goBackLink": "My Travels",
+    "selectBirthday": "Select Birthday"
   },
   "socialMedia": {
     "editLinksLabel": "Edit Your Social Media Links",
     "enterLinkLabel": "Enter link for {{platform}}",
     "linkPlaceholder": "Link for {{platform}}",
     "saveButton": "Save"
+  },
+  "helpingLinks": {
+    "title": "More links for you",
+    "userSecurity": "Your User Security",
+    "faq": "Frequently Asked Questions",
+    "support": "Support"
   }
 }
+

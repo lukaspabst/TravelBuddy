@@ -349,10 +349,10 @@ function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedI
                 <div className="helpingLinks">
                     <div>
                         <ul>
-                            <p>Weitere Links für dich</p>
-                            <li><Link to="/user-security">Deine User Security</Link></li>
-                            <li><Link to="/faq">FAQ</Link></li>
-                            <li><Link to="/support">Support</Link></li>
+                            <p>{t('helpingLinks.title')}</p>
+                            <li><Link to="/user-security">{t('helpingLinks.userSecurity')}</Link></li>
+                            <li><Link to="/faq">{t('helpingLinks.faq')}</Link></li>
+                            <li><Link to="/support">{t('helpingLinks.support')}</Link></li>
                         </ul>
                         <div className="digital-clock-wrapper-in-helpingLinks">
                             <DigitalClock/>

@@ -60,6 +60,7 @@
   align-items: center;
   border-right: 1px solid var(--font-color);
   width: 75%;
+  margin-right: 20px;
 }
 
 .max-persons {
@@ -68,7 +69,7 @@
   align-items: center;
   width: 5%;
   border-right: 1px solid var(--font-color);
-  margin-right: 16px;
+  padding-right: 20px;
   justify-content: center;
 }
 
@@ -98,4 +99,5 @@
   align-items: center;
   font-size: 1.25rem;
   justify-content: center;
+
 }

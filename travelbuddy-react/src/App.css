@@ -1,19 +1,24 @@
 :root {
+
     --bg-color-light: linear-gradient(90deg, rgb(240, 240, 240) 0%, rgb(220, 220, 220) 100%);
     --bg-color-input-light: #ccc;
+    --bg-color-animation-light: #e0e0e0;
     --font-color-light: #000000;
 
     --bg-color-dark: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
     --bg-color-input-dark: #555;
+    --bg-color-animation-dark: #111;
     --font-color-dark: #ffffff;
 
     --bg-color: var(--bg-color-dark);
     --bg-color-input: var(--bg-color-input-dark);
     --font-color: var(--font-color-dark);
     --diff-font-color: var(--font-color-light);
+    --bg-color-animation: var(--bg-color-animation-dark);
 
     --the-dark-blue-of-the-side-color: #125f8d;
     --the-light-blue-of-the-side-color: #0f71a9;
+
 }
 
 @font-face {

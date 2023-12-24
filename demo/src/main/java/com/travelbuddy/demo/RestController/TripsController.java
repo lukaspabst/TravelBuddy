@@ -308,7 +308,8 @@ public class TripsController {
                             trip.getNameTrip(),
                             trip.getMaxPersons(),
                             trip.getStartDate(),
-                            trip.getEndDate()
+                            trip.getEndDate(),
+                            trip.getCosts()
                     ))
                     .collect(Collectors.toList());
 
@@ -340,7 +341,8 @@ public class TripsController {
                             trip.getNameTrip(),
                             trip.getMaxPersons(),
                             trip.getStartDate(),
-                            trip.getEndDate()
+                            trip.getEndDate(),
+                            trip.getCosts()
                     ))
                     .collect(Collectors.toList());
 

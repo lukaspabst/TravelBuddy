@@ -10,6 +10,7 @@ import {useTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
 import AnimationFlash from "../../../Containers/Animations/PageTransitionAnimations/AnimationFlash";
 
+
 function OpenTrips() {
     const [userTrips, setUserTrips] = useState([]);
     const {t, i18n} = useTranslation();
@@ -23,7 +24,8 @@ function OpenTrips() {
                 trip.nameTrip,
                 trip.maxPersons,
                 trip.startDate,
-                trip.endDate
+                trip.endDate,
+                trip.costs
             );
         });
     };
@@ -57,7 +59,7 @@ function OpenTrips() {
                             }}
                             onClick={() => handleTripClick(trip)}
                         >
-                            <div key={trip.id} className="trip-card">
+                            <div className="trip-card">
                                 <div className="trip-info">
                                     <div className="placeholder">
                                         <img src="/assets/ImagePlaceHolder.png" alt="Placeholder"/>

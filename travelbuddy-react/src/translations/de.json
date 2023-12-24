@@ -92,6 +92,7 @@
     "uploadAvatar": "Avatar hochladen",
     "location": "Wohnort",
     "zipCode": "Postleitzahl",
+    "country": "Land",
     "aboutMe": "Über mich",
     "birthday": "Geburtstag",
     "usernameLabel": "Benutzername",
@@ -103,12 +104,20 @@
     "newPasswordLabel": "Neues Passwort",
     "confirmPasswordLabel": "Passwort bestätigen",
     "goBackMessage": "Zurück zu",
-    "goBackLink": "Meine Reisen"
+    "goBackLink": "Meine Reisen",
+    "selectBirthday": "Geburtstag auswählen"
   },
   "socialMedia": {
     "editLinksLabel": "Bearbeite Deine Social Media Links",
     "enterLinkLabel": "Link für {{platform}} eingeben",
     "linkPlaceholder": "Link für {{platform}}",
     "saveButton": "Speichern"
+  },
+  "helpingLinks": {
+    "title": "Weitere Links für dich",
+    "userSecurity": "Deine User Security",
+    "faq": "Häufig gestellte Fragen",
+    "support": "Support"
   }
 }
+

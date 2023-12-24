@@ -1,0 +1,47 @@
+.animation-wrapper-for-logo{
+  top:50%;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-image-animation {
+  width: 240px;
+  height: 160px;
+}
+.shine {
+  position: relative;
+  display: inline-block;
+  font-size: 80px;
+  color: var(--font-color);
+  overflow: hidden;
+}
+
+.shine:before {
+  content: 'TravelBuddy';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  $primary-background-color: var(--diff-font-color);
+  $secondary-background-color: var(--font-color);
+  background: linear-gradient(90deg, $primary-background-color 0%, $secondary-background-color 50%, $primary-background-color 100%) 100% 0 / 200% 100%;
+  animation: shine 1s infinite linear;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
