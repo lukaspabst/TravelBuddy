@@ -2,7 +2,9 @@ package com.travelbuddy.demo.RestController;
 
 import com.travelbuddy.demo.AdapterClasses.*;
 import com.travelbuddy.demo.Entities.Trips;
+import com.travelbuddy.demo.Entities.User;
 import com.travelbuddy.demo.Services.TripsService;
+import com.travelbuddy.demo.Services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +36,8 @@ import static com.travelbuddy.demo.Entities.Trips.mapFromTripsMainContent;
 public class TripsController {
     @Autowired
     private TripsService tripsService;
+    @Autowired
+    private UserService userService;
 
     @Operation(summary = "Create a trip")
     @ApiResponses(value = {
@@ -392,6 +397,45 @@ public class TripsController {
             }
         } catch (Exception e) {
             log.error("Error getting user role for trip: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "Get list of usernames in a trip")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of usernames retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Trip not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+
+    @GetMapping("/{tripId}/members")
+    public ResponseEntity<List<SingleTripMemberDTO>> getTripUsernames(
+            @Parameter(description = "Trip ID", required = true) @PathVariable String tripId) {
+        try {
+            Optional<Trips> optionalTrip = tripsService.getTripById(tripId);
+            if (optionalTrip.isPresent()) {
+                Trips trip = optionalTrip.get();
+                List<String> usernames = trip.getUsernames();
+                List<SingleTripMemberDTO> listOfSingleTripMember = usernames.stream().map(username -> {
+                    User user = userService.findByUsername(username);
+                    SingleTripMemberDTO singleTripMember = new SingleTripMemberDTO();
+                    singleTripMember.setUsername(user.getUsername());
+                    singleTripMember.setName(user.getFirstName()+" "+ user.getLastName());
+                    byte[] userPictureByteArray = null;
+                    if (user != null) {
+                        Binary userPictureBinary = user.getPicture();
+                        if (userPictureBinary != null) {
+                            userPictureByteArray = userPictureBinary.getData();
+                        }}
+                    singleTripMember.setPicture(userPictureByteArray);
+                    return singleTripMember;
+                }).collect(Collectors.toList());
+                return new ResponseEntity<>(listOfSingleTripMember, HttpStatus.OK);
+            } else {
+                log.warn("Trip with ID {} not found.", tripId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            log.error("Error getting member details for trip: {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -32,7 +32,7 @@ function App() {
                             <Route path="/MyTrips" element={isLoggedIn ? <MyTravels/> : <Navigate to="/login"/>}/>
                             <Route path="/openTravels" element={isLoggedIn ? <OpenTrips/> : <Navigate to="/login"/>}/>
                             <Route path="/pastTravels" element={isLoggedIn ? <ClosedTrips/> : <Navigate to="/login"/>}/>
-                            <Route path="/trip/:id" element={isLoggedIn ? <Trip/> : <Navigate to="/login"/>}/>
+                            <Route path="/trip/:tripId" element={isLoggedIn ? <Trip/> : <Navigate to="/login"/>}/>
                             <Route path="/myProfile" element={isLoggedIn ? <MyUser/> : <Navigate to="/login"/>}/>
                             <Route path="/settings" element={isLoggedIn ? <Settings/> : <Navigate to="/login"/>}/>
                         </Routes>

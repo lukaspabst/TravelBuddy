@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -122,5 +123,10 @@ public class Trips {
         public String getDescription() {
             return description;
         }
+    }
+    public List<String> getUsernames() {
+        return members.stream()
+                .map(TripMember::getUsername)
+                .collect(Collectors.toList());
     }
 }

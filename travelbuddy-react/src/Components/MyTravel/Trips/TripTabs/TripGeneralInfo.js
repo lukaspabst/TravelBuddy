@@ -5,6 +5,8 @@ import InfoIcon from "../../../../Containers/InfoIcon/InfoIcon";
 import {Button} from "../../../../Containers/Button/Button";
 import {useTranslation} from "react-i18next";
 import '../../CreateTrip/CreateTrip.scss';
+import './TripTab.scss';
+import TripMembersGrid from "./TripMembersGrid";
 
 const TripGeneralInfo = ({ tripData, role }) => {
     const { t } = useTranslation();
@@ -114,64 +116,67 @@ const TripGeneralInfo = ({ tripData, role }) => {
     }
     return (
         <div className="tab-content-general">
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="tripName">{t('createTrip.tripNameLabel')}</label>
-                <input
-                    type="text"
-                    id="tripName"
-                    name="tripName"
-                    required
-                    value={state.tripName}
-                    onChange={handleChange}
-                    readOnly={!isEditableAdminOrOrganizer}
-                />
-                <div className="create-trip-form-container-nextto">
-                    <div>
-                        <label htmlFor="startDate">{t('createTrip.startDateLabel')}</label>
-                        <input
-                            type="date"
-                            id="startDate"
-                            name="startDate"
-                            required
-                            value={state.startDate}
-                            onChange={handleChange}
-                            readOnly={!isEditableAdminOrOrganizer}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="endDate">{t('createTrip.endDateLabel')}</label>
-                        <input
-                            type="date"
-                            id="endDate"
-                            name="endDate"
-                            required
-                            value={state.endDate}
-                            onChange={handleChange}
-                            readOnly={!isEditableAdminOrOrganizer}
-                        />
-                    </div>
-                </div>
-                <label htmlFor="destination">{t('createTrip.destinationLabel')}</label>
-                <input
-                    type="text"
-                    id="destination"
-                    name="destination"
-                    required
-                    value={state.destination}
-                    onChange={handleChange}
-                    readOnly={!isEditableAdminOrOrganizer}
-                />
-                <label htmlFor="maxPersons">{t('createTrip.maxPersonsLabel')}</label>
-                <div className="input-holder-for-spinButton-and-Input">
+            <form className="form-general-Trip-Info" onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="tripName">{t('createTrip.tripNameLabel')}</label>
                     <input
-                        type="number"
-                        id="maxPersons"
-                        name="maxPersons"
+                        type="text"
+                        id="tripName"
+                        name="tripName"
                         required
-                        value={state.maxPersons}
+                        value={state.tripName}
                         onChange={handleChange}
                         readOnly={!isEditableAdminOrOrganizer}
                     />
+                </div>
+                <div>
+                    <label htmlFor="startDate">{t('createTrip.startDateLabel')}</label>
+                    <input
+                        type="date"
+                        id="startDate"
+                        name="startDate"
+                        required
+                        value={state.startDate}
+                        onChange={handleChange}
+                        readOnly={!isEditableAdminOrOrganizer}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="endDate">{t('createTrip.endDateLabel')}</label>
+                    <input
+                        type="date"
+                        id="endDate"
+                        name="endDate"
+                        required
+                        value={state.endDate}
+                        onChange={handleChange}
+                        readOnly={!isEditableAdminOrOrganizer}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="destination">{t('createTrip.destinationLabel')}</label>
+                    <input
+                        type="text"
+                        id="destination"
+                        name="destination"
+                        required
+                        value={state.destination}
+                        onChange={handleChange}
+                        readOnly={!isEditableAdminOrOrganizer}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="maxPersons">{t('createTrip.maxPersonsLabel')}</label>
+                    <div className="input-holder-for-spinButton-and-Input">
+                        <input
+                            type="number"
+                            id="maxPersons"
+                            name="maxPersons"
+                            required
+                            value={state.maxPersons}
+                            onChange={handleChange}
+                            readOnly={!isEditableAdminOrOrganizer}
+                        />
                     <div className="button-holder-spinButtons">
                         <button type="button" onClick={incrementPersons} className="button-style-spin-buttons">
                             <FontAwesomeIcon
@@ -181,37 +186,41 @@ const TripGeneralInfo = ({ tripData, role }) => {
                                 icon={faChevronDown}/></button>
                     </div>
                 </div>
-                <label htmlFor="costs">{t('createTrip.maxPriceLabel')}</label>
-                <div className="input-holder-for-spinButton-and-Input">
-                    <input
-                        type="number"
-                        id="costs"
-                        name="costs"
-                        required
-                        value={state.costs}
-                        onChange={handleChange}
-                        step="50"
-                        readOnly={!isEditableAdminOrOrganizer}
+                </div>
+                <div>
+                    <label htmlFor="costs">{t('createTrip.maxPriceLabel')}</label>
+                    <div className="input-holder-for-spinButton-and-Input">
+                        <input
+                            type="number"
+                            id="costs"
+                            name="costs"
+                            required
+                            value={state.costs}
+                            onChange={handleChange}
+                            step="50"
+                            readOnly={!isEditableAdminOrOrganizer}
 
-                    />
-                    <div className="button-holder-spinButtons">
-                        <button type="button" onClick={incrementPrice} className="button-style-spin-buttons">
-                            <FontAwesomeIcon
-                                icon={faChevronUp}/></button>
-                        <button type="button" onClick={decrementPrice} className="button-style-spin-buttons">
-                            <FontAwesomeIcon
-                                icon={faChevronDown}/></button>
+                        />
+                        <div className="button-holder-spinButtons">
+                            <button type="button" onClick={incrementPrice} className="button-style-spin-buttons">
+                                <FontAwesomeIcon
+                                    icon={faChevronUp}/></button>
+                            <button type="button" onClick={decrementPrice} className="button-style-spin-buttons">
+                                <FontAwesomeIcon
+                                    icon={faChevronDown}/></button>
+                        </div>
                     </div>
                 </div>
-                <div className="container-for-error-and-button">
-                    {errorInfo ? <InfoIcon tooltipMessage={errorInfo}/> :
-                        <Button buttonStyle="btn--outline" type="submit">
-                            {t('createTrip.updateTripGeneral')}
-                        </Button>
-                    }
-                </div>
             </form>
-        </div>
+            <div className="container-for-error-and-button">
+                {errorInfo ? <InfoIcon tooltipMessage={errorInfo}/> :
+                    <Button buttonStyle="btn--outline" type="submit">
+                        {t('trip.updateTripGeneral')}
+                    </Button>
+                }
+            </div>
+            <TripMembersGrid />
+       </div>
     );
 };
 export default TripGeneralInfo;

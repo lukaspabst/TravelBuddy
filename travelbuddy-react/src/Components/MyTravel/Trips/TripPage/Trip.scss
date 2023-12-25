@@ -2,9 +2,7 @@
   position: absolute;
   margin-top: 100px;
   left: 5vw;
-  height: auto;
-  max-height: 80vh;
-  overflow-y: auto;
+  height: 80vh;
   width: 70vw;
   z-index: 1;
 
@@ -15,10 +13,14 @@
   }
 
   .trip-overview-content {
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    gap: 4vw;
     align-items: center;
+    background: var(--bg-color);
+    border-radius: 0 0 3vw 3vw;
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
+    color: var(--font-color);
+    width: 90vw;
+    height: 80vh;
+    z-index: 2;
   }
 
   .trip-overview-info-important {
@@ -51,6 +53,7 @@
 
 .header-of-tripOverview {
   display: flex;
+  width: 90vw;
   justify-content: space-between;
   background: transparent;
   border-bottom: 1px solid var(--font-color);
@@ -85,12 +88,4 @@
       flex:3;
     }
   }
-}
-
-.trip-overview-content {
-  background: var(--bg-color);
-  border-radius: 0 0 3vw 3vw;
-  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
-  color: var(--font-color);
-  z-index: 2;
 }

@@ -1,0 +1,32 @@
+.tab-content-general {
+  width: 90vw;
+  padding: 2vw;
+  height: 80vh;
+}
+
+.form-general-Trip-Info {
+  display: grid;
+  gap: 10px; // space between grid items
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+
+
+
+  & > *:nth-child(1) {
+    grid-area: 1 / 1 / 2 / 2; // first row, first column
+  }
+  & > *:nth-child(2),
+  & > *:nth-child(3),
+  & > *:nth-child(4),
+  & > *:nth-child(5),
+  & > *:nth-child(6) {
+    grid-area: 2 /span 1; // second row, each child takes one column
+  }
+  & input{
+    width: 100%;
+  }
+}
+.trip-member-image {
+  width: 200px;
+  height: 200px;
+}
