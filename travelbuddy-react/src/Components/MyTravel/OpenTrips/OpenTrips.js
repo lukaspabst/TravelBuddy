@@ -25,7 +25,8 @@ function OpenTrips() {
                 trip.maxPersons,
                 trip.startDate,
                 trip.endDate,
-                trip.costs
+                trip.costs,
+                trip.destination
             );
         });
     };

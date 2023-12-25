@@ -1,13 +1,13 @@
 import {useTranslation} from "react-i18next";
 import React, {useEffect, useState} from "react";
+import axios from 'axios';
 import TravelBackground from "../../../General/Background/TravelBackground";
 import './Trip.scss';
-import AnimationFlash from "../../../../Containers/Animations/PageTransitionAnimations/AnimationFlash";
 import AnimationTrip from "../../../../Containers/Animations/PageTransitionAnimations/AnimationTrip";
-import AnimationLogo from "../../../../Containers/Animations/PageTransitionAnimations/AnimationLogo";
 import TripGeneralInfo from "../TripTabs/TripGeneralInfo";
 import TripDayInfo from "../TripTabs/TripDayInfo";
 import {TripDTO} from "../../TripDTO";
+import {API_BASE_URL} from "../../../../config";
 
 function calculateDurationAndDays(startDate, endDate) {
     const oneDay = 1000 * 60 * 60 * 24;
@@ -16,30 +16,40 @@ function calculateDurationAndDays(startDate, endDate) {
 }
 
 function Trip() {
+    const ROLE_API_URL = `${API_BASE_URL}/api/trips/{tripData.id}/userRole`;
     const { t } = useTranslation();
     const [animationComplete, setAnimationComplete] = useState(false);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [activeTab, setActiveTab] = useState("General");
     const [tripDTO, setTripDTO] = useState(null);
+    const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
         const selectedTrip = localStorage.getItem('selectedTrip');
         if (selectedTrip) {
             const tripData = JSON.parse(selectedTrip);
+            const ROLE_API_URL = `${API_BASE_URL}/api/trips/${tripData.id}/userRole`;
             const tripDTO = new TripDTO(
                 tripData.id,
                 tripData.nameTrip,
                 tripData.maxPersons,
                 tripData.startDate,
-                tripData.endDate
+                tripData.endDate,
+                tripData.costs,
+                tripData.destination
             );
             setTripDTO(tripDTO);
             setStartDate(tripDTO.startDate);
             setEndDate(tripDTO.endDate);
+
+            axios.get(ROLE_API_URL, {withCredentials: true})
+                .then(res => {
+                    setUserRole(res.data);
+                })
+                .catch(err => console.error(err));
         }
     }, []);
-
 
     const durationInDays = calculateDurationAndDays(startDate, endDate);
     const handleTabClick = (tabName) => {
@@ -51,6 +61,7 @@ function Trip() {
             {!animationComplete &&
                 <AnimationTrip onAnimationComplete={() => setAnimationComplete(true)}/>
             }
+            {/* some user role specific UI change code here for example */}
             <div className="StartPage-content">
                 <TravelBackground/>
                 <div className="trip-overview-container">
@@ -67,10 +78,10 @@ function Trip() {
                     </div>
                     <div className="trip-overview-content">
                         {activeTab === "General" && tripDTO && (
-                            <TripGeneralInfo tripData={tripDTO}/>
+                            <TripGeneralInfo tripData={tripDTO} role={userRole}/>
                         )}
                         {activeTab.startsWith("Day") && (
-                            <TripDayInfo dayNumber={activeTab.split(" ")[1]}/>
+                            <TripDayInfo dayNumber={activeTab.split(" ")[1]} role={userRole}/>
                         )}
                     </div>
                 </div>

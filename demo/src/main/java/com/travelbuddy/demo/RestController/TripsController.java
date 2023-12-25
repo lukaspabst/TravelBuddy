@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -309,7 +310,8 @@ public class TripsController {
                             trip.getMaxPersons(),
                             trip.getStartDate(),
                             trip.getEndDate(),
-                            trip.getCosts()
+                            trip.getCosts(),
+                            trip.getDestination()
                     ))
                     .collect(Collectors.toList());
 
@@ -342,7 +344,8 @@ public class TripsController {
                             trip.getMaxPersons(),
                             trip.getStartDate(),
                             trip.getEndDate(),
-                            trip.getCosts()
+                            trip.getCosts(),
+                            trip.getDestination()
                     ))
                     .collect(Collectors.toList());
 
@@ -352,4 +355,55 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Operation(summary = "Get the role of the logged-in user for a trip")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Role retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Trip not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @GetMapping("/{tripId}/userRole")
+    public ResponseEntity<String> getUserRoleForTrip(@Parameter(description = "Trip ID", required = true) @PathVariable String tripId) {
+        try {
+            String loggedInUser = getCurrentUsername();
+            log.debug("Attempting to get user role for user: {} and trip ID: {}", loggedInUser, tripId);
+
+            Optional<Trips> tripOptional = tripsService.getTripById(tripId);
+
+            if (tripOptional.isPresent()) {
+                Trips trip = tripOptional.get();
+                log.debug("Found trip with ID: {}", tripId);
+
+                Optional<TripMember> userMember = trip.getMembers().stream()
+                        .filter(member -> member.getUsername().equals(loggedInUser))
+                        .findFirst();
+
+                if (userMember.isPresent()) {
+                    String userRole = userMember.get().getRole();
+                    log.info("User role for user {} in trip {} is: {}", loggedInUser, tripId, userRole);
+                    return new ResponseEntity<>(userRole, HttpStatus.OK);
+                } else {
+                    log.warn("User {} is not a member of the trip with ID: {}", loggedInUser, tripId);
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            } else {
+                log.warn("Trip with ID {} not found.", tripId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            log.error("Error getting user role for trip: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private String getCurrentUsername() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
+
 }
