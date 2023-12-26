@@ -1,6 +1,6 @@
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import './Navbar.css'
 import {Button} from '../../../Containers/Button/Button'
@@ -9,7 +9,6 @@ import {useAuth} from "../../../Containers/Authentication/AuthProvider";
 import axios from "axios";
 import {API_BASE_URL} from "../../../config";
 import {languageNames} from "../../../i18nConfig";
-import {ThemeContext} from "../../../Containers/Themes/ThemeContext";
 import DarkModeSwitch from "../../../Containers/Themes/DarkLightSwitch";
 
 

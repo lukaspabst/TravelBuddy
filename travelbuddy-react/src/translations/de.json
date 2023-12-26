@@ -118,6 +118,26 @@
     "userSecurity": "Deine User Security",
     "faq": "Häufig gestellte Fragen",
     "support": "Support"
+  },
+
+  "tripMembersGrid": {
+    "hideMembers": "Mitglieder ausblenden",
+    "showMembers": "Mitglieder anzeigen",
+    "addMember": "Mitglied hinzufügen",
+    "changeRoleTooltip": "Benutzerrolle ändern",
+    "removeMemberTooltip": "Mitglied entfernen",
+    "viewProfileTooltip": "Profil anzeigen",
+    "usernamePlaceholder": "Benutzernamen eingeben",
+    "selectRole": "Rolle auswählen",
+    "memberRole": "Mitglied",
+    "tripAssistantRole": "Reiseassistent"
+  },
+  "trip": {
+    "updateTripGeneral": "Allgemeine Reiseinformationen aktualisieren",
+    "generalTab": "Allgemein",
+    "dayTab": "Tag {{day}}",
+    "makeTripPublic": "Reise öffentlich machen",
+    "viewCandidates": "Bewerber ansehen"
   }
 }
 

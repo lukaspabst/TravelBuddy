@@ -1,17 +1,18 @@
 package com.travelbuddy.demo.AdapterClasses;
 
+import com.travelbuddy.demo.AdapterClasses.TripMember;
 import java.util.List;
 
 public class TripMembersDTO {
 
-    private List<String> usernames;
+    private List<TripMember> tripMembers;
 
-    // getters and setters
-    public List<String> getUsernames() {
-        return usernames;
+    // getter and setter
+    public List<TripMember> getTripMembers() {
+        return tripMembers;
     }
 
-    public void setUsernames(List<String> usernames) {
-        this.usernames = usernames;
+    public void setTripMembers(List<TripMember> tripMembers) {
+        this.tripMembers = tripMembers;
     }
 }

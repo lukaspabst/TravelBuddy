@@ -414,12 +414,13 @@ public class TripsController {
             Optional<Trips> optionalTrip = tripsService.getTripById(tripId);
             if (optionalTrip.isPresent()) {
                 Trips trip = optionalTrip.get();
-                List<String> usernames = trip.getUsernames();
-                List<SingleTripMemberDTO> listOfSingleTripMember = usernames.stream().map(username -> {
-                    User user = userService.findByUsername(username);
+                List<TripMember> members = trip.getMembers();
+                List<SingleTripMemberDTO> listOfSingleTripMember = members.stream().map(member -> {
+                    User user = userService.findByUsername(member.getUsername());
                     SingleTripMemberDTO singleTripMember = new SingleTripMemberDTO();
                     singleTripMember.setUsername(user.getUsername());
                     singleTripMember.setName(user.getFirstName()+" "+ user.getLastName());
+                    singleTripMember.setRole(member.getRole());
                     byte[] userPictureByteArray = null;
                     if (user != null) {
                         Binary userPictureBinary = user.getPicture();

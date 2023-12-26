@@ -118,6 +118,25 @@
     "userSecurity": "Ваша безопасность пользователя",
     "faq": "Часто задаваемые вопросы",
     "support": "Поддержка"
+  },
+  "tripMembersGrid": {
+    "hideMembers": "Скрыть участников",
+    "showMembers": "Показать участников",
+    "addMember": "Добавить участника",
+    "changeRoleTooltip": "Изменить роль пользователя",
+    "removeMemberTooltip": "Удалить участника",
+    "viewProfileTooltip": "Просмотреть профиль",
+    "usernamePlaceholder": "Введите имя пользователя",
+    "selectRole": "Выберите роль",
+    "memberRole": "Участник",
+    "tripAssistantRole": "Помощник по поездке"
+  },
+  "trip": {
+    "updateTripGeneral": "Обновить общую информацию о поездке",
+    "generalTab": "Общее",
+    "dayTab": "День {{day}}",
+    "makeTripPublic": "Сделать поездку общедоступной",
+    "viewCandidates": "Просмотреть кандидатов"
   }
 }
 

@@ -26,7 +26,104 @@
     width: 100%;
   }
 }
-.trip-member-image {
-  width: 200px;
-  height: 200px;
+.trip-members-wrapper{
+  top:5vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.trip-buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  .left-buttons, .right-buttons {
+    display: flex;
+    gap: 10px;
+  }
+}
+.trip-members-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 1fr;
+  overflow: auto;
+  height: 100%;
+  grid-column-gap: 5%;
+  grid-row-gap: 5%;
+}
+.trip-member-image, .imageWrapper-trip-member-pb {
+  aspect-ratio: 1/1;
+  width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,1);
+}
+.member-card-trip{
+  border: 1px solid var(--font-color);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 5px;
+  & p{
+    text-align: left;
+    padding-top:0px;
+  }
+}
+.imageWrapper-trip-member-pb{
+  border-radius: 5px 5px 5px 5px;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1/1;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.trip-member-name{
+  display: flex;
+  background: var(--bg-color-input);
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  justify-content: space-between;
+  align-items: center;
+}
+.trip-member-Role{
+  display: flex;
+  background: var(--bg-color-input);
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  justify-content: center;
+}
+.icon-wrapper {
+   display: flex;
+  padding-right: 10px;
+ }
+
+.icon {
+  position: relative;
+  display: flex;
+  border: 1px solid var(--font-color); /* 1px border with color of black */
+  border-radius: 5px;      /* border radius to make the icon circular */
+   /* border radius to make the icon circular */
+  background: var(--bg-color);
+  height: 25px;
+  width: 25px;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background: var(--diff-font-color);
+    transition: 0.5s;
+    cursor:pointer;
+  }
+}
+.icon-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 10px); /* Adjusted as per required gap from icon */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 55;
+  background-color: var(--bg-color-input);
+  color: var(--font-color);
+  border: 1px solid var(--font-color);
+  padding: 2px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.icon:hover .icon-tooltip {
+  display: block;
 }

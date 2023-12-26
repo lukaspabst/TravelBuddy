@@ -124,9 +124,4 @@ public class Trips {
             return description;
         }
     }
-    public List<String> getUsernames() {
-        return members.stream()
-                .map(TripMember::getUsername)
-                .collect(Collectors.toList());
-    }
 }

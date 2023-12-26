@@ -55,35 +55,43 @@ const TripGeneralInfo = ({ tripData, role }) => {
             [name]: value
         }));
 
-        if (name === "startDate" || name === "endDate") {
-            let today = new Date();
-            let maxDate = new Date();
-            maxDate.setFullYear(maxDate.getFullYear() + 50);
+        let today = new Date();
+        let maxDate = new Date();
+        maxDate.setFullYear(maxDate.getFullYear() + 50);
 
-            let selectedDate = new Date(value);
+        let startDate, endDate;
 
-            if (selectedDate < today || selectedDate > maxDate) {
-                setErrorInfo(t(`errorMessages.invalid${name.charAt(0).toUpperCase() + name.slice(1)}`));
-                return;
-            } else {
-                setErrorInfo(null);
-            }
-            if ((name === "startDate" && state.endDate) || (name === "endDate" && state.startDate)) {
-                let startDate = new Date(name === "startDate" ? value : state.startDate);
-                startDate.setHours(0, 0, 0, 0);
-
-                let endDate = new Date(name === "endDate" ? value : state.endDate);
-                endDate.setHours(0, 0, 0, 0);
-
-                if (startDate > endDate) {
-                    setErrorInfo(t(`errorMessages.endDateBeforeStartDate`));
-                    return;
-                } else {
-                    setErrorInfo(null);
-                }
-            }
-
+        if (name === "startDate") {
+            startDate = new Date(value);
+            endDate = state.endDate ? new Date(state.endDate) : null;
+        } else if (name === "endDate") {
+            endDate = new Date(value);
+            startDate = state.startDate ? new Date(state.startDate) : null;
         }
+
+        if(startDate) {
+            if(startDate < today || startDate > maxDate) {
+                setErrorInfo(t(`errorMessages.invalidStartDate`));
+                return;
+            }
+        }
+
+        if(endDate) {
+            if(endDate < today || endDate > maxDate) {
+                setErrorInfo(t(`errorMessages.invalidEndDate`));
+                return;
+            }
+        }
+
+        if(startDate && endDate) {
+            if(startDate > endDate) {
+                setErrorInfo(t(`errorMessages.endDateBeforeStartDate`));
+                return;
+            }
+        }
+
+        setErrorInfo(null);
+
         if (name === "maxPersons") {
             const maxPersons = parseInt(value);
             if (maxPersons < 2 || maxPersons > 25) {

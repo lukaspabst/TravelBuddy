@@ -2,10 +2,10 @@
   position: absolute;
   margin-top: 100px;
   left: 5vw;
-  height: 80vh;
-  width: 70vw;
+  height: 90vh;
   z-index: 1;
-
+  overflow-y: auto;
+  overflow-x: hidden;
   h1 {
     text-align: left;
     padding: 2vw;

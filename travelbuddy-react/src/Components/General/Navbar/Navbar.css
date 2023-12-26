@@ -101,7 +101,6 @@
     color:  var(--font-color);
     display: flex;
     align-items: center;
-
 }
 
 .language-selector:hover {
