@@ -53,7 +53,11 @@
     "invalidMaxPrice": "Ungültiger Maximalpreis. Der Wert muss höher als 0 sein.",
     "emptyTripName": "Der Reisename darf nicht leer sein.",
     "emptyFields": "Bitte füllen Sie alle Felder aus.",
-    "ageRestriction": "Benutzer muss mindestens 16 Jahre alt sein"
+    "ageRestriction": "Benutzer muss mindestens 16 Jahre alt sein",
+    "addMemberError": "Der Nutzer existiert nicht oder du hast keine Rolle ausgewählt.",
+    "removeMemberError": "Fehler beim Entfernen des Mitglieds",
+    "changeRoleError": "Fehler beim Ändern der Benutzerrolle",
+    "unauthorized": "Unberechtigter Zugriff"
   },
   "home": {
     "startingButton": "Plane jetzt deine Reise"
@@ -130,7 +134,12 @@
     "usernamePlaceholder": "Benutzernamen eingeben",
     "selectRole": "Rolle auswählen",
     "memberRole": "Mitglied",
-    "tripAssistantRole": "Reiseassistent"
+    "tripAssistantRole": "Reiseassistent",
+    "removeMember": "Möchten Sie das folgende Mitglied wirklich entfernen?",
+    "removeMemberYes": "Ja",
+    "removeMemberNo": "Nein",
+    "changeUserrole": "Benutzerrolle ändern",
+    "tripOrganizerRole": "Reiseorganisator"
   },
   "trip": {
     "updateTripGeneral": "Allgemeine Reiseinformationen aktualisieren",
@@ -138,6 +147,12 @@
     "dayTab": "Tag {{day}}",
     "makeTripPublic": "Reise öffentlich machen",
     "viewCandidates": "Bewerber ansehen"
+  },
+  "confirmRoleChange": {
+    "areYouSure": "Bist du sicher, dass du {{username}} zum Reiseorganisator ändern möchtest?",
+    "youWillLoseOrganizer": "Du wirst den Organisatorstatus dadurch verlieren und zum Mitglied werden.",
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen"
   }
 }
 

@@ -22,7 +22,6 @@ const AnimatedTripCard = ({ onAnimationComplete }) => {
     const [trip, setTrip] = useState({});
 
     const TripCardDiv = styled(motion.div)`
-    /* Add your trip-card CSS styles here */
     `;
     // Get trip data from local storage when the component mounts
     useEffect(() => {

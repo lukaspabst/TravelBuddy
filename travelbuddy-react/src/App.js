@@ -16,9 +16,9 @@ import MyUser from "./Components/MyUser/MyUser/MyUser";
 import {ThemeProvider} from "./Containers/Themes/ThemeProvider";
 import Settings from "./Components/HelpingLinks/Settings/Settings";
 
+
 function App() {
     const {isLoggedIn} = useAuth();
-
     return (
         <ThemeProvider>
         <Router>

@@ -4,6 +4,7 @@ import com.travelbuddy.demo.AdapterClasses.*;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Entities.User;
 import com.travelbuddy.demo.Services.TripsService;
+import com.travelbuddy.demo.Services.UserSecService;
 import com.travelbuddy.demo.Services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -139,22 +140,38 @@ public class TripsController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Member added to trip successfully"),
             @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PatchMapping("/{tripId}/addMember")
     public ResponseEntity<Trips> addMemberToTrip(@Parameter(description = "Trip ID and New Member", required = true) @PathVariable String tripId, @RequestBody TripMember newMember) {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
+
+            User user = userService.findByUsername(newMember.getUsername());
+            if (user == null) {
+                log.warn("User does not exist: {}", newMember.getUsername());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
             if (tripOptional.isPresent()) {
                 Trips trip = tripOptional.get();
+
+                boolean isUserAlreadyMember = trip.getMembers().stream()
+                        .anyMatch(member -> member.getUsername().equals(newMember.getUsername()));
+
+                if (isUserAlreadyMember) {
+                    log.warn("User is already a member of the trip: {}", newMember.getUsername());
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+
                 boolean isAdminOrCoAdmin = trip.getMembers().stream().anyMatch(member ->
                         member.getUsername().equals(loggedInUser) &&
                                 (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
-                    Trips updatedTrip = tripsService.addMemberToTrip(tripId, newMember.getUsername(), TripRole.Traveler, newMember.getStatus());
+                    Trips updatedTrip = tripsService.addMemberToTrip(tripId, newMember.getUsername(), TripRole.valueOf(newMember.getRole()), newMember.getStatus());
                     if (updatedTrip != null) {
                         log.info("Added member to trip with ID: {} by user: {}", tripId, loggedInUser);
                         return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
@@ -179,26 +196,44 @@ public class TripsController {
     @PatchMapping("/{tripId}/removeMember/{username}")
     public ResponseEntity<Trips> removeMemberFromTrip(@Parameter(description = "Trip ID and username", required = true) @PathVariable String tripId, @PathVariable String username) {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
 
             if (tripOptional.isPresent()) {
                 Trips trip = tripOptional.get();
-                boolean isAdminOrCoAdmin = trip.getMembers().stream().anyMatch(member ->
-                        member.getUsername().equals(loggedInUser) &&
-                                (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
+                boolean isAdmin = trip.getMembers().stream()
+                        .anyMatch(member ->
+                                member.getUsername().equals(loggedInUser) &&
+                                        TripRole.Organizer.getDescription().equals(member.getRole()));
 
-                if (isAdminOrCoAdmin) {
-                    Trips updatedTrip = tripsService.removeMemberFromTrip(tripId, username);
-                    if (updatedTrip != null) {
-                        log.info("Removed member from trip with ID: {} by user: {}", tripId, loggedInUser);
-                        return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
+                boolean isAssistant = trip.getMembers().stream()
+                        .anyMatch(member ->
+                                member.getUsername().equals(loggedInUser) &&
+                                        TripRole.Assistant.getDescription().equals(member.getRole()));
+
+                if (isAdmin || isAssistant) {
+                    boolean canRemove = trip.getMembers().stream()
+                            .anyMatch(member ->
+                                    member.getUsername().equals(username) &&
+                                            !(TripRole.Organizer.getDescription().equals(member.getRole()) ||
+                                                    (isAssistant && TripRole.Assistant.getDescription().equals(member.getRole()))));
+
+                    if (canRemove) {
+                        Trips updatedTrip = tripsService.removeMemberFromTrip(tripId, username);
+                        if (updatedTrip != null) {
+                            log.info("Removed member from trip with ID: {} by user: {}", tripId, loggedInUser);
+                            return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
+                        } else {
+                            log.error("Error removing member from trip. Trip not updated.");
+                            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                        }
                     }
                 }
             }
 
             log.warn("Unauthorized attempt to remove member from trip with ID: {} by user: {}", tripId, loggedInUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
         } catch (Exception e) {
             log.error("Error removing member from trip: {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -262,18 +297,18 @@ public class TripsController {
                                                 @PathVariable String tripId,
                                                 @RequestBody RoleChangeRequest roleChangeRequest) {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
 
             if (tripOptional.isPresent()) {
                 Trips trip = tripOptional.get();
                 boolean isAdmin = trip.getMembers().stream().anyMatch(member ->
-                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()));
+                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equals(member.getRole()));
 
                 if (isAdmin) {
                     Trips updatedTrip = tripsService.changeUserRole(
                             tripId,
-                            roleChangeRequest.getAdminUsername(),
+                            loggedInUser,
                             roleChangeRequest.getTargetUsername(),
                             roleChangeRequest.getNewRole()
                     );

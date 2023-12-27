@@ -83,13 +83,13 @@ public class UserController {
 
     public ResponseEntity<String> createUser(@Valid @RequestBody UserProfileDTO userProfileDTO) {
         try {
-            log.error(userProfileDTO.toString());
-            log.error(Arrays.toString(userProfileDTO.getProfilePicture()));
             String currentUsername = getCurrentUsername();
             if (currentUsername == null) {
                 log.warn("Username must equal the Security username");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Username must equal the Security username");
             }
+
+
             User user = new User(
                     userProfileDTO.getFirstName(),
                     userProfileDTO.getLastName(),
@@ -104,6 +104,7 @@ public class UserController {
                     userProfileDTO.getZipCode(),
                     userProfileDTO.getCountry()
             );
+
 
             userService.saveUser(user);
 

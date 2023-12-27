@@ -16,7 +16,6 @@ function calculateDurationAndDays(startDate, endDate) {
 }
 
 function Trip() {
-    const ROLE_API_URL = `${API_BASE_URL}/api/trips/{tripData.id}/userRole`;
     const { t } = useTranslation();
     const [animationComplete, setAnimationComplete] = useState(false);
     const [startDate, setStartDate] = useState(null);

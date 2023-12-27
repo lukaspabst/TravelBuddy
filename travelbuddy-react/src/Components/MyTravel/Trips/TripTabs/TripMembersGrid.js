@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { API_BASE_URL } from '../../../../config';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEraser, faPen, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../../../Containers/Button/Button';
 import { useTranslation } from 'react-i18next';
-import AddMemberModal from "./AddMemberModal"; // Import the useTranslation hook
+import AddMemberModal from "./MemberModals/AddMemberModal";
+import styled from "styled-components";
+import {motion} from "framer-motion";
+import ChangeRoleModal from "./MemberModals/ChangeRoleModal";
+import RemoveMemberModal from "./MemberModals/RemoveMemberModal"; // Import the useTranslation hook
 
-const TripMembersGrid = () => {
+const TripMembersGrid = (role) => {
     const { tripId } = useParams();
     const [tripMembers, setTripMembers] = useState([]);
     const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
@@ -18,7 +22,15 @@ const TripMembersGrid = () => {
         return { row, col };
     };
     const [areMembersVisible, setAreMembersVisible] = useState(false);
-
+    const updateGrid = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/api/trips/${tripId}/members`, { withCredentials: true });
+            console.log('Fetched trip members data:', response.data);
+            setTripMembers(response.data);
+        } catch (error) {
+            console.error('An error occurred while fetching the trip members:', error);
+        }
+    };
     useEffect(() => {
         const fetchTripMembers = async () => {
             console.log('Current tripId:', tripId);
@@ -34,13 +46,27 @@ const TripMembersGrid = () => {
         fetchTripMembers();
     }, [tripId]);
 
-    const { t } = useTranslation(); // Initialize the useTranslation hook
+    const { t } = useTranslation();
     const openAddMemberModal = () => {
         setIsAddMemberModalOpen(true);
     };
 
     const closeAddMemberModal = () => {
         setIsAddMemberModalOpen(false);
+    };
+    const [isRemoveMemberModalOpen, setRemoveMemberModalOpen] = useState(false);
+
+    // Example usage for the "Remove Member" icon
+    const handleRemoveMemberClick = (username) => {
+        setSelectedMember({ username });
+        setRemoveMemberModalOpen(true);
+    };
+    const [isChangeRoleModalOpen, setChangeRoleModalOpen] = useState(false);
+    const [selectedMember, setSelectedMember] = useState(null);
+    // Example usage for the "Change Role" icon
+    const handleChangeRoleClick = (username, role) => {
+        setSelectedMember({ username, role });
+        setChangeRoleModalOpen(true);
     };
     return (
         <>
@@ -82,21 +108,24 @@ const TripMembersGrid = () => {
                                     <div className="trip-member-name">
                                         <p style={{ flexGrow: 1 }}>{member.name}</p>
                                         <div className="icon-wrapper">
-                                            {member.role !== 'Trip Organizer' && (
+                                            {member.role !== 'Trip Organizer' && role.role ==='Trip Organizer' && (
                                                 <div className="icon">
-                                                    <FontAwesomeIcon icon={faPen} onClick={() => console.log('Change Role Icon Clicked')} />
-                                                    <div className="icon-tooltip">{t('tripMembersGrid.changeRoleTooltip')}</div>
+                                                    <FontAwesomeIcon icon={faPen} onClick={() => handleChangeRoleClick(member.username, member.role)}/>
+                                                    <div
+                                                        className="icon-tooltip">{t('tripMembersGrid.changeRoleTooltip')}</div>
                                                 </div>
                                             )}
                                             {member.role !== 'Trip Organizer' && (
                                                 <div className="icon">
-                                                    <FontAwesomeIcon icon={faEraser} onClick={() => console.log('Remove Member Icon Clicked')} />
+                                                <FontAwesomeIcon icon={faEraser}onClick={() => handleRemoveMemberClick(member.username)} />
                                                     <div className="icon-tooltip">{t('tripMembersGrid.removeMemberTooltip')}</div>
                                                 </div>
                                             )}
                                             <div className="icon">
-                                                <FontAwesomeIcon icon={faUser} onClick={() => console.log('View Profile Icon Clicked')} />
-                                                <div className="icon-tooltip">{t('tripMembersGrid.viewProfileTooltip')}</div>
+                                                <Link to={`/profile/${member.username}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                    <FontAwesomeIcon icon={faUser} />
+                                                    <div className="icon-tooltip">{t('tripMembersGrid.viewProfileTooltip')}</div>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +134,13 @@ const TripMembersGrid = () => {
                         })}
                 </div>
             </div>
-            <AddMemberModal isOpen={isAddMemberModalOpen} closeModal={closeAddMemberModal} />
+            {selectedMember && (
+                <ChangeRoleModal isOpen={isChangeRoleModalOpen} loggedInRole={role} targetUsername={selectedMember.username} role={selectedMember.role} closeModal={() => setChangeRoleModalOpen(false)} updateGrid={updateGrid} />
+            )}
+            {selectedMember && (
+                <RemoveMemberModal isOpen={isRemoveMemberModalOpen} targetUsername={selectedMember.username} closeModal={() => setRemoveMemberModalOpen(false)} updateGrid={updateGrid} />
+            )}
+            <AddMemberModal isOpen={isAddMemberModalOpen} closeModal={closeAddMemberModal} updateGrid={updateGrid} loggedInRole={role}/>
         </>
     );
 };
