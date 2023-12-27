@@ -227,7 +227,7 @@ const TripGeneralInfo = ({ tripData, role }) => {
                     </Button>
                 }
             </div>
-            <TripMembersGrid />
+            <TripMembersGrid role={role}/>
        </div>
     );
 };
