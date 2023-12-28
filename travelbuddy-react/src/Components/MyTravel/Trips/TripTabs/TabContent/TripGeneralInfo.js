@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
-import InfoIcon from "../../../../Containers/InfoIcon/InfoIcon";
-import {Button} from "../../../../Containers/Button/Button";
+import InfoIcon from "../../../../../Containers/InfoIcon/InfoIcon";
+import {Button} from "../../../../../Containers/Button/Button";
 import {useTranslation} from "react-i18next";
-import '../../CreateTrip/CreateTrip.scss';
-import './TripTab.scss';
+import '../../../CreateTrip/CreateTrip.scss';
+import '../StylesForModalAndTabContent/TripTab.scss';
 import TripMembersGrid from "./TripMembersGrid";
 
 const TripGeneralInfo = ({ tripData, role }) => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 import { useTranslation } from 'react-i18next'; // Import translation hook
-import '../Modal.scss';
+import '../StylesForModalAndTabContent/Modal.scss';
 import {Button} from "../../../../../Containers/Button/Button";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

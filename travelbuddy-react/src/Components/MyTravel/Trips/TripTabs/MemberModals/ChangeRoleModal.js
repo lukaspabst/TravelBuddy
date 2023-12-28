@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ReactModal from 'react-modal';
 import { useTranslation } from 'react-i18next'; // Import translation hook
-import '../Modal.scss';
+import '../StylesForModalAndTabContent/Modal.scss';
 import {Button} from "../../../../../Containers/Button/Button";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -15,14 +15,36 @@ function ChangeRoleModal({ isOpen, targetUsername, role, closeModal,updateGrid,l
     const {tripId} = useParams();
     const [message, setMessage] = useState('');
     const [newRole, setNewRole] = useState('');
-    const [showConfirmModal, setShowConfirmModal] = useState(false); // State for showing the confirm modal
 
+    const [roleConfirmation, setRoleConfirmation] = useState('');
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+    useEffect(() => {
+        const mappedRole = mapRole(role);
+        setNewRole(mappedRole);
+    }, [role]);
+
+    const mapRole = (originalRole) => {
+        switch (originalRole) {
+            case 'Trip Assistant':
+                return 'Assistant';
+            case 'Trip Organizer':
+                return 'Organizer';
+            case 'Traveler':
+                return 'Traveler';
+            default:
+                return originalRole;
+        }
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (newRole === 'Organizer') {
             setShowConfirmModal(true);
+            resetState();
+            setRoleConfirmation(newRole);
             closeModal();
+
         } else {
             // If not 'Organizer', proceed with the role change
             try {
@@ -41,6 +63,7 @@ function ChangeRoleModal({ isOpen, targetUsername, role, closeModal,updateGrid,l
                     console.log('Member changed successfully:', response.data);
                     setMessage('');
                     updateGrid();
+                    resetState();
                     closeModal();
                 } else if (response.status === 403) {
                     setMessage(t('errorMessages.unauthorized'));
@@ -89,7 +112,6 @@ function ChangeRoleModal({ isOpen, targetUsername, role, closeModal,updateGrid,l
                             onChange={(e) => setNewRole(e.target.value)}
                             disabled={isTripAssistant}
                         >
-                            <option value="">{t('tripMembersGrid.selectRole')}</option>
                             {!isTripAssistant && (
                                 <>
                                     <option value="Traveler">
@@ -112,7 +134,7 @@ function ChangeRoleModal({ isOpen, targetUsername, role, closeModal,updateGrid,l
                     <ConfirmRoleChangeModal
                         isOpen={showConfirmModal}
                         targetUsername={targetUsername}
-                        newRole={newRole}
+                        newRole={roleConfirmation}
                         closeModal={() => setShowConfirmModal(false)}
                         updateGrid={updateGrid}
                         loggedInRole={loggedInRole}

@@ -4,8 +4,8 @@ import axios from 'axios';
 import TravelBackground from "../../../General/Background/TravelBackground";
 import './Trip.scss';
 import AnimationTrip from "../../../../Containers/Animations/PageTransitionAnimations/AnimationTrip";
-import TripGeneralInfo from "../TripTabs/TripGeneralInfo";
-import TripDayInfo from "../TripTabs/TripDayInfo";
+import TripGeneralInfo from "../TripTabs/TabContent/TripGeneralInfo";
+import TripDayInfo from "../TripTabs/TabContent/TripDayInfo";
 import { TripDTO } from "../../TripDTO";
 import { API_BASE_URL } from "../../../../config";
 
