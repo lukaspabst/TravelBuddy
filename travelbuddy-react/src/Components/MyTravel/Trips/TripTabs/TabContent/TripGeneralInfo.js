@@ -7,9 +7,13 @@ import {useTranslation} from "react-i18next";
 import '../../../CreateTrip/CreateTrip.scss';
 import '../StylesForModalAndTabContent/TripTab.scss';
 import TripMembersGrid from "./TripMembersGrid";
+import {API_BASE_URL} from "../../../../../config";
+import {useParams} from "react-router-dom";
+import axios from "axios";
 
 const TripGeneralInfo = ({ tripData, role }) => {
     const { t } = useTranslation();
+    const { tripId } = useParams();
     const [state, setState] = useState({
         tripName: tripData.nameTrip,
         startDate: tripData.startDate,
@@ -118,10 +122,33 @@ const TripGeneralInfo = ({ tripData, role }) => {
             setErrorInfo(t('errorMessages.emptyFields'));
         }
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // This method should be passed as a prop from parent and should handle form submission
+
+        try {
+            const {tripName, startDate, endDate, destination, maxPersons, costs} = state;
+            const response = await axios.put(`${API_BASE_URL}/api/trips/${tripId}`,
+                {
+                    tripName,
+                    startDate,
+                    endDate,
+                    destination,
+                    maxPersons,
+                    costs
+                }, { withCredentials: true });
+
+
+            // Handle the response as needed
+            console.log('Trip updated successfully:', response);
+
+            // If the update is successful, you may want to show a success message
+        } catch (error) {
+            // Handle errors, e.g., show an error message
+            console.error('Error updating trip:', error);
+            setErrorInfo('Failed to update trip. Please try again.');
+        }
     }
+
     return (
         <div className="tab-content-general">
             <form className="form-general-Trip-Info" onSubmit={handleSubmit}>
@@ -185,15 +212,15 @@ const TripGeneralInfo = ({ tripData, role }) => {
                             onChange={handleChange}
                             readOnly={!isEditableAdminOrOrganizer}
                         />
-                    <div className="button-holder-spinButtons">
-                        <button type="button" onClick={incrementPersons} className="button-style-spin-buttons">
-                            <FontAwesomeIcon
-                                icon={faChevronUp}/></button>
-                        <button type="button" onClick={decrementPersons} className="button-style-spin-buttons">
-                            <FontAwesomeIcon
-                                icon={faChevronDown}/></button>
+                        <div className="button-holder-spinButtons">
+                            <button type="button" onClick={incrementPersons} className="button-style-spin-buttons">
+                                <FontAwesomeIcon
+                                    icon={faChevronUp}/></button>
+                            <button type="button" onClick={decrementPersons} className="button-style-spin-buttons">
+                                <FontAwesomeIcon
+                                    icon={faChevronDown}/></button>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div>
                     <label htmlFor="costs">{t('createTrip.maxPriceLabel')}</label>
@@ -219,16 +246,16 @@ const TripGeneralInfo = ({ tripData, role }) => {
                         </div>
                     </div>
                 </div>
+                <div className="container-for-error-and-button">
+                    {errorInfo ? <InfoIcon tooltipMessage={errorInfo}/> :
+                        <Button buttonStyle="btn--outline" type="submit">
+                            {t('trip.updateTripGeneral')}
+                        </Button>
+                    }
+                </div>
             </form>
-            <div className="container-for-error-and-button">
-                {errorInfo ? <InfoIcon tooltipMessage={errorInfo}/> :
-                    <Button buttonStyle="btn--outline" type="submit">
-                        {t('trip.updateTripGeneral')}
-                    </Button>
-                }
-            </div>
             <TripMembersGrid role={role}/>
-       </div>
+        </div>
     );
 };
 export default TripGeneralInfo;

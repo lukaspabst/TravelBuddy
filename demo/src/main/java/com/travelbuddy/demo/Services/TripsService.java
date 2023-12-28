@@ -2,6 +2,7 @@ package com.travelbuddy.demo.Services;
 
 import com.travelbuddy.demo.AdapterClasses.TripMember;
 import com.travelbuddy.demo.AdapterClasses.TripRole;
+import com.travelbuddy.demo.AdapterClasses.TripsMainContent;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Repository.TripsRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -41,15 +42,20 @@ public class TripsService {
         }
     }
 
-    public Trips updateTrip(String id, Trips updatedTrip) {
+    public Trips updateTrip(String id, TripsMainContent updatedTrip) {
         try {
             Optional<Trips> existingTripOptional = tripsRepo.findById(id);
 
             if (existingTripOptional.isPresent()) {
                 Trips existingTrip = existingTripOptional.get();
-                updatedTrip.setId(existingTrip.getId());
+                existingTrip.setNameTrip(updatedTrip.getTripName());
+                existingTrip.setCosts(updatedTrip.getCosts());
+                existingTrip.setDestination(updatedTrip.getDestination());
+                existingTrip.setStartDate(updatedTrip.getStartDate());
+                existingTrip.setEndDate(updatedTrip.getEndDate());
+                existingTrip.setMaxPersons(updatedTrip.getMaxPersons());
 
-                return saveTrip(updatedTrip);
+                return saveTrip(existingTrip);
 
             } else {
                 return null;

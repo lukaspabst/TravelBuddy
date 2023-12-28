@@ -100,20 +100,20 @@ public class TripsController {
     })
     @PutMapping("/{tripId}")
 
-    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true) @PathVariable String tripId, @Valid @RequestBody Trips updatedTrip) {
+    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true) @PathVariable String tripId, @Valid @RequestBody TripsMainContent updatedTrip) {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
+            log.error(updatedTrip.toString());
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
 
             if (tripOptional.isPresent()) {
                 Trips trip = tripOptional.get();
                 boolean isAdminOrCoAdmin = trip.getMembers().stream().anyMatch(member ->
                         member.getUsername().equals(loggedInUser) &&
-                                (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
+                                (TripRole.Organizer.getDescription().equals(member.getRole()) || TripRole.Assistant.getDescription().equals(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
 
-                    updatedTrip.setMembers(trip.getMembers());
                     Trips updated = tripsService.updateTrip(tripId, updatedTrip);
 
 

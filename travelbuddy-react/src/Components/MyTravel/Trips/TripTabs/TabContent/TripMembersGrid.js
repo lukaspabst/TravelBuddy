@@ -46,6 +46,22 @@ const TripMembersGrid = (role) => {
         fetchTripMembers();
     }, [tripId]);
 
+    useEffect(() => {
+        if (areMembersVisible) {
+            // If members are visible, set all members
+            setVisibleMembers(tripMembers);
+        } else {
+            // If members are hidden, set an empty array after a delay
+            const timeoutId = setTimeout(() => {
+                setVisibleMembers([]);
+            }, 400); // Adjust the duration according to your animation
+
+            // Cleanup function
+            return () => clearTimeout(timeoutId);
+        }
+    }, [areMembersVisible, tripMembers]);
+
+
     const { t } = useTranslation();
     const openAddMemberModal = () => {
         setIsAddMemberModalOpen(true);
@@ -102,14 +118,16 @@ const TripMembersGrid = (role) => {
                     </div>
                 </div>
                 <div className="trip-members-grid">
-                    {areMembersVisible &&
-                        tripMembers.map((member, index) => {
+                    {visibleMembers.map((member, index) => {
                             const { row, col } = calculateGridPosition(index);
+                            const animationDelay = 0.1;
                             const memberStyle = {
                                 gridArea: `${row} / ${col} / ${row + 1} / ${col + 1}`,
+                                animationDelay: `${
+                                    areMembersVisible ? index * animationDelay : (visibleMembers.length - index - 1) * animationDelay
+                                }s`,
                             };
-                            console.log(calculateGridPosition(index));
-                            return (
+                        return (
                                 <div
                                     key={index}
                                     style={memberStyle}

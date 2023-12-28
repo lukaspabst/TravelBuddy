@@ -80,29 +80,22 @@
   }
 }
 
-.member-card-trip:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.member-card-trip:nth-child(2) {
-  animation-delay: 0.1s;
-}
-
-.member-card-trip:nth-child(3) {
-  animation-delay: 0.2s;
-}
 .member-card-trip{
   border: 1px solid var(--font-color);
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   border-radius: 5px;
   width: 15vw;
-  animation: fadeIn 0.5s ease-out;
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-  animation-fill-mode: backwards;
 
-  &.member-card-trip.exiting {
+  &.member-card-trip.enter {
+    animation: fadeIn 0.5s ease-out;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    animation-fill-mode: backwards;
+
+  }
+  &.member-card-trip.exit {
     animation: fadeOut 0.5s ease-out;
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    animation-fill-mode: backwards;
   }
 
   & p{
