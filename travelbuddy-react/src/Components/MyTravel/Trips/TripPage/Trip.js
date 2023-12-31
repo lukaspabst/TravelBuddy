@@ -38,7 +38,6 @@ function Trip() {
                 tripData.costs,
                 tripData.destination
             );
-            localStorage.removeItem('selectedTrip');
             setTripDTO(tripDTO);
             setStartDate(tripDTO.startDate);
             setEndDate(tripDTO.endDate);

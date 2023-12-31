@@ -15,7 +15,7 @@ const TripGeneralInfo = ({ tripData, role }) => {
     const { t } = useTranslation();
     const { tripId } = useParams();
     const [state, setState] = useState({
-        tripName: tripData.nameTrip,
+        nameTrip: tripData.nameTrip,
         startDate: tripData.startDate,
         endDate: tripData.endDate,
         maxPersons: tripData.maxPersons,
@@ -112,32 +112,35 @@ const TripGeneralInfo = ({ tripData, role }) => {
             }
         }
 
-        if (name === "tripName" && !value) {
+        if (name === "nameTrip" && !value) {
             setErrorInfo(t(`errorMessages.emptyTripName`));
             return;
         }
-        if (['tripName', 'startDate', 'endDate', 'destination', 'maxPersons', 'costs'].every(item => state[item])) {
+        if (['nameTrip', 'startDate', 'endDate', 'destination', 'maxPersons', 'costs'].every(item => state[item])) {
             setErrorInfo(null);
         } else {
             setErrorInfo(t('errorMessages.emptyFields'));
         }
     };
-    const handleSubmit = async (e) => {
-        e.preventDefault();
 
+    const handleButtonClick = async () => {
         try {
-            const {tripName, startDate, endDate, destination, maxPersons, costs} = state;
-            const response = await axios.put(`${API_BASE_URL}/api/trips/${tripId}`,
+            const { nameTrip, startDate, endDate, destination, maxPersons, costs } = state;
+            const response = await axios.put(
+                `${API_BASE_URL}/api/trips/${tripId}`,
                 {
-                    tripName,
+                    tripName: nameTrip,
                     startDate,
                     endDate,
                     destination,
                     maxPersons,
                     costs
-                }, { withCredentials: true });
-
-
+                },
+                { withCredentials: true }
+            );
+            if(response.status===200){
+                localStorage.setItem('selectedTrip',JSON.stringify(state));
+            }
             // Handle the response as needed
             console.log('Trip updated successfully:', response);
 
@@ -147,19 +150,20 @@ const TripGeneralInfo = ({ tripData, role }) => {
             console.error('Error updating trip:', error);
             setErrorInfo('Failed to update trip. Please try again.');
         }
-    }
+    };
+
 
     return (
         <div className="tab-content-general">
-            <form className="form-general-Trip-Info" onSubmit={handleSubmit}>
+            <form className="form-general-Trip-Info">
                 <div>
-                    <label htmlFor="tripName">{t('createTrip.tripNameLabel')}</label>
+                    <label htmlFor="nameTrip">{t('createTrip.tripNameLabel')}</label>
                     <input
                         type="text"
-                        id="tripName"
-                        name="tripName"
+                        id="nameTrip"
+                        name="nameTrip"
                         required
-                        value={state.tripName}
+                        value={state.nameTrip}
                         onChange={handleChange}
                         readOnly={!isEditableAdminOrOrganizer}
                     />
@@ -246,14 +250,21 @@ const TripGeneralInfo = ({ tripData, role }) => {
                         </div>
                     </div>
                 </div>
-                <div className="container-for-error-and-button">
-                    {errorInfo ? <InfoIcon tooltipMessage={errorInfo}/> :
-                        <Button buttonStyle="btn--outline" type="submit">
-                            {t('trip.updateTripGeneral')}
-                        </Button>
-                    }
-                </div>
             </form>
+            <div className="container-for-error-and-button">
+                {errorInfo ? (
+                    <InfoIcon tooltipMessage={errorInfo}/>
+                ) : (
+                    <Button
+                        buttonStyle="btn--outline"
+                        type="button"
+                        onClick={handleButtonClick}
+                        disabled={!isEditableAdminOrOrganizer}
+                    >
+                        {t('trip.updateTripGeneral')}
+                    </Button>
+                )}
+            </div>
             <TripMembersGrid role={role}/>
         </div>
     );

@@ -167,7 +167,8 @@ const TripMembersGrid = (role) => {
                                                         </div>
                                                     </div>
                                                 )}
-                                            {member.role !== 'Trip Organizer' && (
+                                            {member.role !== 'Trip Organizer' &&
+                                                role.role !=='Traveler' && (
                                                 <div className="icon">
                                                     <FontAwesomeIcon
                                                         icon={faEraser}
