@@ -156,7 +156,7 @@
 .icon-tooltip {
   display: none;
   position: absolute;
-  bottom: calc(100% + 10px); /* Adjusted as per required gap from icon */
+  bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 55;

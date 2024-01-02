@@ -183,7 +183,7 @@ const TripMembersGrid = (role) => {
                                             )}
                                             <div className="icon">
                                                 <Link
-                                                    to={`/profile/${member.username}`}
+                                                    to={`/${member.username}`}
                                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                                 >
                                                     <FontAwesomeIcon icon={faUser} />
