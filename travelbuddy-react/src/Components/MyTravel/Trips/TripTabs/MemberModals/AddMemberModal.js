@@ -9,7 +9,7 @@ import axios from "axios";
 import {API_BASE_URL} from "../../../../../config";
 import { useParams } from 'react-router-dom';
 function AddMemberModal({ isOpen, closeModal, updateGrid,loggedInRole }) {
-    const { t } = useTranslation(); // Translation hook
+    const { t } = useTranslation();
     const { tripId } = useParams();
     const [username, setUsername] = useState('');
     const [role, setRole] = useState('');
@@ -29,13 +29,29 @@ function AddMemberModal({ isOpen, closeModal, updateGrid,loggedInRole }) {
                 {
                     username,
                     role,
-                    status: 'Active'
+                    status: 'Invited'
                 },
-                { withCredentials: true, headers: { 'Content-Type': 'application/json' } } // Fügen Sie den Header für JSON-Daten hinzu
+                { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
             );
 
             if (response.status === 200) {
                 console.log('Member added successfully:', response.data);
+                const saveMessageResponse = await axios.post(
+                    `${API_BASE_URL}/api/messages/save`,
+                    {
+                        type: 'invite_trip',
+                        tripId,
+                        username,
+                    },
+                    { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
+                );
+
+                if (saveMessageResponse.status === 201) {
+                    console.log('Message saved successfully:', saveMessageResponse.data);
+                } else {
+                    console.error('Error saving message:', saveMessageResponse.data);
+                }
+
                 resetState();
                 updateGrid();
                 closeModal();

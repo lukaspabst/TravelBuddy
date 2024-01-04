@@ -133,6 +133,7 @@ const TripMembersGrid = (role) => {
                                     style={memberStyle}
                                     className={`member-card-trip ${areMembersVisible ? 'enter' : 'exit'}`}
                                 >
+                                    <div className={`${member.status === 'Invited' ? 'invited' : ''}`}>
                                     <div className="trip-member-Role">
                                         <p>{member.role}</p>
                                     </div>
@@ -194,6 +195,7 @@ const TripMembersGrid = (role) => {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 </div>
                             );
                         })}

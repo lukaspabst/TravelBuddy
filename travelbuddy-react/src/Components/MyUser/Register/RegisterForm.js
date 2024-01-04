@@ -11,8 +11,7 @@ import {motion} from 'framer-motion';
 
 function RegisterForm() {
     const {t} = useTranslation();
-    const {login} = useAuth();
-    const navigate = useNavigate();
+    const {checkToken} = useAuth()
     const [state, setState] = useState({
         username: '',
         email: '',
@@ -36,8 +35,8 @@ function RegisterForm() {
             );
 
             if (response.status === 201) {
-                login();
-                navigate('/');
+                await checkToken();
+                window.location.href = "/";
             } else if (response.status === 400) {
                 setState({...state, message: t('errorMessages.badRequest')});
             } else if (response.status === 500) {

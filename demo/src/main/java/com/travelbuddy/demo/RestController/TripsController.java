@@ -371,7 +371,7 @@ public class TripsController {
     @GetMapping("/userTrips/closed")
     public ResponseEntity<List<UserTripsDto>> getUserTripsClosed() {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
             List<UserTripsDto> userTripsDtoList = userTrips.stream()
                     .filter(trip -> {
@@ -456,6 +456,7 @@ public class TripsController {
                     singleTripMember.setUsername(user.getUsername());
                     singleTripMember.setName(user.getFirstName()+" "+ user.getLastName());
                     singleTripMember.setRole(member.getRole());
+                    singleTripMember.setStatus(member.getStatus());
                     byte[] userPictureByteArray = null;
                     if (user != null) {
                         Binary userPictureBinary = user.getPicture();
