@@ -336,7 +336,7 @@ public class TripsController {
     @GetMapping("/userTrips/open")
     public ResponseEntity<List<UserTripsDto>> getUserTripsOpen() {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
             List<UserTripsDto> userTripsDtoList = userTrips.stream()
                     .filter(trip -> {
