@@ -1,5 +1,9 @@
 package com.travelbuddy.demo.RestController;
 
+import com.travelbuddy.demo.AdapterClasses.TripMember;
+import com.travelbuddy.demo.AdapterClasses.TripMembersDTO;
+import com.travelbuddy.demo.AdapterClasses.TripRole;
+import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Entities.UserMessage;
 import com.travelbuddy.demo.Services.TripsService;
 import com.travelbuddy.demo.Services.UserMessageService;
@@ -11,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -24,9 +30,42 @@ public class UserMessageController {
     @PostMapping("/save")
     public ResponseEntity<UserMessage> saveMessage(@RequestBody UserMessage userMessage) {
         userMessage.setInitiatorUsername(getCurrentUsername());
+
+        if(userMessage.getType().equals("userLeft_trip")) {
+            Optional<Trips> optionalTrip = tripsService.getTripById(userMessage.getTripId());
+            if (optionalTrip.isPresent()) {
+                Trips trip = optionalTrip.get();
+                String tripOrganizer = trip.getMembers()
+                        .stream()
+                        .filter(member -> member.getRole().equals(TripRole.Organizer.getDescription()))
+                        .findFirst()
+                        .map(TripMember::getUsername)
+                        .orElse(null);
+                userMessage.setUsername(tripOrganizer);
+            }
+        }else if(userMessage.getType().equals("tripDeleted_trip")){
+            Optional<Trips> optionalTrip = tripsService.getTripById(userMessage.getTripId());
+            if (optionalTrip.isPresent()) {
+                Trips trip = optionalTrip.get();
+                for (TripMember member : trip.getMembers()) {
+                    UserMessage newMessage = new UserMessage(
+                            UUID.randomUUID().toString(),
+                            userMessage.getType(),
+                            userMessage.getTripId(),
+                            member.getUsername(),
+                            userMessage.getInitiatorUsername(),
+                            userMessage.getNameOfTrip(),
+                            userMessage.getRoleIfRoleChange()
+                    );
+                    userMessageService.saveOrUpdateMessage(newMessage);
+                }
+            }
+        }
         userMessage.setNameOfTrip(tripsService.getTripById(userMessage.getTripId()).get().getNameTrip());
-        UserMessage savedMessage = userMessageService.saveOrUpdateMessage(userMessage);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedMessage);
+        if(!(userMessage.getType().equals("tripDeleted_trip"))){
+           userMessageService.saveOrUpdateMessage(userMessage);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
     @PutMapping("/update")

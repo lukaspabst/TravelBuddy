@@ -486,5 +486,81 @@ public class TripsController {
             return principal.toString();
         }
     }
+    @Operation(summary = "Update member status in a trip")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Member status updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Trip or Member not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @PatchMapping("/{tripId}/updateMemberStatus")
+    public ResponseEntity<Trips> updateMemberStatus(
+            @Parameter(description = "Trip ID", required = true) @PathVariable String tripId,
+            @Parameter(description = "Member status update request", required = true) @RequestBody MemberStatusUpdateRequest memberStatusUpdateRequest) {
+        try {
+            String loggedInUser = getCurrentUsername();
+            Optional<Trips> tripOptional = tripsService.getTripById(tripId);
+            if (tripOptional.isPresent()) {
+                Trips trip = tripOptional.get();
+                    Trips updatedTrip = tripsService.updateMemberStatus(tripId, memberStatusUpdateRequest.getUsername(), memberStatusUpdateRequest.getStatus());
+                    if (updatedTrip != null) {
+                        log.info("Updated member status in trip with ID: {} by user: {}", tripId, loggedInUser);
+                        return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
+                    } else {
+                        log.warn("Member not found in trip with ID: {} or status not updated", tripId);
+                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                    }
+            } else {
+                log.warn("Trip with ID {} not found.", tripId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            log.error("Error updating member status in trip: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "Remove logged-in user from a trip")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User removed successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Trip not found or User not a member"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @PatchMapping("/removeFromTrip/{tripId}")
+    public ResponseEntity<Trips> removeLoggedInUserFromTrip(
+            @Parameter(description = "Trip ID", required = true) @PathVariable String tripId) {
+        try {
+            String loggedInUser = getCurrentUsername();
+            Optional<Trips> tripOptional = tripsService.getTripById(tripId);
 
+            if (tripOptional.isPresent()) {
+                Trips trip = tripOptional.get();
+                List<TripMember> members = trip.getMembers();
+
+                boolean isUserMember = members.stream()
+                        .anyMatch(member -> member.getUsername().equals(loggedInUser));
+
+                if (isUserMember) {
+                    Trips updatedTrip = tripsService.removeMemberFromTrip(tripId, loggedInUser);
+
+                    if (updatedTrip != null) {
+                        log.info("Removed user from trip with ID: {} by user: {}", tripId, loggedInUser);
+                        return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
+                    } else {
+                        log.error("Error removing user from trip. Trip not updated.");
+                        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+                } else {
+                    log.warn("User {} is not a member of the trip with ID: {}", loggedInUser, tripId);
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            } else {
+                log.warn("Trip with ID {} not found.", tripId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            log.error("Error removing user from trip: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

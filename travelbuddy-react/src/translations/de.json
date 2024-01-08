@@ -5,6 +5,13 @@
     "japanese": "Japanisch",
     "russian": "Russisch"
   },
+  "general": {
+    "userMessageInbox": "Benachrichtigungen",
+    "emptyInbox": "Dein Postfach ist leer",
+    "deleteMessage": "Nachricht löschen",
+    "acceptTrip": "Reise akzeptieren",
+    "denyTrip": "Reise ablehnen"
+  },
   "login": {
     "title": "Anmelden",
     "usernameLabel": "Benutzername",
@@ -147,13 +154,54 @@
     "generalTab": "Allgemein",
     "dayTab": "Tag {{day}}",
     "makeTripPublic": "Reise öffentlich machen",
-    "viewCandidates": "Bewerber ansehen"
+    "viewCandidates": "Bewerber ansehen",
+    "leaveTrip": "Reise verlassen",
+    "deleteTrip": "Reise löschen"
   },
   "confirmRoleChange": {
     "areYouSure": "Bist du sicher, dass du {{username}} zum Reiseorganisator ändern möchtest?",
     "youWillLoseOrganizer": "Du wirst den Organisatorstatus dadurch verlieren und zum Mitglied werden.",
     "confirm": "Bestätigen",
     "cancel": "Abbrechen"
+  },
+  "tripRoles": {
+    "organizer": "Reiseorganisator",
+    "assistant": "Reiseassistent",
+    "traveler": "Mitglied"
+  },
+  "messageTypes": {
+    "invite_trip": {
+      "title": "{{initiator}} hat dich zu der Reise {{tripName}} eingeladen",
+      "message": "Du wurdest von {{initiator}} eingeladen, der Reise {{tripName}} beizutreten. Klicke, um zu akzeptieren."
+    },
+    "accept_trip": {
+      "title": "{{initiator}} hat deine Einladung zur Reise {{tripName}} akzeptiert",
+      "message": "{{initiator}} hat deine Einladung angenommen, der Reise {{tripName}} beizutreten."
+    },
+    "deny_trip": {
+      "title": "{{initiator}} hat deine Einladung zur Reise {{tripName}} abgelehnt",
+      "message": "{{initiator}} hat deine Einladung abgelehnt, der Reise {{tripName}} beizutreten."
+    },
+    "roleChange_trip": {
+      "title": "{{initiator}} hat deine Rolle für die Reise {{tripName}} zu {{newRole}} geändert",
+      "message": "{{initiator}} hat deine Rolle für die Reise {{tripName}} zu {{newRole}} geändert."
+    },
+    "removeMember_trip": {
+      "title": "{{initiator}} hat dich von der Reise {{tripName}} entfernt",
+      "message": "{{initiator}} hat dich von der Reise {{tripName}} entfernt."
+    },
+    "tripDeleted_trip": {
+      "title": "{{initiator}} hat die Reise {{tripName}} gelöscht",
+      "message": "{{initiator}} hat die Reise {{tripName}} gelöscht."
+    },
+    "userLeft_trip": {
+      "title": "{{initiator}} hat die Reise {{tripName}} verlassen",
+      "message": "{{initiator}} hat die Reise {{tripName}} verlassen."
+    },
+    "default": {
+      "title": "Standardtitel",
+      "message": "Standardnachricht"
+    }
   }
 }
 

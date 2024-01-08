@@ -109,6 +109,28 @@ public class TripsService {
             throw e;
         }
     }
+    public Trips updateMemberStatus(String tripId, String username, String newStatus) {
+        Optional<Trips> optionalTrip = tripsRepo.findById(tripId);
+
+        if (optionalTrip.isPresent()) {
+            Trips trip = optionalTrip.get();
+            List<TripMember> members = trip.getMembers();
+
+            for (TripMember member : members) {
+                if (member.getUsername().equals(username)) {
+                    member.setStatus(newStatus);
+                    tripsRepo.save(trip); // Save the updated trip
+                    return trip;
+                }
+            }
+
+            // If the member is not found in the trip
+            return null;
+        }
+
+        // If the trip with the given ID is not found
+        return null;
+    }
 
     public boolean deleteTrip(String id) {
         try {

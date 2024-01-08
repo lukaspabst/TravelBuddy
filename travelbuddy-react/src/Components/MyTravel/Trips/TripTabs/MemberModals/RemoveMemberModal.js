@@ -26,6 +26,20 @@ function RemoveMemberModal({ isOpen,targetUsername, closeModal, updateGrid }) {
 
             if (response.status === 200) {
                 console.log('Member removed successfully:', response.data);
+                const saveMessageResponse = await axios.post(
+                    `${API_BASE_URL}/api/messages/save`,
+                    {
+                        type: 'removeMember_trip',
+                        tripId: tripId,
+                        username: targetUsername,
+                    },
+                    { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
+                );
+                if (saveMessageResponse.status === 201) {
+                    console.log('Message saved successfully:', saveMessageResponse.data);
+                } else {
+                    console.error('Error saving message:', saveMessageResponse.data);
+                }
                 resetState();
                 updateGrid();
                 closeModal();

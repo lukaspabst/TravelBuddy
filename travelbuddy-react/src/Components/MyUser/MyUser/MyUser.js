@@ -160,10 +160,8 @@ function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedI
                 }
                 const byteArray = new Uint8Array(byteNumbers);
 
-                // Save ByteArray to localStorage
                 localStorage.setItem("userProfilePicture", JSON.stringify(Array.from(byteArray)));
 
-                // Set selectedImage state
                 setSelectedImage(trimmedImage);
             };
             reader.readAsDataURL(file);

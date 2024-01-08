@@ -61,6 +61,21 @@ function ChangeRoleModal({ isOpen, targetUsername, role, closeModal,updateGrid,l
 
                 if (response.status === 200) {
                     console.log('Member changed successfully:', response.data);
+                    const saveMessageResponse = await axios.post(
+                        `${API_BASE_URL}/api/messages/save`,
+                        {
+                            type: 'roleChange_trip',
+                            tripId: tripId,
+                            username: targetUsername,
+                            roleIfRoleChange:newRole
+                        },
+                        { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
+                    );
+                    if (saveMessageResponse.status === 201) {
+                        console.log('Message saved successfully:', saveMessageResponse.data);
+                    } else {
+                        console.error('Error saving message:', saveMessageResponse.data);
+                    }
                     setMessage('');
                     updateGrid();
                     resetState();

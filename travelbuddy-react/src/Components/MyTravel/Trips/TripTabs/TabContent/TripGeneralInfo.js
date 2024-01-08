@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faChevronUp, faDoorOpen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import InfoIcon from "../../../../../Containers/InfoIcon/InfoIcon";
 import {Button} from "../../../../../Containers/Button/Button";
 import {useTranslation} from "react-i18next";
@@ -8,7 +8,7 @@ import '../../../CreateTrip/CreateTrip.scss';
 import '../StylesForModalAndTabContent/TripTab.scss';
 import TripMembersGrid from "./TripMembersGrid";
 import {API_BASE_URL} from "../../../../../config";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
 const TripGeneralInfo = ({ tripData, role }) => {
@@ -22,9 +22,9 @@ const TripGeneralInfo = ({ tripData, role }) => {
         costs: tripData.costs,
         destination: tripData.destination,
     });
-
+    const navigate= useNavigate();
     const isEditableAdminOrOrganizer = role === 'Trip Organizer' || role === 'Trip Assistant';
-
+    const isEditableAdmin = role === 'Trip Organizer';
     const [errorInfo, setErrorInfo] = useState(null);
     const incrementPrice = () => {
         setState(prevState => ({
@@ -151,13 +151,83 @@ const TripGeneralInfo = ({ tripData, role }) => {
             setErrorInfo('Failed to update trip. Please try again.');
         }
     };
+    const leaveTrip = () => {
+        const removeFromTripEndpoint = `${API_BASE_URL}/api/trips/removeFromTrip/${tripId}`;
+        axios.patch(removeFromTripEndpoint, {},{withCredentials:true})
+            .then(response => {
+                saveMessage("userLeft_trip",);
+                navigate("/MyTrips");
+            })
+            .catch(error => {
+                console.error('Error accepting invitation:', error);
+            });
+    };
 
+    const saveMessage = (tripType) => {
+        const saveMessageEndpoint = `${API_BASE_URL}/api/messages/save`;
+        axios.post(saveMessageEndpoint, {
+            type: tripType,
+            tripId: tripId,
+        },{withCredentials:true})
+            .then(response => {
+                console.log('Message saved successfully:', response.data);
+            })
+            .catch(error => {
+                console.error('Error saving message:', error);
+            });
+    };
+    const handleLeaveTrip = () => {
+        leaveTrip();
+    };
+
+    const handleDeleteTrip = async () => {
+        try {
+            saveMessage("tripDeleted_trip",);
+
+            const response = await axios.delete(
+                `${API_BASE_URL}/api/trips/${tripId}`,
+                { withCredentials: true }
+            );
+            navigate("/MyTrips");
+        } catch (error) {
+            console.error('Error deleting trip:', error);
+            setErrorInfo('Failed to delete trip. Please try again.');
+        }
+    };
 
     return (
         <div className="tab-content-general">
+            <div className="top-right-icons">
+                {!isEditableAdmin && (
+                    <div className="icon-Leave-And-DeleteTrip">
+                        <FontAwesomeIcon
+                            icon={faDoorOpen}
+                            className="door-icon"
+                            onClick={handleLeaveTrip}
+                            title={t('trip.leaveTrip')}
+                        />
+                        <div className="icon-Leave-And-DeleteTrip-tooltip">
+                            {t('trip.leaveTrip')}
+                        </div>
+                    </div>
+                )}
+                {isEditableAdmin && (
+                    <div className="icon-Leave-And-DeleteTrip">
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            className="trash-icon"
+                            onClick={handleDeleteTrip}
+                            title={t('trip.deleteTrip')}
+                        />
+                        <div className="icon-Leave-And-DeleteTrip-tooltip">
+                            {t('trip.deleteTrip')}
+                        </div>
+                    </div>
+                )}
+            </div>
             <form className="form-general-Trip-Info">
                 <div>
-                    <label htmlFor="nameTrip">{t('createTrip.tripNameLabel')}</label>
+                <label htmlFor="nameTrip">{t('createTrip.tripNameLabel')}</label>
                     <input
                         type="text"
                         id="nameTrip"
