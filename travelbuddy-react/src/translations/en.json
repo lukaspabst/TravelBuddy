@@ -118,6 +118,25 @@
     "userSecurity": "Your User Security",
     "faq": "Frequently Asked Questions",
     "support": "Support"
+  },
+  "tripMembersGrid": {
+    "hideMembers": "Hide Members",
+    "showMembers": "Show Members",
+    "addMember": "Add Member",
+    "changeRoleTooltip": "Change user role",
+    "removeMemberTooltip": "Remove Member",
+    "viewProfileTooltip": "View Profile",
+    "usernamePlaceholder": "Enter username",
+    "selectRole": "Select a role",
+    "memberRole": "Member",
+    "tripAssistantRole": "Trip Assistant"
+  },
+  "trip": {
+    "updateTripGeneral": "Update Trip General Information",
+    "generalTab": "General",
+    "dayTab": "Day {{day}}",
+    "makeTripPublic": "Make Trip Public",
+    "viewCandidates": "View Candidates"
   }
 }
 

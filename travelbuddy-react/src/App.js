@@ -15,10 +15,11 @@ import Trip from "./Components/MyTravel/Trips/TripPage/Trip";
 import MyUser from "./Components/MyUser/MyUser/MyUser";
 import {ThemeProvider} from "./Containers/Themes/ThemeProvider";
 import Settings from "./Components/HelpingLinks/Settings/Settings";
+import PublicUserProfile from "./Components/MyUser/PublicProfil/PublicUserProfile";
+
 
 function App() {
     const {isLoggedIn} = useAuth();
-
     return (
         <ThemeProvider>
         <Router>
@@ -32,9 +33,10 @@ function App() {
                             <Route path="/MyTrips" element={isLoggedIn ? <MyTravels/> : <Navigate to="/login"/>}/>
                             <Route path="/openTravels" element={isLoggedIn ? <OpenTrips/> : <Navigate to="/login"/>}/>
                             <Route path="/pastTravels" element={isLoggedIn ? <ClosedTrips/> : <Navigate to="/login"/>}/>
-                            <Route path="/trip/:id" element={isLoggedIn ? <Trip/> : <Navigate to="/login"/>}/>
+                            <Route path="/trip/:tripId" element={isLoggedIn ? <Trip/> : <Navigate to="/login"/>}/>
                             <Route path="/myProfile" element={isLoggedIn ? <MyUser/> : <Navigate to="/login"/>}/>
                             <Route path="/settings" element={isLoggedIn ? <Settings/> : <Navigate to="/login"/>}/>
+                            <Route path="/:username" element={isLoggedIn ? <PublicUserProfile/> : <Navigate to="/login"/>}/>
                         </Routes>
                 <Footer/>
             </AuthProvider>

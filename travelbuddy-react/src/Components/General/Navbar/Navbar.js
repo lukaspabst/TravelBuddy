@@ -1,6 +1,6 @@
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import './Navbar.css'
 import {Button} from '../../../Containers/Button/Button'
@@ -9,15 +9,16 @@ import {useAuth} from "../../../Containers/Authentication/AuthProvider";
 import axios from "axios";
 import {API_BASE_URL} from "../../../config";
 import {languageNames} from "../../../i18nConfig";
-import {ThemeContext} from "../../../Containers/Themes/ThemeContext";
 import DarkModeSwitch from "../../../Containers/Themes/DarkLightSwitch";
+import InboxModal from "../GeneralModals/MessageInboxModal";
 
 
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
     const [profilePicture, setProfilePicture] = useState(null);
-
+    const [messages, setMessages] = useState([]);
+    const [isMessageInboxModalOpen, setIsMessageInboxModalOpen] = useState(false);
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
     const {isLoggedIn, logout} = useAuth();
@@ -26,6 +27,7 @@ function Navbar() {
     const languageName = languageNames[i18n.language];
 
     const [profileMenu, setProfileMenu] = useState(false);
+    const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
 
     const changeLanguage = (language) => {
         i18n.changeLanguage(language);
@@ -45,6 +47,24 @@ function Navbar() {
             }
         };
         fetchUserProfile();
+    }, [isLoggedIn]);
+
+    useEffect(() => {
+        const fetchUnreadMessagesCount = async () => {
+            try {
+                if (isLoggedIn) {
+                    const response = await axios.get(`${API_BASE_URL}/api/messages/all`, { withCredentials: true });
+                    const unreadCount = response.data.filter(message => !message.isRead).length;
+                    setUnreadMessagesCount(unreadCount);
+
+                    setMessages(response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching unread messages count:', error);
+            }
+        };
+
+        fetchUnreadMessagesCount();
     }, [isLoggedIn]);
 
     const handleLogout = () => {
@@ -67,9 +87,14 @@ function Navbar() {
             setButton(true);
         }
     };
-
     window.addEventListener('resize', showButton);
+    const openMessageInboxModal = () => {
+        setIsMessageInboxModalOpen(true);
+    };
 
+    const closeMessageInboxModal = () => {
+        setIsMessageInboxModalOpen(false);
+    };
     return (
         <>
             <header>
@@ -127,6 +152,11 @@ function Navbar() {
                                         <img
                                             src={profilePicture ? `data:image/png;base64,${profilePicture}` : '/assets/pb_placeholder.png'}
                                             alt="Avatar" className="profile-image"/>
+                                        {unreadMessagesCount > 0 && (
+                                            <div className="unread-messages-badge">
+                                                {unreadMessagesCount}
+                                            </div>
+                                        )}
                                         <div className="profile-dropdown">
                                             <ul className="profile-menu">
                                                 <li className="profile-menu-item">
@@ -141,6 +171,17 @@ function Navbar() {
                                                     </Link>
                                                 </li>
                                                 <li className="profile-menu-item">
+                                                    <Link to='/MyTrips' className='nav-links' onClick={openMessageInboxModal}>
+                                                        {t('navbar.MyMessages')}
+                                                    </Link>
+                                                    {unreadMessagesCount > 0 && (
+                                                        <div className="unread-messages-badge myMessages">
+                                                            {unreadMessagesCount}
+                                                        </div>
+                                                    )}
+                                                </li>
+                                                <li className="profile-menu-item">
+
                                                     <Link to='/Settings' className='nav-links'
                                                           onClick={closeMobileMenu}>
                                                         {t('navbar.Settings')}
@@ -177,6 +218,12 @@ function Navbar() {
                     </div>
                 </nav>
             </header>
+            {isMessageInboxModalOpen && (
+                <InboxModal
+                    trackedMessages={messages}
+                    isOpen={isMessageInboxModalOpen}
+                    closeModal={closeMessageInboxModal} />
+            )}
         </>
     )
 }

@@ -22,7 +22,6 @@ const AnimatedTripCard = ({ onAnimationComplete }) => {
     const [trip, setTrip] = useState({});
 
     const TripCardDiv = styled(motion.div)`
-    /* Add your trip-card CSS styles here */
     `;
     // Get trip data from local storage when the component mounts
     useEffect(() => {
@@ -37,7 +36,7 @@ const AnimatedTripCard = ({ onAnimationComplete }) => {
             initial={{y: '0%'}}
             animate={{y: '100%'}}
             transition={{
-                delay: 1,
+                delay: 0.5,
                 when: 'afterChildren',
                 duration: 1,
                 ease: [0.87, 0, 0.13, 1],
@@ -48,7 +47,7 @@ const AnimatedTripCard = ({ onAnimationComplete }) => {
                 initial={{ scale: 1, opacity: 1 }}
                 animate={{ scale: 0, opacity: 0 }}
                 transition={{
-                    delay: 0.75,
+                    delay: 0.25,
                     duration: 1,
                     ease: [0.87, 0, 0.13, 1],
                 }}

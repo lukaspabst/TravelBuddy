@@ -2,6 +2,7 @@ package com.travelbuddy.demo.Services;
 
 import com.travelbuddy.demo.AdapterClasses.TripMember;
 import com.travelbuddy.demo.AdapterClasses.TripRole;
+import com.travelbuddy.demo.AdapterClasses.TripsMainContent;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Repository.TripsRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -41,15 +43,20 @@ public class TripsService {
         }
     }
 
-    public Trips updateTrip(String id, Trips updatedTrip) {
+    public Trips updateTrip(String id, TripsMainContent updatedTrip) {
         try {
             Optional<Trips> existingTripOptional = tripsRepo.findById(id);
 
             if (existingTripOptional.isPresent()) {
                 Trips existingTrip = existingTripOptional.get();
-                updatedTrip.setId(existingTrip.getId());
+                existingTrip.setNameTrip(updatedTrip.getTripName());
+                existingTrip.setCosts(updatedTrip.getCosts());
+                existingTrip.setDestination(updatedTrip.getDestination());
+                existingTrip.setStartDate(updatedTrip.getStartDate());
+                existingTrip.setEndDate(updatedTrip.getEndDate());
+                existingTrip.setMaxPersons(updatedTrip.getMaxPersons());
 
-                return saveTrip(updatedTrip);
+                return saveTrip(existingTrip);
 
             } else {
                 return null;
@@ -101,6 +108,28 @@ public class TripsService {
             log.error("Error removing member from trip: {}", e.getMessage(), e);
             throw e;
         }
+    }
+    public Trips updateMemberStatus(String tripId, String username, String newStatus) {
+        Optional<Trips> optionalTrip = tripsRepo.findById(tripId);
+
+        if (optionalTrip.isPresent()) {
+            Trips trip = optionalTrip.get();
+            List<TripMember> members = trip.getMembers();
+
+            for (TripMember member : members) {
+                if (member.getUsername().equals(username)) {
+                    member.setStatus(newStatus);
+                    tripsRepo.save(trip); // Save the updated trip
+                    return trip;
+                }
+            }
+
+            // If the member is not found in the trip
+            return null;
+        }
+
+        // If the trip with the given ID is not found
+        return null;
     }
 
     public boolean deleteTrip(String id) {
@@ -155,10 +184,19 @@ public class TripsService {
 
     public List<Trips> getUserTrips(String username) {
         try {
-            return tripsRepo.findByMembersUsername(username);
+            List<Trips> allUserTrips = tripsRepo.findByMembersUsername(username);
+
+            // Filter trips based on the specified member having an active status
+            List<Trips> activeUserTrips = allUserTrips.stream()
+                    .filter(trip -> trip.getMembers().stream()
+                            .anyMatch(member -> username.equals(member.getUsername()) && "Active".equals(member.getStatus())))
+                    .collect(Collectors.toList());
+
+            return activeUserTrips;
         } catch (Exception e) {
             log.error("Error getting user trips: {}", e.getMessage(), e);
             throw e;
         }
     }
+
 }

@@ -24,7 +24,7 @@ public class UserProfileDTO {
     public UserProfileDTO(String firstName, String lastName, byte[] profilePicture, String preferences, String travelDestination, Map<String, String> socialMediaLinks, String gender, String birthday, String location, String zipCode, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.profilePicture = profilePicture;
+        this.profilePicture = (profilePicture != null) ? profilePicture : new byte[0];
         this.preferences = preferences;
         this.travelDestination = travelDestination;
         this.socialMediaLinks = (socialMediaLinks != null) ? socialMediaLinks : Collections.emptyMap();

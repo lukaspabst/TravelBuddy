@@ -1,0 +1,146 @@
+.userInbox-modal {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  background: var(--bg-color);
+  padding: 20px;
+  border: 1px solid var(--font-color);
+  outline: none;
+  width: 60%;
+  border-radius: 15px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+
+  .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 15px;
+    background: transparent;
+
+    h2 {
+      margin: 0;
+      color:var(--font-color);
+    }
+  }
+
+  .close-icon-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+  }
+
+  .close-icon {
+    font-size: 20px;
+    color: var(--font-color);
+    display: flex;
+    border-bottom: 1px solid var(--font-color);
+    border-left: 1px solid var(--font-color);
+    background: transparent;
+    height: 30px;
+    width: 30px;
+    border-top-right-radius: 15px;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background: var(--bg-color-input);
+      transition: 0.5s;
+    }
+  }
+}
+
+.userInbox-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  top:0;
+  left:0;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+}
+.messages-inbox-container {
+  color:var(--font-color);
+}
+
+.message-item {
+  border: 1px solid var(--font-color);
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: var(--font-color);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+
+  &.expanded {
+    .message-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 25px;
+    }
+  }
+}
+
+.message-title {
+  padding: 10px;
+  border-bottom: 1px solid var(--font-color);
+  transition: all 0.3s;
+  &:hover {
+    background: var(--bg-color-input);
+  }
+  position: relative;
+}
+.delete-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  transform: translateY(-50%);
+  border: 1px solid var(--font-color);
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-radius: 5px;
+  background: #cc0000;
+  color: var(--font-color);
+  transition: all 0.5s ease-out;
+  &:hover{
+    background-color: #ffdddd;
+    color: var(--diff-font-color);
+    .deleteIcon-tooltip {
+      display: block;
+    }
+  }
+}
+
+.deleteIcon-tooltip{
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 55;
+  background-color: var(--bg-color-input);
+  color: var(--font-color);
+  border: 1px solid var(--font-color);
+  padding: 2px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.message-content {
+  display: none;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.invitation-buttons{
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  gap:25px;
+}

@@ -119,6 +119,25 @@
     "userSecurity": "あなたのユーザーセキュリティ",
     "faq": "よくある質問",
     "support": "サポート"
+  },
+  "tripMembersGrid": {
+    "hideMembers": "メンバーを非表示",
+    "showMembers": "メンバーを表示",
+    "addMember": "メンバーを追加",
+    "changeRoleTooltip": "ユーザーの役割を変更",
+    "removeMemberTooltip": "メンバーを削除",
+    "viewProfileTooltip": "プロフィールを表示",
+    "usernamePlaceholder": "ユーザー名を入力してください",
+    "selectRole": "役割を選択",
+    "memberRole": "メンバー",
+    "tripAssistantRole": "旅行アシスタント"
+  },
+  "trip": {
+    "updateTripGeneral": "一般的な旅行情報を更新する",
+    "generalTab": "全般",
+    "dayTab": "日{{day}}",
+    "makeTripPublic": "旅行を公開する",
+    "viewCandidates": "候補者を見る"
   }
 }
 

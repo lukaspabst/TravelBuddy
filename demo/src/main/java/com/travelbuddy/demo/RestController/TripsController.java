@@ -2,7 +2,10 @@ package com.travelbuddy.demo.RestController;
 
 import com.travelbuddy.demo.AdapterClasses.*;
 import com.travelbuddy.demo.Entities.Trips;
+import com.travelbuddy.demo.Entities.User;
 import com.travelbuddy.demo.Services.TripsService;
+import com.travelbuddy.demo.Services.UserSecService;
+import com.travelbuddy.demo.Services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +37,8 @@ import static com.travelbuddy.demo.Entities.Trips.mapFromTripsMainContent;
 public class TripsController {
     @Autowired
     private TripsService tripsService;
+    @Autowired
+    private UserService userService;
 
     @Operation(summary = "Create a trip")
     @ApiResponses(value = {
@@ -94,20 +100,20 @@ public class TripsController {
     })
     @PutMapping("/{tripId}")
 
-    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true) @PathVariable String tripId, @Valid @RequestBody Trips updatedTrip) {
+    public ResponseEntity<Trips> updateTrip(@Parameter(description = "Trip ID and Trip Details", required = true) @PathVariable String tripId, @Valid @RequestBody TripsMainContent updatedTrip) {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
+            log.error(updatedTrip.toString());
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
 
             if (tripOptional.isPresent()) {
                 Trips trip = tripOptional.get();
                 boolean isAdminOrCoAdmin = trip.getMembers().stream().anyMatch(member ->
                         member.getUsername().equals(loggedInUser) &&
-                                (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
+                                (TripRole.Organizer.getDescription().equals(member.getRole()) || TripRole.Assistant.getDescription().equals(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
 
-                    updatedTrip.setMembers(trip.getMembers());
                     Trips updated = tripsService.updateTrip(tripId, updatedTrip);
 
 
@@ -134,22 +140,38 @@ public class TripsController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Member added to trip successfully"),
             @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PatchMapping("/{tripId}/addMember")
     public ResponseEntity<Trips> addMemberToTrip(@Parameter(description = "Trip ID and New Member", required = true) @PathVariable String tripId, @RequestBody TripMember newMember) {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
+
+            User user = userService.findByUsername(newMember.getUsername());
+            if (user == null) {
+                log.warn("User does not exist: {}", newMember.getUsername());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
             if (tripOptional.isPresent()) {
                 Trips trip = tripOptional.get();
+
+                boolean isUserAlreadyMember = trip.getMembers().stream()
+                        .anyMatch(member -> member.getUsername().equals(newMember.getUsername()));
+
+                if (isUserAlreadyMember) {
+                    log.warn("User is already a member of the trip: {}", newMember.getUsername());
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+
                 boolean isAdminOrCoAdmin = trip.getMembers().stream().anyMatch(member ->
                         member.getUsername().equals(loggedInUser) &&
                                 (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
 
                 if (isAdminOrCoAdmin) {
-                    Trips updatedTrip = tripsService.addMemberToTrip(tripId, newMember.getUsername(), TripRole.Traveler, newMember.getStatus());
+                    Trips updatedTrip = tripsService.addMemberToTrip(tripId, newMember.getUsername(), TripRole.valueOf(newMember.getRole()), newMember.getStatus());
                     if (updatedTrip != null) {
                         log.info("Added member to trip with ID: {} by user: {}", tripId, loggedInUser);
                         return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
@@ -174,26 +196,44 @@ public class TripsController {
     @PatchMapping("/{tripId}/removeMember/{username}")
     public ResponseEntity<Trips> removeMemberFromTrip(@Parameter(description = "Trip ID and username", required = true) @PathVariable String tripId, @PathVariable String username) {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
 
             if (tripOptional.isPresent()) {
                 Trips trip = tripOptional.get();
-                boolean isAdminOrCoAdmin = trip.getMembers().stream().anyMatch(member ->
-                        member.getUsername().equals(loggedInUser) &&
-                                (TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()) || TripRole.Assistant.getDescription().equalsIgnoreCase(member.getRole())));
+                boolean isAdmin = trip.getMembers().stream()
+                        .anyMatch(member ->
+                                member.getUsername().equals(loggedInUser) &&
+                                        TripRole.Organizer.getDescription().equals(member.getRole()));
 
-                if (isAdminOrCoAdmin) {
-                    Trips updatedTrip = tripsService.removeMemberFromTrip(tripId, username);
-                    if (updatedTrip != null) {
-                        log.info("Removed member from trip with ID: {} by user: {}", tripId, loggedInUser);
-                        return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
+                boolean isAssistant = trip.getMembers().stream()
+                        .anyMatch(member ->
+                                member.getUsername().equals(loggedInUser) &&
+                                        TripRole.Assistant.getDescription().equals(member.getRole()));
+
+                if (isAdmin || isAssistant) {
+                    boolean canRemove = trip.getMembers().stream()
+                            .anyMatch(member ->
+                                    member.getUsername().equals(username) &&
+                                            !(TripRole.Organizer.getDescription().equals(member.getRole()) ||
+                                                    (isAssistant && TripRole.Assistant.getDescription().equals(member.getRole()))));
+
+                    if (canRemove) {
+                        Trips updatedTrip = tripsService.removeMemberFromTrip(tripId, username);
+                        if (updatedTrip != null) {
+                            log.info("Removed member from trip with ID: {} by user: {}", tripId, loggedInUser);
+                            return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
+                        } else {
+                            log.error("Error removing member from trip. Trip not updated.");
+                            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                        }
                     }
                 }
             }
 
             log.warn("Unauthorized attempt to remove member from trip with ID: {} by user: {}", tripId, loggedInUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
         } catch (Exception e) {
             log.error("Error removing member from trip: {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -257,18 +297,18 @@ public class TripsController {
                                                 @PathVariable String tripId,
                                                 @RequestBody RoleChangeRequest roleChangeRequest) {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             Optional<Trips> tripOptional = tripsService.getTripById(tripId);
 
             if (tripOptional.isPresent()) {
                 Trips trip = tripOptional.get();
                 boolean isAdmin = trip.getMembers().stream().anyMatch(member ->
-                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equalsIgnoreCase(member.getRole()));
+                        member.getUsername().equals(loggedInUser) && TripRole.Organizer.getDescription().equals(member.getRole()));
 
                 if (isAdmin) {
                     Trips updatedTrip = tripsService.changeUserRole(
                             tripId,
-                            roleChangeRequest.getAdminUsername(),
+                            loggedInUser,
                             roleChangeRequest.getTargetUsername(),
                             roleChangeRequest.getNewRole()
                     );
@@ -296,7 +336,7 @@ public class TripsController {
     @GetMapping("/userTrips/open")
     public ResponseEntity<List<UserTripsDto>> getUserTripsOpen() {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
             List<UserTripsDto> userTripsDtoList = userTrips.stream()
                     .filter(trip -> {
@@ -331,7 +371,7 @@ public class TripsController {
     @GetMapping("/userTrips/closed")
     public ResponseEntity<List<UserTripsDto>> getUserTripsClosed() {
         try {
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            String loggedInUser = getCurrentUsername();
             List<Trips> userTrips = tripsService.getUserTrips(loggedInUser);
             List<UserTripsDto> userTripsDtoList = userTrips.stream()
                     .filter(trip -> {
@@ -395,6 +435,47 @@ public class TripsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Operation(summary = "Get list of usernames in a trip")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of usernames retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Trip not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+
+    @GetMapping("/{tripId}/members")
+    public ResponseEntity<List<SingleTripMemberDTO>> getTripUsernames(
+            @Parameter(description = "Trip ID", required = true) @PathVariable String tripId) {
+        try {
+            Optional<Trips> optionalTrip = tripsService.getTripById(tripId);
+            if (optionalTrip.isPresent()) {
+                Trips trip = optionalTrip.get();
+                List<TripMember> members = trip.getMembers();
+                List<SingleTripMemberDTO> listOfSingleTripMember = members.stream().map(member -> {
+                    User user = userService.findByUsername(member.getUsername());
+                    SingleTripMemberDTO singleTripMember = new SingleTripMemberDTO();
+                    singleTripMember.setUsername(user.getUsername());
+                    singleTripMember.setName(user.getFirstName()+" "+ user.getLastName());
+                    singleTripMember.setRole(member.getRole());
+                    singleTripMember.setStatus(member.getStatus());
+                    byte[] userPictureByteArray = null;
+                    if (user != null) {
+                        Binary userPictureBinary = user.getPicture();
+                        if (userPictureBinary != null) {
+                            userPictureByteArray = userPictureBinary.getData();
+                        }}
+                    singleTripMember.setPicture(userPictureByteArray);
+                    return singleTripMember;
+                }).collect(Collectors.toList());
+                return new ResponseEntity<>(listOfSingleTripMember, HttpStatus.OK);
+            } else {
+                log.warn("Trip with ID {} not found.", tripId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            log.error("Error getting member details for trip: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     private String getCurrentUsername() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -405,5 +486,81 @@ public class TripsController {
             return principal.toString();
         }
     }
+    @Operation(summary = "Update member status in a trip")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Member status updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Trip or Member not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @PatchMapping("/{tripId}/updateMemberStatus")
+    public ResponseEntity<Trips> updateMemberStatus(
+            @Parameter(description = "Trip ID", required = true) @PathVariable String tripId,
+            @Parameter(description = "Member status update request", required = true) @RequestBody MemberStatusUpdateRequest memberStatusUpdateRequest) {
+        try {
+            String loggedInUser = getCurrentUsername();
+            Optional<Trips> tripOptional = tripsService.getTripById(tripId);
+            if (tripOptional.isPresent()) {
+                Trips trip = tripOptional.get();
+                    Trips updatedTrip = tripsService.updateMemberStatus(tripId, memberStatusUpdateRequest.getUsername(), memberStatusUpdateRequest.getStatus());
+                    if (updatedTrip != null) {
+                        log.info("Updated member status in trip with ID: {} by user: {}", tripId, loggedInUser);
+                        return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
+                    } else {
+                        log.warn("Member not found in trip with ID: {} or status not updated", tripId);
+                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                    }
+            } else {
+                log.warn("Trip with ID {} not found.", tripId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            log.error("Error updating member status in trip: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "Remove logged-in user from a trip")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User removed successfully"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Trip not found or User not a member"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @PatchMapping("/removeFromTrip/{tripId}")
+    public ResponseEntity<Trips> removeLoggedInUserFromTrip(
+            @Parameter(description = "Trip ID", required = true) @PathVariable String tripId) {
+        try {
+            String loggedInUser = getCurrentUsername();
+            Optional<Trips> tripOptional = tripsService.getTripById(tripId);
 
+            if (tripOptional.isPresent()) {
+                Trips trip = tripOptional.get();
+                List<TripMember> members = trip.getMembers();
+
+                boolean isUserMember = members.stream()
+                        .anyMatch(member -> member.getUsername().equals(loggedInUser));
+
+                if (isUserMember) {
+                    Trips updatedTrip = tripsService.removeMemberFromTrip(tripId, loggedInUser);
+
+                    if (updatedTrip != null) {
+                        log.info("Removed user from trip with ID: {} by user: {}", tripId, loggedInUser);
+                        return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
+                    } else {
+                        log.error("Error removing user from trip. Trip not updated.");
+                        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+                } else {
+                    log.warn("User {} is not a member of the trip with ID: {}", loggedInUser, tripId);
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            } else {
+                log.warn("Trip with ID {} not found.", tripId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            log.error("Error removing user from trip: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

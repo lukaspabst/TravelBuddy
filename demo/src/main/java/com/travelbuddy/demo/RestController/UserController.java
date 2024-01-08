@@ -72,6 +72,44 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping("/{username}")
+    @Operation(summary = "Get user profile by username")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User profile found"),
+            @ApiResponse(responseCode = "404", description = "User profile not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    public ResponseEntity<UserProfileDTO> getUserByUsername(@PathVariable String username) {
+        try {
+            User user = userService.findByUsername(username);
+            UserProfileDTO userProfileDTO;
+            if (user != null) {
+                Binary userPictureBinary = user.getPicture();
+                byte[] userPictureByteArray;
+                if (userPictureBinary != null) {
+                    userPictureByteArray = userPictureBinary.getData();
+                } else {
+                    userPictureByteArray = null;
+                }
+
+                userProfileDTO = new UserProfileDTO(
+                        user.getFirstName(), user.getLastName(),
+                        userPictureByteArray, user.getPreferences(),
+                        user.getTravelDestination(), user.getSocialMediaLinks(),
+                        user.getGender(), user.getBirthday(), user.getLocation(),
+                        user.getZipCode(), user.getCountry()
+                );
+                return ResponseEntity.status(HttpStatus.OK).body(userProfileDTO);
+            } else {
+                userProfileDTO = new UserProfileDTO("", "", null, "", "", null, "", null, "", "", "");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userProfileDTO);
+            }
+
+        } catch (Exception e) {
+            log.error("An error occurred while processing the request.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     @PostMapping("/register")
     @Operation(summary = "Register a new user")
@@ -83,13 +121,13 @@ public class UserController {
 
     public ResponseEntity<String> createUser(@Valid @RequestBody UserProfileDTO userProfileDTO) {
         try {
-            log.error(userProfileDTO.toString());
-            log.error(Arrays.toString(userProfileDTO.getProfilePicture()));
             String currentUsername = getCurrentUsername();
             if (currentUsername == null) {
                 log.warn("Username must equal the Security username");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Username must equal the Security username");
             }
+
+
             User user = new User(
                     userProfileDTO.getFirstName(),
                     userProfileDTO.getLastName(),
@@ -104,6 +142,7 @@ public class UserController {
                     userProfileDTO.getZipCode(),
                     userProfileDTO.getCountry()
             );
+
 
             userService.saveUser(user);
 

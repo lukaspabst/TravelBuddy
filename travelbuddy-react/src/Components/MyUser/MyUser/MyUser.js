@@ -40,6 +40,9 @@ function MyUser() {
                 });
 
                 if (response.status === 200) {
+                    const socialMediaLinks = response.data.socialMediaLinks;
+                    const socialMediaLinksJSON = JSON.stringify(socialMediaLinks);
+                    localStorage.setItem('socialMediaLinks', socialMediaLinksJSON);
                     const mapBackendValueToDropdownValue = (backendValue) => {
                         switch (backendValue) {
                             case 'Male':
@@ -135,7 +138,6 @@ function MyUser() {
 }
 
 function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedImage, setSelectedImage }) {
-    const [currentTime, setCurrentTime] = useState(new Date());
     const [errorInfo, setErrorInfo] = useState(null);
     const fileInputRef = useRef(null);
     const handleUploadButtonClick = () => {
@@ -158,23 +160,13 @@ function UserProfileContent({ userData, setUserData, t, onSaveProfile, selectedI
                 }
                 const byteArray = new Uint8Array(byteNumbers);
 
-                // Save ByteArray to localStorage
                 localStorage.setItem("userProfilePicture", JSON.stringify(Array.from(byteArray)));
 
-                // Set selectedImage state
                 setSelectedImage(trimmedImage);
             };
             reader.readAsDataURL(file);
         }
     };
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            setCurrentTime(new Date());
-        }, 1000);
-
-        return () => clearInterval(intervalId);
-    }, []);
 
     const handleInputChange = (e) => {
         const {id, value} = e.target;

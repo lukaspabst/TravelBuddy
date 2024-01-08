@@ -1,0 +1,91 @@
+.public-user-profile-container {
+  position: absolute;
+  margin-top: 100px;
+  left: 32.5vw;
+  height: auto;
+  overflow-y: auto;
+  width: 35vw;
+  background: var(--bg-color);
+  border-radius: 3vw;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
+  color: var(--font-color);
+  z-index: 1;
+}
+
+.public-user-profile-container h1 {
+  text-align: center;
+  padding: 1vw;
+  margin-bottom: 0px;
+}
+
+.public-user-profile-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  grid-column: span 2;
+}
+
+.public-user-profile-image img {
+  width: 50%;
+  aspect-ratio: 1/1;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.5);
+  border-radius: 25px 25px 25px 25px;
+}
+
+.public-user-profile-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 70px 70px 70px auto;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.public-user-profile-name,
+.public-user-profile-location,
+.public-user-profile-age,
+.public-user-profile-social-media{
+  grid-column: span 2;
+  position: relative;
+  & p{
+    padding:0px;
+  }
+}
+
+.age-hover-birthday{
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 55;
+  background-color: var(--bg-color-input);
+  color: var(--font-color);
+  border: 1px solid var(--font-color);
+  padding: 2px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.public-user-profile-age:hover .age-hover-birthday {
+  display: block;
+}
+.public-user-profile-social-media{
+  .social-media-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 15px;
+    .social-media-icon {
+      font-size: 24px;
+      color: var(--font-color);
+
+      transition: color 0.5s ease-in-out;
+      padding-left: 25px;
+      padding-right: 25px;
+      &:hover {
+        color: var(--the-dark-blue-of-the-side-color);
+      }
+    }
+  }
+}

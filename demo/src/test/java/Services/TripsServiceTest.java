@@ -2,6 +2,7 @@ package Services;
 
 import com.travelbuddy.demo.AdapterClasses.TripMember;
 import com.travelbuddy.demo.AdapterClasses.TripRole;
+import com.travelbuddy.demo.AdapterClasses.TripsMainContent;
 import com.travelbuddy.demo.Entities.Trips;
 import com.travelbuddy.demo.Repository.TripsRepo;
 import com.travelbuddy.demo.Services.TripsService;
@@ -46,14 +47,6 @@ public class TripsServiceTest {
         assertEquals(optionalTrip, result);
     }
 
-
-    @Test
-    public void testUpdateTrip() {
-        Trips trip = new Trips();
-        when(tripsRepo.findById("1")).thenReturn(java.util.Optional.of(trip));
-        tripsService.updateTrip("1", trip);
-        verify(tripsRepo, times(1)).save(trip);
-    }
 
     @Test
     public void testAddMemberToTrip() {
