@@ -167,5 +167,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>spring-boot-travelbuddy</finalName>
 	</build>
 </project>
